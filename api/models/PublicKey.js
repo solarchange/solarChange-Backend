@@ -19,7 +19,7 @@ module.exports = {
 
     solarDevice : { model: 'solarDevice' },
 
-    currentValue : { type: 'float' }
+    currentValue : { type: 'float', defaultsTo: 0 }
   }
 };
 

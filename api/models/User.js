@@ -9,7 +9,6 @@ module.exports = {
 
   attributes: {
 
-  
       /*
         
         primaryPK is a string with the ID (NOT THE KEY) of the primary key
@@ -17,7 +16,7 @@ module.exports = {
       */
     primaryPK : {type: 'string' }, 
 
-    sessionData : { type: 'json' },
+    sessionData : { type: 'array' },
 
     username : { type: 'string' },
 
@@ -29,7 +28,7 @@ module.exports = {
 
     password : { type: 'string' },
 
-    status : { type: 'string' },
+    status : { type: 'string', enum: ['active','incomplete','inactive', 'registered'], defaultsTo: 'incomplete' },
 
     publicKeys : { collection: 'PublicKey', via: 'user' },
 

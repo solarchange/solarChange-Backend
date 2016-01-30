@@ -34,14 +34,19 @@ module.exports = {
 start_request: function(req, res){
 
    async.waterfall([
+      
+      /* first thing: create a new request object and retrieve the prime pk of the credit user, if that was 
+      not inclueded in the request */
       function(cb){
          
          async.parallel([
             
+            /* Create the request*/
             request: function(callback){
                sails.controllers.trequest.initNew(callback,req.sender, req.request, req.transaction);
             },
 
+            /* input the prime pk of the credit user*/
             toPK: function(callback){
                if (req.transaction.to)
                {
@@ -67,6 +72,7 @@ start_request: function(req, res){
             })
       },
 
+      /* create a transaction object assosiated with the created request  */
       function(results, cb)
       {
          var callback = function(err, createdTransaction){ 
@@ -77,6 +83,7 @@ start_request: function(req, res){
          
       },
 
+      /* assosiate the request with the transaction on the request side */
       function(createdRequest, createdTransaction, cb){
 
          sails.controllers.trequest.updateWithTransaction(createdRequest.id,createdTransaction.id,);
