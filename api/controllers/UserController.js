@@ -11,10 +11,13 @@ module.exports = {
 		User.findOne({id:eyed}, function(err,found){
 			if (err)
 			{
+				console.log('theres an error in the whole user finiding thing '+ err +" user "+eyed);
 				// HANDLE ERROR
-				cb(err)
+				cb(err);
+				return err;
 			}
-			cb(null,found);
+			console.log('getting the user '+eyed);
+			cb(null, found);
 		});
 	},
 
@@ -32,7 +35,7 @@ newUser: function(nu_user, initialSessionData, cb){
 		email: nu_user.email,
 		password: nu_user.password,
 		status: new_status,
-		sessionData = sesh
+		sessionData: sesh
 	};
 
 	User.create(the_new_user).exec(function userCreated(err,created){
@@ -53,18 +56,35 @@ updatePrime: function(userID,key,cb){
 			cb(err);
 			return err;
 		}
+		console.log('wookoadf');
 		cb (null, updated);
 	});
 },
 
 
-  /**
-   * `UserController.get_user()`
-   */
-  get_user: function (req, res) {
-    return res.json({
-      todo: 'get_user() is not implemented yet!'
-    });
-  }
+tryNewUser: function(req, res){
+	
+	req.user={
+		username: 'Joe',
+		firstName: 'Joe',
+		lastName: 'Smith',
+		email: 'email@email.com', 
+		password: '1234321'
+	};
+	req.sessionData={};
+	req.pk='abc';
+	user_manager.add_new_user(req, res);
+
+},
+
+destroy_users: function(req, res){
+	User.destroy({username:'joe'}).exec(function deleteCB(err){
+  console.log('The record has been deleted');
+	});
+},
+
+
+
+
 };
 

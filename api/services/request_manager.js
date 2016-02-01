@@ -39,32 +39,35 @@ start_request: function(req, res){
       not inclueded in the request */
       function(cb){
          
-         async.parallel([
-            
+         async.parallel({
+
             /* Create the request*/
-            request: function(callback){
-               sails.controllers.trequest.initNew(callback,req.sender, req.request, req.transaction);
+               request: function(callback){
+                  sails.controllers.trequest.initNew(callback,req.sender, req.request, req.transaction);
+               },
+
+               /* input the prime pk of the credit user*/
+               toPK: function(callback){
+                  if (req.transaction.to)
+                  {
+                     callback(null, req.transaction.to);
+                  }
+                  else{
+                     var callbackback=function(user){
+                        callback(user.primePK);
+                     }
+                  sails.controllers.user.getUserByID(req.request.credit,callbackback);
+                  }
+               }
+
             },
 
-            /* input the prime pk of the credit user*/
-            toPK: function(callback){
-               if (req.transaction.to)
-               {
-                  callback(req.transaction.to);
-               }
-               else{
-                  var callbackback=function(user){
-                     callback(user.primePK);
-                  }
-               sails.controllers.user.getUserByID(req.request.credit,callbackback);
-               }
-            }
-
-            ],
-
             function(err, results){
+
                if (err)
                   { // HANDLE ERRORS 
+
+                     console.log('and the error is '+err);
                      cb (err);
                      return err;
                   }
@@ -76,17 +79,18 @@ start_request: function(req, res){
       function(results, cb)
       {
          var callback = function(err, createdTransaction){ 
-            cb(results.request, createdTransaction);
+            cb(null, results.request, createdTransaction);
          }
          req.transaction.to = results.toPK;
+         console.log('the request thing is '+results.request.id);
          sails.controllers.transaction.initWithRequest(req.transaction, results.request.id, callback); 
          
       },
 
       /* assosiate the request with the transaction on the request side */
       function(createdRequest, createdTransaction, cb){
-
-         sails.controllers.trequest.updateWithTransaction(createdRequest.id,createdTransaction.id,);
+         console.log('hmmmm whats goin on ');
+         sails.controllers.trequest.updateWithTransaction(createdRequest.id,createdTransaction.id, cb);
       } 
      
      

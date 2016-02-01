@@ -15,7 +15,7 @@ module.exports = {
 
   	var newTransaction = {
   		to: to_create.to,
-  		from:to_createfrom,
+  		from:to_create.from,
   		value: to_create.value,
   		inputs: to_create.inputs,
   		blockChainInfo:{},
@@ -24,18 +24,29 @@ module.exports = {
   		status: theStatus
   		};
 
-  		tranaction.create(newTransaction).exec(function afterCreated(err, created){
+  		Transaction.create(newTransaction).exec(function afterCreated(err, created){
   			if (err)
   			{
   				// HANDLE ERROR
   				cb (err);
   				return err;
   			}
+
+        console.log('created the transaction');
   			cb(null, created);
 
   		});
 
   },
+
+
+destroy_transactions: function(req, res){
+   Transaction.destroy({to:{'!':'joe'}}).exec(function deleteCB(err){
+  console.log('The record has been deleted');
+   });
+},
+
+
 
 };
 

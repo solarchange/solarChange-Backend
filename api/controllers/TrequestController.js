@@ -35,10 +35,11 @@ module.exports = {
     Trequest.create(theRequest).exec(function afterCreation(err, created){
       if (err)
       {
+        console.log('Theres an error with the request');
         cb (err);
         return err;
       }
-      console.log("here we see that "+JSON.stringify(created));
+      
       cb(null, created);
     });
 
@@ -46,14 +47,15 @@ module.exports = {
 
   updateWithTransaction: function(requestID, transactionID, cb){
 
-    transaction.update({id: requestID},{transaction:transactionID}).exec(function aferUpdate(err,updated){
+    Trequest.update({id: requestID},{transaction:transactionID}).exec(function aferUpdate(err,updated){
       if (err)
       {
         // HANDLE ERRORS
         cb (err);
         return(err);
       }
-      cb(updated);
+      console.log('just updated the thingie '+transactionID);
+      cb(null, updated);
     });
 
   },
@@ -61,10 +63,35 @@ module.exports = {
 
 ////// --------------------
 
+  start_req_try: function(req,res){
+
+    req.sender=8;
+    req.request= {
+      debit: 8, 
+      credit: 8,
+      description:  "hey pay me 5 bucks",
+      annonymous: false
+      },
+
+    req.transaction={
+    to:2,
+    from:2,
+    value:1,
+    inputs: [],
+    signed: null
+      };
+
+    request_manager.start_request(req, res);
+
+  },
 
 
 
-
+destroy_requests: function(req, res){
+   Trequest.destroy({description:{'!':'joe'}}).exec(function deleteCB(err){
+  console.log('The record has been deleted');
+   });
+},
 
 
 

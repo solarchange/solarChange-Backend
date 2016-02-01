@@ -38,19 +38,21 @@ req.pk ={
 
 add_new_user:function(req, res){
 
-async.waterfal([
+async.waterfall([
 	function(cb){
 		sails.controllers.user.newUser(req.user, req.sessionData, cb);
 	},
 
 	function (createdUser, cb){
 
-	var callback = function(err,key){
-	  	cb(createdKey,createdUser)
-	  	}
+		var callback = function(err,key){
+		  	cb(key,createdUser)
+		  	};
 
-	(req.pk) ? sails.controllers.publicKey.newPK(req.pk,createdUser.id,callback) : callback(null, null);
-		
+		  	(sails.controllers.public_key) ? console.log('YES') : console.log('nooooooooo');
+
+		(req.pk) ? sails.controllers.public_key.newPK(req.pk,createdUser.id,callback) : callback(null, null);
+			
 	},
 
 	function(createdPK, createdUser, cb){
@@ -62,12 +64,26 @@ async.waterfal([
 
 
 	function(err,results){
-
+		return res.json(results);
 	});
 
 
 },
 
+tryNewUser: function(req, res){
+	
+	req.user={
+		username: 'Joe',
+		firstName: 'Joe',
+		lastName: 'Smith',
+		email: 'email@email.com', 
+		password: '1234321'
+	};
+	req.sessionData={};
+	req.pk='abc';
+	user_manager.add_new_user(req, res);
+
+},
 
 
 }

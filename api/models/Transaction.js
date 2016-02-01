@@ -9,9 +9,9 @@ module.exports = {
 
   attributes: {
 
-    to : { model: 'publicKey' },
+    to : { model: 'public_key' },
 
-    from : { model: 'publicKey' },
+    from : { model: 'public_key' },
 
     value : { type: 'float' },
 
@@ -21,7 +21,7 @@ module.exports = {
 
     blockChaninInfo : { type: 'json', defaultsTo: {} },
 
-    tRequest : { model: 'tRequest'},
+    trequest : { model: 'trequest'},
 
     status : {type: 'string', enum:['used','approved', 'unsent', 'sent'], defaultsTo: 'unsent'}
   }

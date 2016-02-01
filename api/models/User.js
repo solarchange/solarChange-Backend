@@ -30,7 +30,7 @@ module.exports = {
 
     status : { type: 'string', enum: ['active','incomplete','inactive', 'registered'], defaultsTo: 'incomplete' },
 
-    publicKeys : { collection: 'PublicKey', via: 'user' },
+    publicKeys : { collection: 'public_key', via: 'user' },
 
     solarDevices : { collection: 'solarDevice', via: 'user' },
 

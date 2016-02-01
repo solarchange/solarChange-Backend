@@ -16,7 +16,7 @@ module.exports = {
   	
   	var theUser = user || null;
 
-  	PublicKey.create({key:keyString, user:theUser}).exec(function afterPKCreation(err, created){
+  	Public_key.create({key:keyString, user:theUser}).exec(function afterPKCreation(err, created){
   		if (err)
   		{	// HANDLE ERRORS
   			cb(err);
@@ -24,9 +24,11 @@ module.exports = {
   		}
   		cb(null, created);
   	});
-
-
-
   }
+
+
+
+
+
 };
 
