@@ -46,7 +46,8 @@ async.waterfall([
 	function (createdUser, cb){
 
 		var callback = function(err,key){
-		  	cb(key,createdUser)
+			if (err) return cb(err);
+		  	cb(null, key, createdUser);
 		  	};
 
 		  	(sails.controllers.public_key) ? console.log('YES') : console.log('nooooooooo');
@@ -55,15 +56,20 @@ async.waterfall([
 			
 	},
 
-	function(createdPK, createdUser, cb){
+	function(err,createdPK, createdUser, cb){
+		if (err) return cb(err);			
 		(createdPK) ? sails.controllers.user.updatePrime(createdUser.id,createdPK.id,cb) : cb(createdUser);
 	}
 
 	],
 
 
-
 	function(err,results){
+		if (err)
+		{
+			console.log(err);
+			return res.json(err);
+		}
 		return res.json(results);
 	});
 

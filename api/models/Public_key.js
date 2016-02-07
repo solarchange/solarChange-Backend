@@ -9,7 +9,7 @@ module.exports = {
 
   attributes: {
 
-    key : { type: 'string' },
+    key : { type: 'string', unique: true},
 
     user : { model: 'user' },
 

@@ -22,6 +22,7 @@ module.exports = {
   			cb(err);
   			return err;
   		}
+      
   		cb(null, created);
   	});
   }

@@ -41,6 +41,7 @@ newUser: function(nu_user, initialSessionData, cb){
 	User.create(the_new_user).exec(function userCreated(err,created){
 		if (err)
 		{// HANDLE ERRORS
+			console.log(err);
 			cb(err);
 			return err;
 		}
@@ -60,6 +61,9 @@ updatePrime: function(userID,key,cb){
 		cb (null, updated);
 	});
 },
+
+
+
 
 
 tryNewUser: function(req, res){

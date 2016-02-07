@@ -5,6 +5,8 @@
 * @docs        :: http://sailsjs.org/#!documentation/models
 */
 
+var bcrypt = require('bcrypt');
+
 module.exports = {
 
   attributes: {
@@ -18,15 +20,22 @@ module.exports = {
 
     sessionData : { type: 'array' },
 
-    username : { type: 'string' },
+    username : { type: 'string',required: true, unique: true },
 
-    firstName : { type: 'string' },
-
+    firstName : { type: 'string' }, 
+     
     lastName : { type: 'string' },
 
-    email : { type: 'string' },
+    email : { type: 'email', unique: true },
 
     password : { type: 'string' },
+
+    /*
+    'active':
+    'incomplete':
+    'inactive':
+    'registered':
+    */
 
     status : { type: 'string', enum: ['active','incomplete','inactive', 'registered'], defaultsTo: 'incomplete' },
 
@@ -38,7 +47,29 @@ module.exports = {
 
     debitRequests : { collection: 'TRequest' , via: 'debit'},
 
-    creditRequests : { collection: 'TRequest' , via: 'credit'}
+    creditRequests : { collection: 'TRequest' , via: 'credit'},
+
+    token: {type : 'string'},
+
+    /*
+     toJSON: function() {
+            var obj = this.toObject();
+            delete obj.password;
+            return obj;
+        }
+        */
+  },
+
+
+  beforeCreate: function (values, cb) {
+
+    // Encrypt password
+    bcrypt.hash(values.password, 10, function(err, hash) {
+      if(err) return cb(err);
+      values.password = hash;
+      //calling cb() with an argument returns an error. Useful for canceling the entire operation if some criteria fails.
+      cb();
+    });
   }
 };
 
