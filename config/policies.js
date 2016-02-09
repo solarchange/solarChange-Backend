@@ -28,6 +28,32 @@ module.exports.policies = {
 
   // '*': true,
 
+  '*': true,
+
+  'TrequestController': {
+    '*': 'isAuthenticated'
+  },
+
+
+  'TransactionController': {
+    '*': 'isAuthenticated'
+  },
+
+
+
+/*
+
+[default]
+
+aws_access_key_id = AKIAJMUFDYZMKOD456DA
+
+aws_secret_access_key = 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
+
+
+
+
+*/
+
   /***************************************************************************
   *                                                                          *
   * Here's an example of mapping some policies to run before a controller    *

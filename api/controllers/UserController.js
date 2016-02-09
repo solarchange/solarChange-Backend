@@ -66,6 +66,12 @@ updatePrime: function(userID,key,cb){
 
 
 
+email_try: function(req, res){
+	mailer.email_this();
+},
+
+
+
 tryNewUser: function(req, res){
 	
 	req.user={
