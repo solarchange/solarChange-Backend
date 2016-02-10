@@ -4,14 +4,37 @@ var sgTransport = require('nodemailer-sendgrid-transport');
 // username + password
 var options = {
     auth: {
-        api_user: 'uriyk',
-        api_key: 'safetyfirst1'
+        api_user: sails.config.sendGrid.api_user,
+        api_key: sails.config.sendGrid.api_key
     }
 }
 
 var mailer = nodemailer.createTransport(sgTransport(options));
 
 module.exports = {
+
+
+send_confirmation_mail:function(to,token){
+
+var email = {
+    to: to,
+    from: 'uri.h.y.k@gmail.com',
+    subject: 'Thank you for registering for SolarChange',
+    text: 'Confirm your account at SolarChange',
+    html: '<b>Awesome sauce</b>'
+};
+mailer.sendMail(email, function(err, res) {
+    if (err) { 
+        console.log(err) 
+    }
+    console.log(res);
+});
+
+
+},
+
+
+
 
 email_this:function(){
 
