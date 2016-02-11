@@ -89,9 +89,9 @@ newUser: function(nu_user, initialSessionData, cb){
 	});
 },
 
-activate_user: function(recieved_token, cb){
+activate_user: function(req, res){
 
-User.update({token:recieved_token, status:'registered'},{status:'active'}, function(err, changed){
+User.update({token:req.token, status:'registered'},{status:'active'}, function(err, changed){
 	if (err)
 		{// HANDLE ERRORS
 			console.log(err);
@@ -103,7 +103,9 @@ User.update({token:recieved_token, status:'registered'},{status:'active'}, funct
 			return cb({error:'No Such User'});
 		}
 
-		cb(null, changed[0]);
+		//cb(null, changed[0]);
+
+		return res.json(changed[0]);
 		
 });
 },
