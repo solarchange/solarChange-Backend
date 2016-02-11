@@ -18,20 +18,15 @@ async.waterfall([
 	function (createdUser, cb){
 
 		var callback = function(err,key){
-			console.log('here the key is '+key+' and the user is '+createdUser.id);
 			if (err) return cb(err);
 		  	cb(null, key, createdUser);
 		  	};
-
-		  	(sails.controllers.public_key) ? console.log('YES') : console.log('nooooooooo');
 
 		(req.pk) ? sails.controllers.public_key.newPK(req.pk,createdUser.id,callback) : callback(null, null);
 			
 	},
 
-	function(createdPK, createdUser, cb){
-		console.log('key is '+createdPK +'user is '+createdUser.id);
-		//if (err) return cb(err);			
+	function(createdPK, createdUser, cb){	
 		(createdPK) ? sails.controllers.user.updatePrime(createdUser.id,createdPK.id,cb) : cb(null, createdUser);
 	}
 
@@ -39,8 +34,6 @@ async.waterfall([
 
 
 	function(err,results){
-
-		console.log('and the results are: '+JSON.stringify(results));
 		if (err)
 		{
 			console.log(err);
@@ -58,12 +51,11 @@ async.waterfall([
 		User.findOne({id:eyed}, function(err,found){
 			if (err)
 			{
-				console.log('theres an error in the whole user finiding thing '+ err +" user "+eyed);
+			
 				// HANDLE ERROR
 				cb(err);
 				return err;
 			}
-			console.log('getting the user '+eyed);
 			cb(null, found);
 		});
 	},
@@ -124,13 +116,13 @@ updatePrime: function(userID,key,cb){
 			cb(err);
 			return err;
 		}
-		console.log('wookoadf');
+
 		cb (null, updated);
 	});
 },
 
 
-/// ------ TESTING FUNCTIONS (to be deletd)
+/// ------ TESTING FUNCTIONS (to be deleted late)
 
 
 email_try: function(req, res){
