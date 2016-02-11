@@ -36,7 +36,12 @@ module.exports.routes = {
     view: 'homepage'
   },
 
+  '/user/add':{controller:'user', action:'add_new_user'},
+
+  '/user/activate_user':{controller:'user', action:'activate_user'},
+
   'post /login': { controller: 'auth', action:'login'},
+
 
   /// ------- TRYING THINGS
 

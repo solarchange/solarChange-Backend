@@ -15,7 +15,7 @@ module.exports = {
 
 
 send_confirmation_mail:function(to,token){
-
+console.log('heya im here');
 var email_body = '<b>Confirm your registration by clicking on the following link:</b> <br/> www.google.com/'+token;
 
 var email = {
@@ -25,6 +25,9 @@ var email = {
     text: 'Confirm your account at SolarChange',
     html: email_body,
 };
+
+console.log('just sent an email and all of that yo yo yo ');
+
 mailer.sendMail(email, function(err, res) {
     if (err) { 
         console.log(err) 
