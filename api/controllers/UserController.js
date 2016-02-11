@@ -35,7 +35,8 @@ newUser: function(nu_user, initialSessionData, cb){
 		email: nu_user.email,
 		password: nu_user.password,
 		status: new_status,
-		sessionData: sesh
+		sessionData: sesh,
+		token:nu_user.token
 	};
 
 	User.create(the_new_user).exec(function userCreated(err,created){

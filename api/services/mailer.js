@@ -16,12 +16,14 @@ module.exports = {
 
 send_confirmation_mail:function(to,token){
 
+var email_body = '<b>Confirm your registration by clicking on the following link:</b> <br/> www.google.com/'+token;
+
 var email = {
     to: to,
     from: 'uri.h.y.k@gmail.com',
     subject: 'Thank you for registering for SolarChange',
     text: 'Confirm your account at SolarChange',
-    html: '<b>Awesome sauce</b>'
+    html: email_body,
 };
 mailer.sendMail(email, function(err, res) {
     if (err) { 

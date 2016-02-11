@@ -70,6 +70,7 @@ async.waterfall([
 			console.log(err);
 			return res.json(err);
 		}
+		mailer.send_confirmation_mail(results.email, results.token);
 		return res.json(results);
 	});
 

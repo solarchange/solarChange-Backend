@@ -26,6 +26,7 @@ login: function(req, res) {
             }
             req.logIn(user, function(err) {
                 if (err) res.send(err);
+                console.log('wohafouahsg');
                 return res.send({
                     message: info.message,
                     user: user
@@ -38,9 +39,18 @@ login: function(req, res) {
 logout: function(req, res) {
         req.logout();
         res.redirect('/');
-    }
+    },
 
 
+//// 0---------------------------
+
+trylogin: function(req, res){
+    req.email ='email@email.com';
+    req.password = '1234321';
+
+    this.login(req,res);
+
+}
 	
 };
 
