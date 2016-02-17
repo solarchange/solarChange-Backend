@@ -25,10 +25,7 @@ module.exports = {
       
   		cb(null, created);
   	});
-  }
-
-
-
+  },
 
 
 };

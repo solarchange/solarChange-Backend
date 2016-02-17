@@ -16,11 +16,8 @@ module.exports = {
     },
 
 login: function(req, res) {
-    console.log('hmmmm, wssu');
         passport.authenticate('local', { session: false }, function(err, user, info) {
 
-            console.log('THIS');
-            console.log(req.email)
             if ((err) || (!user)) {
                 return res.send({
                     message: info.message,
@@ -29,7 +26,6 @@ login: function(req, res) {
             }
             req.logIn(user, function(err) {
                 if (err) res.send(err);
-                console.log('wohafouahsg');
                 return res.send({
                     message: info.message,
                     user: user
