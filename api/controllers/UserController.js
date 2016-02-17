@@ -68,7 +68,7 @@ newUser: function(nu_user, initialSessionData, cb){
 	var sesh = [initialSessionData];
 
 	var the_new_user = {
-		username:nu_user.username,
+		// username:nu_user.username,
 		firstName: nu_user.firstName,
 		lastName: nu_user.lastName,
 		email: nu_user.email,
@@ -136,7 +136,7 @@ email_try: function(req, res){
 tryNewUser: function(req, res){
 	
 	req.user={
-		username: 'Bill',
+		//username: 'Bill',
 		firstName: 'Bill',
 		lastName: 'Clinton',
 		email: 'uri.h.y.k@gmail.com', 

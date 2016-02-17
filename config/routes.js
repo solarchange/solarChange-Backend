@@ -42,8 +42,12 @@ module.exports.routes = {
 
   'post /login': { controller: 'auth', action:'login'},
 
+  'post /trequest/new': { controller: 'trequest', action:'initNew'},
+
 
   /// ------- TRYING THINGS
+
+  //'post /trequest/huh':{controller:}
 
   'GET /exp':{controller:'trequest',action:'exp_start_req' },
 

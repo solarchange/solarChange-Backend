@@ -16,8 +16,11 @@ module.exports = {
     },
 
 login: function(req, res) {
+    console.log('hmmmm, wssu');
+        passport.authenticate('local', { session: false }, function(err, user, info) {
 
-        passport.authenticate('local', function(err, user, info) {
+            console.log('THIS');
+            console.log(req.email)
             if ((err) || (!user)) {
                 return res.send({
                     message: info.message,
@@ -45,12 +48,16 @@ logout: function(req, res) {
 //// 0---------------------------
 
 trylogin: function(req, res){
-    req.email ='email@email.com';
-    req.password = '1234321';
+    req.email ='uri.h.y.k@gmail.com';
+    req.password = 'abc';
 
     this.login(req,res);
 
-}
-	
+},
+
+
+
+
+
 };
 

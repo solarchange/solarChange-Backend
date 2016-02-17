@@ -30,12 +30,13 @@ module.exports.policies = {
 
   '*': true,
 
+  
   /*
   'TrequestController': {
-    '*': 'isAuthenticated'
+    '*': 'authenticate'
   },
 
-
+  /*
   'TransactionController': {
     '*': 'isAuthenticated'
   },

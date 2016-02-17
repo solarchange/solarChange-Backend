@@ -20,7 +20,7 @@ module.exports = {
 
     sessionData : { type: 'array' },
 
-    username : { type: 'string',required: true, unique: true },
+   // username : { type: 'string',required: true, unique: true },
 
     firstName : { type: 'string' }, 
      
