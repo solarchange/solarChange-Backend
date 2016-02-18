@@ -7,12 +7,16 @@
 
 module.exports = {
 	
-
-	new_device: function(data,cb){
-		
-		solar_device.create(data).exec(function(err,created){
-
+	new_device: function(new_device_data,cb){
+		new_device_data.approval_history = [{event:'pending',date:Date.now()}];
+		Solar_device.create(new_device_data).exec(function(err,created){
+			if (err) cb(err);
+			cb(null,created);
 		});
+	},
+
+	locally_approve_device: function(device_id,cb){
+		Solar_device.update({id:device_id},{})
 	},
 
 };
