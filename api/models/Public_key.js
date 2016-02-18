@@ -17,7 +17,7 @@ module.exports = {
 
     creditTs : {collection: 'transaction', via: 'to'},
 
-    solarDevice : { model: 'solarDevice' },
+    solar_device : { model: 'solar_device' },
 
     currentValue : { type: 'float', defaultsTo: 0 }
   }

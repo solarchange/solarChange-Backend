@@ -35,7 +35,6 @@ module.exports = {
     Trequest.create(theRequest).exec(function afterCreation(err, created){
       if (err)
       {
-        console.log('Theres an error with the request');
         cb (err);
         return err;
       }

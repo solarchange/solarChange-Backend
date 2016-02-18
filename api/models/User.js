@@ -41,7 +41,7 @@ module.exports = {
 
     publicKeys : { collection: 'public_key', via: 'user' },
 
-    solarDevices : { collection: 'solarDevice', via: 'user' },
+    solar_devices : { collection: 'solar_device', via: 'user' },
 
     messages : { collection: 'Message', via: 'users' },
 

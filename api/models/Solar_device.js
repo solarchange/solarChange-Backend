@@ -11,9 +11,17 @@ module.exports = {
 
     user : { model : 'user' },
 
-    location : { type: 'json' },
+    address : { type: 'string' },
 
-    capacity : { type: 'string' },
+    city: { type: 'string' },
+
+    zipcode: { type: 'string' },
+
+    country: { type: 'string' },
+
+    nameplate: { type: 'string' },
+
+    public_key: {  model: 'public_key'},
 
     data : { type: 'json' }
   }
