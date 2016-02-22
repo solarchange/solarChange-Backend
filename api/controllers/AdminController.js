@@ -8,6 +8,14 @@
 module.exports = {
 	
 
+	get_solar_devices:function(req,res){
+		var cb = function(err,found){
+			if (err) return res.json(err);
+			return res.json(found);
+		}
+		sails.Controllers.solar_device({},cb);
+	},
+
 
   /**
    * `AdminController.email()`

@@ -16,7 +16,7 @@ module.exports = {
     },
 
 login: function(req, res) {
-        passport.authenticate('local', { session: false }, function(err, user, info) {
+        passport.authenticate('local', function(err, user, info) {
 
             if ((err) || (!user)) {
                 return res.send({
@@ -26,10 +26,14 @@ login: function(req, res) {
             }
             req.logIn(user, function(err) {
                 if (err) res.send(err);
+
+                return res.view('dashboard',{user:user});
+                /*
                 return res.send({
                     message: info.message,
                     user: user
                 });
+                */
             });
 
         })(req, res);

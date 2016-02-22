@@ -15,6 +15,12 @@ module.exports = {
 		});
 	},
 
+	get_devices:function(filter,cb){
+		Solar_device.find(filter).exec(function(err,found){
+			cb(err,found);
+		});
+	},
+
 	locally_approve_device: function(device_id,cb){
 		Solar_device.update({id:device_id},{})
 	},

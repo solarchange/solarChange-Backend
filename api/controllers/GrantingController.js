@@ -5,6 +5,8 @@
  * @help        :: See http://sailsjs.org/#!/documentation/concepts/Controllers
  */
 
+var http = require('http');
+
 module.exports = {
 
 	register_new_solar_device: function(req, res){
@@ -31,12 +33,15 @@ module.exports = {
 
 			function(file,cb){
 				new_device_data.file_info = file;
+				
 				sails.controllers.solar_device.new_device(new_device_data,cb);
 			},
 
 			],
 			function(err, results){
-
+				if (err) return res.json(err);
+				results.status = 'pending';
+				return res.json(results);
 			});
 	},
 

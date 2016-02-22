@@ -11,7 +11,9 @@ module.exports = {
 
     user : { model : 'user' },
 
-    owner: {type:'string'},
+    firstName: {type:'string'},
+
+    lastName: {type:'string'},
 
     date_of_installation: {type:'date'},
 
@@ -25,7 +27,7 @@ module.exports = {
 
     country: { type: 'string' },
 
-    nameplate: { type: 'string' },
+    nameplate: { type: 'float' },
 
     /*
 			public_key here is NOT a model since it is possible that a user will input a public key which is not

@@ -17,7 +17,9 @@ module.exports = {
 
     name : { type: 'string'},
 
-    status: {type: 'string'}
+    status: {type: 'string', enum:['active','inactive'], defaultsTo:'active'},
+
+    permissions: {type: 'array', defaultsTo:['read','write','approve-solar-device']},
 
   },
 
