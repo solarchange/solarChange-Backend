@@ -43,6 +43,7 @@ module.exports.routes = {
   'post /user/login': {controller:'user', action:'user_login'},
 
   'post /trequest/new': { controller: 'trequest', action:'initNew'},
+  
 
   'GET /admin/login': {view: 'admin_login'},
 
