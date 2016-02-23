@@ -40,7 +40,7 @@ module.exports.routes = {
 
   'post /user/activate':{controller:'user', action:'activate_user'},
 
-  'post /user/login' {controller:'user', action:'user_login'},
+  'post /user/login': {controller:'user', action:'user_login'},
 
   'post /trequest/new': { controller: 'trequest', action:'initNew'},
 
