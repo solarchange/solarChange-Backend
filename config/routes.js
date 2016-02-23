@@ -40,7 +40,7 @@ module.exports.routes = {
 
   'post /user/activate':{controller:'user', action:'activate_user'},
 
-  'post /login': { controller: 'auth', action:'login'},
+  'post /user/login' {controller:'user', action:'user_login'},
 
   'post /trequest/new': { controller: 'trequest', action:'initNew'},
 
@@ -49,6 +49,8 @@ module.exports.routes = {
   'GET /admin/dashboard':{view:'dashboard'},
 
   'post /admin/login': {controller:'auth', action:'login'},
+
+  'post /login': { controller: 'auth', action:'login'},
 
 
   /// ------- TRYING THINGS

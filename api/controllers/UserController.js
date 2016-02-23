@@ -46,6 +46,16 @@ async.waterfall([
 
 },
 
+	user_login: function(req, res){
+		var authi = req.headers['authorization'].split(' ')[1];
+		var userEmail = new Buffer(authi, 'base64').toString().split(':')[0];
+		User.findOne({email:userEmail}).exec(function(err,found){
+			if (err) return res.json(err);
+			return res.json(found);
+		});
+
+	},
+
 
 	getUserByID: function(eyed,cb){
 		User.findOne({id:eyed}, function(err,found){

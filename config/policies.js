@@ -30,6 +30,11 @@ module.exports.policies = {
 
   '*': true,
 
+  'User': {
+    '*': 'authenticate',
+    'add_new_user':[],
+    'tryNewUser':[]
+  },
 
   /*
   'TrequestController': {
