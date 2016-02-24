@@ -10,10 +10,17 @@
 <body>
 <h1>Welcome to the Admin Section <%=user.name %></h1>
 
+<ul id='solar_device_list'>
+	
+</ul>
 
 <script>
-io.socket.get('/solar_device/', function (resData) {
-  console.log(resData); // => {id:9, name: 'Timmy Mendez'}
+io.socket.get('/solar_device', function (resData) {
+  for (var i = 0 ; i<resData.length ; i++)
+  {
+  	console.log(resData[i]);
+  	
+  }
 });
 </script>
 <% 

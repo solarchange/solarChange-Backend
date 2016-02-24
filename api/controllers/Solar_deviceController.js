@@ -10,19 +10,30 @@ module.exports = {
 	new_device: function(new_device_data,cb){
 		new_device_data.approval_history = [{event:'pending',date:Date.now()}];
 		Solar_device.create(new_device_data).exec(function(err,created){
-			if (err) cb(err);
+			if (err) return cb(err);
+			Solar_device.publishCreate(created);
 			cb(null,created);
 		});
 	},
 
 	get_devices:function(filter,cb){
 		Solar_device.find(filter).exec(function(err,found){
-			cb(err,found);
+			if (err) return cb(err);
+			cb(null,found);
 		});
 	},
 
 	locally_approve_device: function(device_id,cb){
-		Solar_device.update({id:device_id},{})
+		Solar_device.findOne({id:device_id}).exec(function(err,found){
+			if (err) return cb(err);
+			var approval_history_arr = found.approval_history;
+			approval_history_arr.push({event:'submitted',date:Date.now()});
+			Solar_device.update({id:device_id},{approval_history:approval_history_arr}).exec(function(err,updated){
+				if (err) return cb(err);
+				publishUpdate(updated[0].id,{approval_history:approval_history_arr});
+				cb(null, updated);
+			});
+		});
 	},
 
 };

@@ -12,7 +12,7 @@ add_new_user:function(req, res){
 
 async.waterfall([
 	function(cb){
-		sails.controllers.user.newUser(req.user, req.sessionData, cb);
+		sails.controllers.user.newUser(req.body, req.sessionData, cb);
 	},
 
 	function (createdUser, cb){
@@ -72,6 +72,8 @@ async.waterfall([
 
 
 newUser: function(nu_user, initialSessionData, cb){
+
+	if (!nu_user) return cb({error:'Missing User'});
 
 	var new_status = (nu_user.username && nu_user.firstName && nu_user.lastName && nu_user.email && nu_user.password) ? 'registered' : 'incomplete';
 
@@ -169,7 +171,7 @@ activation_trial:function(req, res){
 },
 
 destroy_users: function(req, res){
-	User.destroy({username:'Bill'}).exec(function deleteCB(err){
+	User.destroy({}).exec(function deleteCB(err){
   console.log('The record has been deleted');
 	});
 },

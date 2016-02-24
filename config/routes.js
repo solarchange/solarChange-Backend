@@ -1,4 +1,4 @@
-/**
+  /**
  * Route Mappings
  * (sails.config.routes)
  *
@@ -43,7 +43,6 @@ module.exports.routes = {
   'post /user/login': {controller:'user', action:'user_login'},
 
   'post /trequest/new': { controller: 'trequest', action:'initNew'},
-  
 
   'GET /admin/login': {view: 'admin_login'},
 
@@ -57,6 +56,8 @@ module.exports.routes = {
   /// ------- TRYING THINGS
 
   //'post /trequest/huh':{controller:}
+
+  'GET /solar_device/form':{view:'solar_device_form'},
 
   'GET /exp':{controller:'trequest',action:'exp_start_req' },
 

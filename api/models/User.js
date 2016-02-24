@@ -22,13 +22,13 @@ module.exports = {
 
    // username : { type: 'string',required: true, unique: true },
 
-    firstName : { type: 'string' }, 
+    firstName : { type: 'string', required: true }, 
      
-    lastName : { type: 'string' },
+    lastName : { type: 'string', required: true },
 
-    email : { type: 'email', unique: true },
+    email : { type: 'email', required: true, unique: true },
 
-    password : { type: 'string' },
+    password : { type: 'string' , required: true},
 
     /*
     'active':
