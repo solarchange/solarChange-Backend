@@ -40,6 +40,7 @@ async.waterfall([
 			return res.json(err);
 		}
 		mailer_service.send_confirmation_mail(results.email, results.token);
+		results.success=true;
 		return res.json(results);
 	});
 
@@ -51,6 +52,7 @@ async.waterfall([
 		var userEmail = new Buffer(authi, 'base64').toString().split(':')[0];
 		User.findOne({email:userEmail}).exec(function(err,found){
 			if (err) return res.json(err);
+			fonud.success=true;
 			return res.json(found);
 		});
 

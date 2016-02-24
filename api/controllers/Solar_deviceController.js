@@ -36,5 +36,15 @@ module.exports = {
 		});
 	},
 
+// -------
+
+
+destroy_solars: function(req, res){
+	Solar_device.destroy({}).exec(function deleteCB(err){
+  console.log('The record has been deleted');
+	});
+},
+
+
 };
 
