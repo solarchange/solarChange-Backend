@@ -23,14 +23,14 @@ module.exports = {
 		});
 	},
 
-	locally_approve_device: function(device_id,cb){
+	add_event: function(device_id,event_to_add,cb){
 		Solar_device.findOne({id:device_id}).exec(function(err,found){
 			if (err) return cb(err);
 			var approval_history_arr = found.approval_history;
-			approval_history_arr.push({event:'submitted',date:Date.now()});
+			approval_history_arr.push({event:event_to_add,date:Date.now()});
 			Solar_device.update({id:device_id},{approval_history:approval_history_arr}).exec(function(err,updated){
 				if (err) return cb(err);
-				publishUpdate(updated[0].id,{approval_history:approval_history_arr});
+				Solar_device.publishUpdate(updated[0].id,{approval_history:approval_history_arr});
 				cb(null, updated);
 			});
 		});

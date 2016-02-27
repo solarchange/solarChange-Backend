@@ -52,6 +52,8 @@ module.exports.routes = {
 
   'post /admin/login': {controller:'auth', action:'login'},
 
+  'post /admin/approve_solar': {controller:'granting', action:'approve_and_sumbmit'},
+
   'post /login': { controller: 'auth', action:'login'},
 
 

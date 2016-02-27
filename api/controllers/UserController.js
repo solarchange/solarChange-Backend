@@ -50,9 +50,11 @@ async.waterfall([
 	user_login: function(req, res){
 		var authi = req.headers['authorization'].split(' ')[1];
 		var userEmail = new Buffer(authi, 'base64').toString().split(':')[0];
+		console.log('the email is')
+		console.log(userEmail)
 		User.findOne({email:userEmail}).exec(function(err,found){
 			if (err) return res.json(err);
-			fonud.success=true;
+			found.success=true;
 			return res.json(found);
 		});
 
