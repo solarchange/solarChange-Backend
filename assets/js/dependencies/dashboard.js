@@ -9,21 +9,17 @@ function set_socket(){
 	  	resData[i].status = get_status(resData[i]);
 	  }
 
-	  console.log('i am here');
-
 	 var pending_list= _.where(resData,{status:'pending'});
+	 var locally_rejected_list = _.where(resData,{status:'locally_rejected'});
+	 var submitted_list = _.where(resData,{status:'submitted'});
+	 var granting_approved_list = _.where(resData,{status:'granting_approved'});
+	 var granting_rejected_list = _.where(resData,{status:'granting_rejected'});
 
-	 for (i = 0 ; i<pending_list.length ; i++)
-	 {
-	  	insert_solar_device('#solar_device_list',pending_list[i]);
-	 }
-
-	 for(i =0 ; i<resData.length; i++)
-	 {	
-	 	insert_solar_device('#solar_device_list',resData[i]);
-	 }
-
-		console.log('and now here')
+	 list_items(pending_list);
+	 list_items(locally_rejected_list);
+	 list_items(submitted_list);
+	 list_items(granting_approved_list);
+	 list_items(granting_rejected_list)
 	});
 
 	io.socket.on('solar_device', function(event){
@@ -42,6 +38,14 @@ function set_socket(){
 */
 };
 
+function list_items(the_list){
+	for(i =0 ; i<the_list.length; i++)
+	 {	
+	 	insert_solar_device('#solar_device_list',the_list[i]);
+	 }
+};
+
+
 function get_status(device){
 	return device.approval_history[device.approval_history.length-1].event;
 };
@@ -59,8 +63,6 @@ function rejectLocally(button){
 };
 
 function insert_solar_device(container,device){
-
-console.log('huhhhhhh');
 
 var solar_device = '<li class="solar_list_item" id="solar-'+device.id+'"><div>'+
 '<span class="solar_device_info"> <strong>User: </strong>'+device.user.firstName+' '+device.user.lastName+'</span> '+

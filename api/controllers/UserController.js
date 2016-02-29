@@ -79,7 +79,10 @@ newUser: function(nu_user, initialSessionData, cb){
 
 	if (!nu_user) return cb({error:'Missing User'});
 
-	var new_status = (nu_user.username && nu_user.firstName && nu_user.lastName && nu_user.email && nu_user.password) ? 'registered' : 'incomplete';
+	console.log('the new user is ');
+	console.log(nu_user);
+
+	var new_status = (nu_user.firstName && nu_user.lastName && nu_user.email && nu_user.password) ? 'registered' : 'incomplete';
 
 	var sesh = [initialSessionData];
 
@@ -107,16 +110,15 @@ newUser: function(nu_user, initialSessionData, cb){
 
 activate_user: function(req, res){
 
-User.update({token:req.token, status:'registered'},{status:'active'}, function(err, changed){
+User.update({token:req.body.token, status:'registered'},{status:'active'}, function(err, changed){
 	if (err)
 		{// HANDLE ERRORS
 			console.log(err);
-			cb(err);
-			return err;
+			return res.json(err);
 		}
 		if (changed.length===0)
 		{
-			return cb({error:'No Such User'});
+			return res.json({error:'No Such User'});
 		}
 
 		//cb(null, changed[0]);
