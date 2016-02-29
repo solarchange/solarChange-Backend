@@ -110,6 +110,8 @@ newUser: function(nu_user, initialSessionData, cb){
 
 activate_user: function(req, res){
 
+console.log('activating');
+
 User.update({token:req.body.token, status:'registered'},{status:'active'}, function(err, changed){
 	if (err)
 		{// HANDLE ERRORS
@@ -122,7 +124,8 @@ User.update({token:req.body.token, status:'registered'},{status:'active'}, funct
 		}
 
 		//cb(null, changed[0]);
-
+		console.log('the changes are in ')
+		console.log(changed[0])
 		return res.json(changed[0]);
 		
 });
