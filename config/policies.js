@@ -31,9 +31,12 @@ module.exports.policies = {
   '*': true,
 
   'User': {
+
+    // in production ALL besides user addition will be protected by 'authenticate' !!!
     //'*': 'authenticate',
     'add_new_user':[],
-    'tryNewUser':[]
+    'tryNewUser':[],
+    user_login:'authenticate', 
   },
 
   /*

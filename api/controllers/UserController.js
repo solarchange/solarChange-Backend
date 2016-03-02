@@ -49,11 +49,14 @@ async.waterfall([
 
 	user_login: function(req, res){
 		var authi = req.headers['authorization'].split(' ')[1];
+		//console.log('headers:')
+		//console.log(req.headers)
 		var userEmail = new Buffer(authi, 'base64').toString().split(':')[0];
 		console.log('the email is')
 		console.log(userEmail)
 		User.findOne({email:userEmail}).exec(function(err,found){
 			if (err) return res.json(err);
+			if (!found) return res.json({error:'email and password do not match'});
 			found.success=true;
 			return res.json(found);
 		});
@@ -78,9 +81,6 @@ async.waterfall([
 newUser: function(nu_user, initialSessionData, cb){
 
 	if (!nu_user) return cb({error:'Missing User'});
-
-	console.log('the new user is ');
-	console.log(nu_user);
 
 	var new_status = (nu_user.firstName && nu_user.lastName && nu_user.email && nu_user.password) ? 'registered' : 'incomplete';
 
@@ -110,9 +110,10 @@ newUser: function(nu_user, initialSessionData, cb){
 
 activate_user: function(req, res){
 
-console.log('activating');
+var authi = req.headers['authorization'].split(' ')[1];
+var userEmail = new Buffer(authi, 'base64').toString().split(':')[0];
 
-User.update({token:req.body.token, status:'registered'},{status:'active'}, function(err, changed){
+User.update({token:req.body.token, email:userEmail, status:'registered'},{status:'active'}, function(err, changed){
 	if (err)
 		{// HANDLE ERRORS
 			console.log(err);
@@ -122,13 +123,10 @@ User.update({token:req.body.token, status:'registered'},{status:'active'}, funct
 		{
 			return res.json({error:'No Such User'});
 		}
-
-		//cb(null, changed[0]);
-		console.log('the changes are in ')
-		console.log(changed[0])
+		changed[0].success=true;
 		return res.json(changed[0]);
 		
-});
+	});
 },
 
 updatePrime: function(userID,key,cb){
