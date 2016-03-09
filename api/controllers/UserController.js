@@ -143,6 +143,15 @@ updatePrime: function(userID,key,cb){
 },
 
 
+get_solars: function(user_id,cb){
+User.findOne({id:user_id}).populate('solar_devices').exec(function(err,the_user){
+	if (err) return cb(err);
+	return cb(null,the_user.solar_devices);
+});
+},
+
+
+
 /// ------ TESTING FUNCTIONS (to be deleted late)
 
 

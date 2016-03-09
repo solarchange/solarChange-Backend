@@ -44,7 +44,9 @@ module.exports.routes = {
 
   'post /solar_device/add': {controller:'granting', action:'register_new_solar_device'},
 
+  'get /solar_device/user_status': {controller:'solar_device', action:'get_user_solar_status'},
 
+  'get /solar_device/solar_status':{},
 
   'post /trequest/new': { controller: 'trequest', action:'initNew'},
 

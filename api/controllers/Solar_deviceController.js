@@ -36,6 +36,29 @@ module.exports = {
 		});
 	},
 
+	get_solar_device_status: function(req,res){
+		Solar_device.findOne({id:req.body.sender}).exec(function(err,found){
+			if (err) return cb(err);
+			return cb(null,get_status_of_solar_device(found))
+		});
+	},
+
+	get_user_solar_status: function(req,res){
+		var cb = function(err,solars){
+			if (err) return res.json(err);
+			for (var i = solars - 1; i >= 0; i--) {
+					solars[i].status = get_status_of_solar_device(solars[i]);
+				}
+			return res.json(solars);
+		};
+		sails.Controllers.user.get_solars(req.body.sender,cb);
+	},
+
+	get_status_of_solar_device: function(solar)
+	{	
+		return solar.approval_history[device.approval_history.length-1];
+	},
+
 // -------
 
 

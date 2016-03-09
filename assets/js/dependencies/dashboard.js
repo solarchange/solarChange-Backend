@@ -1,5 +1,10 @@
 var pageInitialized = false;
 
+var pending_list= [];
+var locally_rejected_list = [];
+var submitted_list = [];
+var granting_approved_list = [];
+var granting_rejected_list = [];
 
 function set_socket(){
 	io.socket.get('/solar_device', function (resData) {
@@ -9,11 +14,11 @@ function set_socket(){
 	  	resData[i].status = get_status(resData[i]);
 	  }
 
-	 var pending_list= _.where(resData,{status:'pending'});
-	 var locally_rejected_list = _.where(resData,{status:'locally_rejected'});
-	 var submitted_list = _.where(resData,{status:'submitted'});
-	 var granting_approved_list = _.where(resData,{status:'granting_approved'});
-	 var granting_rejected_list = _.where(resData,{status:'granting_rejected'});
+	  pending_list= _.where(resData,{status:'pending'});
+	  locally_rejected_list = _.where(resData,{status:'locally_rejected'});
+	  submitted_list = _.where(resData,{status:'submitted'});
+	  granting_approved_list = _.where(resData,{status:'granting_approved'});
+	  granting_rejected_list = _.where(resData,{status:'granting_rejected'});
 
 	 list_items(pending_list);
 	 list_items(locally_rejected_list);
@@ -41,6 +46,8 @@ function set_socket(){
 function list_items(the_list){
 	for(i =0 ; i<the_list.length; i++)
 	 {	
+	 	console.log('wait what');
+	 	console.log(the_list[i]);
 	 	insert_solar_device('#solar_device_list',the_list[i]);
 	 }
 };
@@ -53,14 +60,28 @@ function get_status(device){
 function approveNsubmit(button){
 	console.log('CLICK');
 	io.socket.post( '/admin/approve_solar',{solar_device_id:$(button).attr('data-id')}, function(resData, jwers){
-		console.log(resData);
-		console.log(jwers);
+		granting_reaction(resData,jwers,$(button).attr('data-id'))
 	});
 };
 
 function rejectLocally(button){
 
 };
+
+function approveAll(){
+	for(var i=0; i<pending_list.length; i++)
+	{
+		io.socket.post('/admin/approve_solar',{solar_device_id:pending_list[i].id},function(resData,jwers){
+			granting_reaction(resData,jwers,pending_list[i].id);
+		});
+	}
+};
+
+function granting_reaction(resData,jwers,solar_id){
+	console.log(resData);
+	console.log(jwers);
+}
+
 
 function insert_solar_device(container,device){
 
