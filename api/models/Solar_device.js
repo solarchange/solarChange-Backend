@@ -9,34 +9,34 @@ module.exports = {
 
   attributes: {
 
-    user : { model : 'user' },
+    user : { model : 'user', required: true},
 
-    firstName: {type:'string'},
+    firstName: {type:'string', required: true},
 
-    lastName: {type:'string'},
+    lastName: {type:'string', required: true},
 
-    date_of_installation: {type:'date'},
+    date_of_installation: {type:'date', required: true},
 
-    address : { type: 'string' },
+    address : { type: 'string', required: true },
 
-    city: { type: 'string' },
+    city: { type: 'string', required: true },
 
-    state: {type: 'string'},
+    state: {type: 'string', required: true},
 
-    zipcode: { type: 'string' },
+    zipcode: { type: 'string', required: true },
 
-    country: { type: 'string' },
+    country: { type: 'string', required: true },
 
-    nameplate: { type: 'float' },
+    nameplate: { type: 'float', required: true },
 
     /*
 			public_key here is NOT a model since it is possible that a user will input a public key which is not
 			listed in the system.
     */
 
-    public_key: { type: 'string'},
+    public_key: { type: 'string', required: true},
 
-    file_info: {type: 'json'},
+    file_info: {type: 'json', required: true},
 
     /*
     	approval_history is an array which would have something like this

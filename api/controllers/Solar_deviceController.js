@@ -37,8 +37,10 @@ module.exports = {
 	},
 
 	get_solar_device_status: function(req,res){
-		Solar_device.findOne({id:req.params['solar_id']}).exec(function(err,found){
+		Solar_device.findOne({id:req.params['solar_id']}).populate('user').exec(function(err,found){
 			if (err) return res.json(err);
+			if (!found) return res.json({error:'No such solar device'});
+			if (found.user.id!=req.headers.sender) return res.json({error:'Solar Device does not belong to user'});
 			return res.json(sails.controllers.solar_device.get_status_of_solar_device(found));
 		});
 	},
@@ -51,7 +53,7 @@ module.exports = {
 				}
 			return res.json(solars);
 		};
-		sails.Controllers.user.get_solars(req.body.sender,cb);
+		sails.Controllers.user.get_solars(req.headers.sender,cb);
 	},
 
 	get_status_of_solar_device: function(solar)

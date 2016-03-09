@@ -20,8 +20,13 @@ module.exports = {
 
 	register_new_solar_device: function(req, res){
 		var new_device_data = req.body;
+
+		if (req.body.sender) req.headers.sender = req.body.sender;
+
 		new_device_data.user = req.headers.sender;
 
+		console.log('and now the device is ')
+		console.log(new_device_data)
 
 		async.waterfall([	
 
