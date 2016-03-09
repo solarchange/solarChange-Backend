@@ -37,9 +37,9 @@ module.exports = {
 	},
 
 	get_solar_device_status: function(req,res){
-		Solar_device.findOne({id:req.body.sender}).exec(function(err,found){
-			if (err) return cb(err);
-			return cb(null,get_status_of_solar_device(found))
+		Solar_device.findOne({id:req.params['solar_id']}).exec(function(err,found){
+			if (err) return res.json(err);
+			return res.json(sails.controllers.solar_device.get_status_of_solar_device(found));
 		});
 	},
 
@@ -56,7 +56,7 @@ module.exports = {
 
 	get_status_of_solar_device: function(solar)
 	{	
-		return solar.approval_history[device.approval_history.length-1];
+		return solar.approval_history[solar.approval_history.length-1];
 	},
 
 // -------
