@@ -39,6 +39,10 @@ module.exports.policies = {
     user_login:'authenticate', 
   },
 
+  'Granting':{
+    'granting_judgement':'granting_auth'
+  },
+
   /*
   'TrequestController': {
     '*': 'authenticate'

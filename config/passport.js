@@ -84,10 +84,12 @@ passport.use('basic-granting-machine',new BasicStrategy({
   },
   function(token, password, done) {
  
+    console.log('token '+token)
+
    User.findOne({ name: 'granting_machine' }, function (err, user) {
       if (err) { return done(err); }
       if (!user) {
-        return done(null, false, { message: 'Error: no granting machine.' });
+        return done(null, false, { message: 'Error: not granting machine.' });
       }
 
       bcrypt.compare(token, user.token, function (err, res) {
