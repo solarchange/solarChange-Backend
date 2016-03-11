@@ -49,14 +49,18 @@ module.exports = {
 			function(found,callback){
 				var approval_history_arr = found.approval_history;
 				approval_history_arr.push({event:event_to_add,date:time});
+				Solar_device.update({granting_id:granting_id},{approval_history:approval_history_arr}).exec(function(err,updated){
+					if (err) return callback(err);
+					return callback(null, updated);
+				});
 			}
-
 				
 			],
 
-			function(){
+			function(err,added){
+				if (err) return cb(err);
+				return cb(null, added);
 			}
-
 		);
 
 

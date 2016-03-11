@@ -8,13 +8,15 @@
 var request = require('request');
 var http = require('http');
 fs = require('fs');
+var path = require('path');
+
 
 module.exports = {
 
 	register_new_solar_device: function(req, res){
 		var new_device_data = req.body;
 
-		if (req.body.sender) req.headers.sender = req.body.sender;
+		//if (req.body.sender) req.headers.sender = req.body.sender;
 
 		new_device_data.user = req.headers.sender;
 
@@ -32,9 +34,11 @@ module.exports = {
 			function(cb){
 				if (!req.body.proof) return cb({error:'No proof of installation file'});
 				
-				var pathName = 'assets/proofFiles/'+req.body.sender+'/proof'+Date.now()+'.'+req.body.file_type;
+				var pathName =path.join(__dirname, '../../assets/proofFiles/'+req.headers.sender+'/proof'+Date.now()+'.'+req.body.file_type);
 				var bitmap = new Buffer(req.body.proof, 'base64');
 				fs.writeFile(pathName, bitmap, function(err){
+					console.log('ERRO RI IS ')
+					console.log(err);
 					if (err) return cb(err);
 					var file_info = {location:pathName,type:req.body.file_type};
 					return cb (null,file_info);
@@ -45,12 +49,15 @@ module.exports = {
 
 			function(file,cb){
 				new_device_data.file_info = file;
-				
+				console.log('HAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAH')
+
 				sails.controllers.solar_device.new_device(new_device_data,cb);
 			},
 
 			],
 			function(err, results){
+
+				console.log('here now you mothat')
 				if (err) return res.json(err);
 				results.status = 'pending';
 				results.success = true;
