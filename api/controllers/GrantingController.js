@@ -33,7 +33,10 @@ module.exports = {
 
 			function(cb){
 				if (!req.body.proof) return cb({error:'No proof of installation file'});
-				
+				var dir = path.join(__dirname, '../../assets/proofFiles/'+req.headers.sender);
+				if (!fs.existsSync(dir)){
+    				fs.mkdirSync(dir);
+					}
 				var pathName =path.join(__dirname, '../../assets/proofFiles/'+req.headers.sender+'/proof'+Date.now()+'.'+req.body.file_type);
 				var bitmap = new Buffer(req.body.proof, 'base64');
 				fs.writeFile(pathName, bitmap, function(err){
