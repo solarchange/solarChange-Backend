@@ -60,7 +60,7 @@ function get_status(device){
 function approveNsubmit(button){
 	console.log('CLICK');
 	io.socket.post( '/admin/approve_solar',{solar_device_id:$(button).attr('data-id')}, function(resData, jwers){
-		granting_reaction(resData,jwers,$(button).attr('data-id'))
+		granting_reaction(resData,jwers,$(button).attr('data-id'));
 	});
 };
 

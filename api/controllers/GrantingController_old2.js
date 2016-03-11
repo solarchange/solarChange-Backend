@@ -7,7 +7,6 @@
 
 var request = require('request');
 var http = require('http');
-fs = require('fs');
 
 module.exports = {
 
@@ -30,15 +29,15 @@ module.exports = {
 			*/
 
 			function(cb){
-				if (!req.body.proof) return cb({error:'No proof of installation file'});
+				if (!req.file('proof'))	return cb({error:'No proof of installation file'});
 				
-				var pathName = 'assets/proofFiles/'+req.body.sender+'/proof'+Date.now()+'.'+req.body.file_type;
-				var bitmap = new Buffer(req.body.proof, 'base64');
-				fs.writeFile(pathName, bitmap, function(err){
-					if (err) return cb(err);
-					var file_info = {location:pathName,type:req.body.file_type};
-					return cb (null,file_info);
-				});	
+				var pathName = 'assets/proofFiles/'+req.body.sender;		
+				req.file('proof').upload(
+						{dirname: require('path').resolve(sails.config.appPath, pathName)}, 
+					function(err,files){
+						if (err) return cb(err);
+						cb (null,files[0]);
+					});
 			},
 
 			// create the solar device entry

@@ -4,7 +4,7 @@
 var passport = require('passport');
 
 module.exports = function(req, res, ok) {
-  passport.authenticate('basic-user', {session: false}, function(err, user, info) {
+  passport.authenticate('basic-granting-machine', {session: false}, function(err, user, info) {
     if (err || !user) {
       return res.send("You are not permitted to perform this action.", 403);
     }

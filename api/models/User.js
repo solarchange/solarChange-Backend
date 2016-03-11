@@ -60,7 +60,6 @@ module.exports = {
         
   },
 
-
   beforeCreate: function (values, cb) {
 
     // Encrypt password

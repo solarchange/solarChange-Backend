@@ -47,12 +47,11 @@ passport.use(new LocalStrategy({
   }
 ));
 
-passport.use(new BasicStrategy({
+passport.use('basic-user',new BasicStrategy({
     usernameField: 'email',
     passwordField: 'password'
   },
   function(email, password, done) {
-    console.log('WTF WTF WTF');
  
    User.findOne({ email: email }, function (err, user) {
       if (err) { return done(err); }
@@ -74,8 +73,40 @@ passport.use(new BasicStrategy({
             message: 'Logged In Successfully'
           });
         });
+
     });
-})
+}));
+
+
+passport.use('basic-granting-machine',new BasicStrategy({
+    usernameField: 'token',
+    passwordField: 'password'
+  },
+  function(token, password, done) {
+ 
+   User.findOne({ name: 'granting_machine' }, function (err, user) {
+      if (err) { return done(err); }
+      if (!user) {
+        return done(null, false, { message: 'Error: no granting machine.' });
+      }
+
+      bcrypt.compare(token, user.token, function (err, res) {
+          if (!res)
+            return done(null, false, {
+              message: 'Invalid Password'
+            });
+          var returnUser = {
+            email: user.name,
+            createdAt: user.createdAt,
+            id: user.id
+          };
+          return done(null, returnUser, {
+            message: 'Logged In Successfully'
+          });
+        });
+    });
+}));
+
 
 /*
 
@@ -124,6 +155,4 @@ passport.use(new LocalStrategy({
 */
 
 
-
-);
 

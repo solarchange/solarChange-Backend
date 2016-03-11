@@ -36,6 +36,46 @@ module.exports = {
 		});
 	},
 
+
+	add_event_from_granting_machine: function(granting_id,event_to_add,time ,cb){
+		
+		async.waterfall([
+			function(callback){
+				Solar_device.findOne({granting_id:granting_id}).exec(function(err,found){
+				if (err) return callback(err);
+				return callback(null,found)});
+				},
+
+			function(found,callback){
+				var approval_history_arr = found.approval_history;
+				approval_history_arr.push({event:event_to_add,date:time});
+			}
+
+				
+			],
+
+			function(){
+			}
+
+		);
+
+
+		/*
+		Solar_device.findOne({granting_id:granting_id}).exec(function(err,found){
+			if (err) return cb(err);
+			var approval_history_arr = found.approval_history;
+			approval_history_arr.push({event:event_to_add,date:time});
+
+			Solar_device.update({id:granting_id},{approval_history:approval_history_arr}).exec(function(err,updated){
+				if (err) return cb(err);
+				if (!updated.length) return cb({error:'No such solar device'});
+				Solar_device.publishUpdate(updated[0].id,{approval_history:approval_history_arr});
+				cb(null, updated);
+			});
+		});
+		*/
+	},
+
 	get_solar_device_status: function(req,res){
 		Solar_device.findOne({id:req.params['solar_id']}).populate('user').exec(function(err,found){
 			if (err) return res.json(err);
@@ -59,6 +99,13 @@ module.exports = {
 	get_status_of_solar_device: function(solar)
 	{	
 		return solar.approval_history[solar.approval_history.length-1];
+	},
+
+	get_device: function(solar_device_id,cb){
+		Solar_device.findOne({id:solar_device_id}).exec(function(err,found){
+			if (err) return cb(err);
+			return cb(null,found);
+		});
 	},
 
 // -------

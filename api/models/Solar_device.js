@@ -51,6 +51,10 @@ module.exports = {
 
     approval_history: {type:'array'},
 
+    granting_id: {type:'string'},
+
+    affiliate: {type:'string'},
+
     data : { type: 'json', defaultsTo:{} },
 
     status: function(){
