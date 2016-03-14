@@ -16,7 +16,7 @@ module.exports = {
 
 send_confirmation_mail:function(to,token){
 
-var email_body = '<b>Confirm your registration by clicking on the following link:</b> <br/> www.google.com/'+token;
+var email_body = '<b>Confirm your registration by clicking on the following link:</b> <br/> http://52.27.201.224/html/#/activate/'+token;
 
 var email = {
     to: to,

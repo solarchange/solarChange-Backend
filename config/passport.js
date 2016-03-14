@@ -53,6 +53,8 @@ passport.use('basic-user',new BasicStrategy({
   },
   function(email, password, done) {
  
+    console.log('maybe its this huh');
+
    User.findOne({ email: email }, function (err, user) {
       if (err) { return done(err); }
       if (!user) {
@@ -84,6 +86,8 @@ passport.use('basic-granting-machine',new BasicStrategy({
   },
   function(token, password, done) {
  
+    console.log('whattt')
+
     console.log('token '+token)
 
    User.findOne({ name: 'granting_machine' }, function (err, user) {
