@@ -40,7 +40,12 @@ module.exports.policies = {
   },
 
   'Granting':{
+    '*':'authenticate',
     'granting_judgement':'granting_auth'
+  },
+
+  'Solar_device':{
+    '*':'authenticate'
   },
 
   /*

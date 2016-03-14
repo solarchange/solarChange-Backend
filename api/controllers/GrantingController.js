@@ -52,8 +52,6 @@ module.exports = {
 
 			function(file,cb){
 				new_device_data.file_info = file;
-				console.log('HAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAH')
-
 				sails.controllers.solar_device.new_device(new_device_data,cb);
 			},
 
@@ -152,6 +150,7 @@ module.exports = {
 
 
 	granting_judgement: function(req, res){
+		console.log('i am here, whas u')
 		var event = this.parse_granting_reply(req.body);
 		var cb = function(err,updated){
 			return res.json(updated);

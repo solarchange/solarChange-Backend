@@ -47,13 +47,46 @@ passport.use(new LocalStrategy({
   }
 ));
 
+
+
 passport.use('basic-user',new BasicStrategy({
     usernameField: 'email',
     passwordField: 'password'
   },
   function(email, password, done) {
- 
-    console.log('maybe its this huh');
+
+    console.log('HERE I S AMMMMM')
+
+   User.findOne({ email: email }, function (err, user) {
+      if (err) { return done(err); }
+      if (!user) {
+        return done(null, false, { message: 'Incorrect email.' });
+      }
+
+      bcrypt.compare(password, user.password, function (err, res) {
+          if (!res)
+            return done(null, false, {
+              message: 'Invalid Password'
+            });
+          var returnUser = {
+            email: user.email,
+            createdAt: user.createdAt,
+            id: user.id
+          };
+          return done(null, returnUser, {
+            message: 'Logged In Successfully'
+          });
+        });
+
+    });
+}));
+
+passport.use('basic-granting',new BasicStrategy({
+    usernameField: 'email',
+    passwordField: 'password'
+  },
+  function(email, password, done) {
+    console.log('FUCKTINTITITITITI')
 
    User.findOne({ email: email }, function (err, user) {
       if (err) { return done(err); }
@@ -80,17 +113,22 @@ passport.use('basic-user',new BasicStrategy({
 }));
 
 
-passport.use('basic-granting-machine',new BasicStrategy({
-    usernameField: 'token',
+
+
+
+
+/*
+passport.use('basic-granting', new BasicStrategy({
+    usernameField: 'email',
     passwordField: 'password'
   },
-  function(token, password, done) {
+  function(email, password, done) {
  
-    console.log('whattt')
+    console.log('whattt');
 
-    console.log('token '+token)
+    console.log('token '+email);
 
-   User.findOne({ name: 'granting_machine' }, function (err, user) {
+   External_service.findOne({ name: 'granting_machine' }, function (err, user) {
       if (err) { return done(err); }
       if (!user) {
         return done(null, false, { message: 'Error: not granting machine.' });
