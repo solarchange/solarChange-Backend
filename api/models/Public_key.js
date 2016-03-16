@@ -7,11 +7,13 @@
 
 module.exports = {
 
+  autoPK:false,
+
   attributes: {
 
-    key : { type: 'string', unique: true},
+    key : { type: 'string', unique: true, primaryKey: true},
 
-    user : { model: 'user' },
+    user : { model: 'user', via:'publicKeys'},
 
     debitTs : {collection: 'transaction', via: 'from'},
 
@@ -19,7 +21,9 @@ module.exports = {
 
     solar_device : { model: 'solar_device' },
 
-    currentValue : { type: 'float', defaultsTo: 0 }
+    currentValue : { type: 'float', defaultsTo: 0 },
+
+    blockchain_status: {type:'string', enum:['confirmed', 'unconfirmed'], defaultsTo:'unconfirmed'}
   }
 };
 

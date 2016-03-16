@@ -22,6 +22,8 @@ module.exports = {
 
 		console.log('and now the device is ')
 		console.log(new_device_data)
+		var key = new_device_data.public_key;
+		//new_device_data.public_key=null;
 
 		async.waterfall([	
 
@@ -55,10 +57,18 @@ module.exports = {
 				sails.controllers.solar_device.new_device(new_device_data,cb);
 			},
 
-			],
-			function(err, results){
+			function(device,cb){
+				var callback = function(err,wallet){	
+					if (err) return cb(err);
+					return cb(null,device,wallet);
+				}
 
-				console.log('here now you mothat')
+				sails.controllers.public_key.add_from_solar_device(key,device.id,device.user,callback);
+			}
+
+			],
+			function(err, results, wallet){
+
 				if (err) return res.json(err);
 				results.status = 'pending';
 				results.success = true;

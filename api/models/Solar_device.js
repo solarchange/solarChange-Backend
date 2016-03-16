@@ -34,7 +34,7 @@ module.exports = {
 			listed in the system.
     */
 
-    public_key: { type: 'string', required: true},
+    public_key: { model: 'public_key', required: true},
 
     file_info: {type: 'json', required: true},
 

@@ -8,6 +8,33 @@
 module.exports = {
 	
 
+  add_non_blockchained_key: function(req, res){
+    Public_key.create({key:req.body.key, user:req.headers.sender}).exec(function(err, created){
+      if (err) return res.json(err);
+      sails.controllers.public_key.get_blockchain_history(created.key);
+      return res.json(created);
+    });
+  },
+
+  add_from_solar_device: function(key, device_id,user_id,cb){
+    Public_key.findOrCreate({key:key},{key:key, user:user_id},function(err,pk){
+      if (err) return cb(err);
+
+      Public_key.update({key:key},{solar_device:device_id}).exec(function(err,updated){
+        if (err) return cb(err);
+
+        if (updated.blockchain_status=='unconfirmed') sails.controllers.public_key.get_blockchain_history(updated.key);
+        return cb(null, updated);
+      });
+    });
+  },
+
+  get_blockchain_history:function(key){
+  
+    // THIS IS WHERE THE BLOCKCHAIN THING WOULD BE GETTING TO
+
+  },
+
 
   /**
    * `PublicKeyController.newPrime()`
@@ -17,12 +44,7 @@ module.exports = {
   	var theUser = user || null;
 
   	Public_key.create({key:keyString, user:theUser}).exec(function afterPKCreation(err, created){
-  		if (err)
-  		{	// HANDLE ERRORS
-  			cb(err);
-  			return err;
-  		}
-      
+  		if (err) return cb(err);
   		cb(null, created);
   	});
   },

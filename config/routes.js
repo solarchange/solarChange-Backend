@@ -50,6 +50,8 @@ module.exports.routes = {
 
   'post /granting/granting_feedback': {controller:'granting', action:'granting_judgement' },
 
+  'post /public_key/add': {controller:'public_key', action:'add_non_blockchained_key'},  
+
 
   'post /trequest/new': { controller: 'trequest', action:'initNew'},
 

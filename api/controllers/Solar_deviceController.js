@@ -81,6 +81,11 @@ module.exports = {
 	},
 
 	get_solar_device_status: function(req,res){
+		console.log('getting the status')
+		console.log(req.query)
+		console.log('-----------')
+		console.log(req.params)
+
 		Solar_device.findOne({id:req.params['solar_id']}).populate('user').exec(function(err,found){
 			if (err) return res.json(err);
 			if (!found) return res.json({error:'No such solar device'});
