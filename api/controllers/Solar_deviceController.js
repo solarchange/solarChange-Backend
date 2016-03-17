@@ -137,14 +137,27 @@ module.exports = {
 	},
 
 	get_user_solar_status: function(req,res){
+		/*
 		var cb = function(err,solars){
 			if (err) return res.json(err);
+			
 			for (var i = solars - 1; i >= 0; i--) {
 					solars[i].status = get_status_of_solar_device(solars[i]);
-				}
+			}
+				
 			return res.json(solars);
 		};
 		sails.Controllers.user.get_solars(req.headers.sender,cb);
+		*/
+
+		console.log('ah huhh');
+		Solar_device.find({user:req.headers.sender}).populate('public_key').exec(function(err, found){
+			if (err) return res.json(err);
+			console.log("this is it bastardo")
+			console.log(found)
+			return res.json(found);
+		});
+
 	},
 
 	get_status_of_solar_device: function(solar)
