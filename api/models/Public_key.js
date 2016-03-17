@@ -13,7 +13,7 @@ module.exports = {
 
     key : { type: 'string', unique: true, primaryKey: true},
 
-    user : { model: 'user', via:'publicKeys'},
+    user : { model: 'user'},
 
     debitTs : {collection: 'transaction', via: 'from'},
 

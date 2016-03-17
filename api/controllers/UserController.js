@@ -49,12 +49,10 @@ async.waterfall([
 
 	user_login: function(req, res){
 		var authi = req.headers['authorization'].split(' ')[1];
-		//console.log('headers:')
-		//console.log(req.headers)
 		var userEmail = new Buffer(authi, 'base64').toString().split(':')[0];
 		console.log('the email is')
 		console.log(userEmail)
-		User.findOne({email:userEmail}).exec(function(err,found){
+		User.findOne({email:userEmail}).populate('solar_devices').populate('publicKeys').exec(function(err,found){
 			if (err) return res.json(err);
 			if (!found) return res.json({error:'email and password do not match'});
 			found.success=true;
@@ -148,6 +146,11 @@ User.findOne({id:user_id}).populate('solar_devices').exec(function(err,the_user)
 	if (err) return cb(err);
 	return cb(null,the_user.solar_devices);
 });
+},
+
+
+add_public_key:function(){
+	
 },
 
 

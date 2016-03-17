@@ -57,6 +57,16 @@ module.exports = {
 
     data : { type: 'json', defaultsTo:{} },
 
+    /*
+            solar_grantings: [{coins_granted: 29,
+                               energy_generated: 12,
+                               period_start: 123445123341,
+                               period_end: 1432736463,
+                               date: 134563147}]
+    */
+
+    solar_grantings: {type:'array',defaultsTo:[]},
+
     status: function(){
     	return (this.approval_history[approval_history.length-1].event);
     	/*

@@ -9,7 +9,10 @@ module.exports = {
 	
 
   add_non_blockchained_key: function(req, res){
-    Public_key.create({key:req.body.key, user:req.headers.sender}).exec(function(err, created){
+    var to_create={};
+    to_create.key = req.body.key;
+    to_create.user = req.headers.sender;
+    Public_key.create(to_create).exec(function(err, created){
       if (err) return res.json(err);
       sails.controllers.public_key.get_blockchain_history(created.key);
       return res.json(created);

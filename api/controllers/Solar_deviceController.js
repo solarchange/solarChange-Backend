@@ -37,7 +37,7 @@ module.exports = {
 	},
 
 
-	add_event_from_granting_machine: function(granting_id,event_to_add,time ,cb){
+	add_granting: function(granting_id,granting_detail,time ,cb){
 		
 		async.waterfall([
 			function(callback){
@@ -47,9 +47,10 @@ module.exports = {
 				},
 
 			function(found,callback){
-				var approval_history_arr = found.approval_history;
-				approval_history_arr.push({event:event_to_add,date:time});
-				Solar_device.update({granting_id:granting_id},{approval_history:approval_history_arr}).exec(function(err,updated){
+
+				var update_variables = sails.controllers.solar_device.update_device_with_granting(found,granting_detail);
+
+				Solar_device.update({granting_id:granting_id},update_variables).exec(function(err,updated){
 					if (err) return callback(err);
 					return callback(null, updated);
 				});
@@ -80,17 +81,58 @@ module.exports = {
 		*/
 	},
 
-	get_solar_device_status: function(req,res){
-		console.log('getting the status')
-		console.log(req.query)
-		console.log('-----------')
-		console.log(req.params)
+	update_device_with_granting:function(device,granting){
 
+		var to_update = {};
+
+		if (granting.event)
+		{	
+			var event_to_add = sails.controllers.solar_device.parse_granting_event(granting.event);
+			to_update.approval_history = device.approval_history;
+			to_update.approval_history.push({event:event_to_add, date:granting.timestamp});
+		}
+
+		if (granting.period_start)
+		{
+			var granting_to_add = sails.controllers.solar_device.parse_granting_period(granting);
+			to_update.approval_history = device.approval_history;
+			to_update.solar_grantings = device.solar_grantings;
+		}
+
+		return(to_update);
+
+	},
+
+	parse_granting_period:function(granting){
+		return({coins_granted:granting.coins_granted,
+				energy_generated:granting.energy_generated,
+				period_start:granting.period_start,
+				period_end:granting.period_end,
+				date:granting.timestamp
+			});
+	},
+
+	parse_granting_event:function(granting_reply){
+		switch (granting_reply.event){
+			case 'approved':
+				return 'granting_approved';
+				break;
+			case 'rejected':
+				return 'granting_rejected';
+				break;
+		}
+
+	},
+
+	get_solar_device_status: function(req,res){
 		Solar_device.findOne({id:req.params['solar_id']}).populate('user').exec(function(err,found){
 			if (err) return res.json(err);
 			if (!found) return res.json({error:'No such solar device'});
 			if (found.user.id!=req.headers.sender) return res.json({error:'Solar Device does not belong to user'});
-			return res.json(sails.controllers.solar_device.get_status_of_solar_device(found));
+			
+
+			return res.json({status:sails.controllers.solar_device.get_status_of_solar_device(found), 
+							grantings:found.solar_grantings});
 		});
 	},
 

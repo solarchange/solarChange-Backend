@@ -42,8 +42,6 @@ module.exports = {
 				var pathName =path.join(__dirname, '../../assets/proofFiles/'+req.headers.sender+'/proof'+Date.now()+'.'+req.body.file_type);
 				var bitmap = new Buffer(req.body.proof, 'base64');
 				fs.writeFile(pathName, bitmap, function(err){
-					console.log('ERRO RI IS ')
-					console.log(err);
 					if (err) return cb(err);
 					var file_info = {location:pathName,type:req.body.file_type};
 					return cb (null,file_info);
@@ -160,12 +158,10 @@ module.exports = {
 
 
 	granting_judgement: function(req, res){
-		console.log('i am here, whas u')
-		var event = this.parse_granting_reply(req.body);
 		var cb = function(err,updated){
 			return res.json(updated);
 		};
-		sails.controllers.solar_device.add_event_from_granting_machine(req.body.id,event,req.body.timestamp,cb);
+		sails.controllers.solar_device.add_granting(req.body.id,req.body,req.body.timestamp,cb);
 	},
 
 	parse_granting_reply:function(granting_reply){
