@@ -70,6 +70,7 @@ module.exports = {
 				if (err) return res.json(err);
 				results.status = 'pending';
 				results.success = true;
+				mailer_service.solar_device_registration(results.user.email,results);
 				return res.json(results);
 			});
 	},

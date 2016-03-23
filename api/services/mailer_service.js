@@ -36,6 +36,47 @@ mailer.sendMail(email, function(err, res) {
     console.log(res);
 });
 
+},
+
+
+send_activation_mail:function(to, name){
+var email_body = 'Welcome to SolarChange, '+name;
+
+var email = {
+    to: to,
+    from: 'do-not-reply@solarchange.co',
+    subject: 'Welcome to SolarChange',
+    text: 'Welcome to SolarChange',
+    html: email_body,
+};
+
+mailer.sendMail(email, function(err, res) {
+    if (err) { 
+        console.log(err) 
+    }
+    console.log(res);
+});
+
+},
+
+
+solar_device_registration:function(to, device){
+var email_body = 'Welcome to SolarChange, '+name;
+
+var email = {
+    to: to,
+    from: 'do-not-reply@solarchange.co',
+    subject: 'Welcome to SolarChange',
+    text: 'Welcome to SolarChange',
+    html: email_body,
+};
+
+mailer.sendMail(email, function(err, res) {
+    if (err) { 
+        console.log(err) 
+    }
+    console.log(res);
+});
 
 },
 

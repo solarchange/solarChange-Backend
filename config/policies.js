@@ -36,6 +36,7 @@ module.exports.policies = {
     //'*': 'authenticate',
     'add_new_user':[],
     'tryNewUser':[],
+    'activate_user':[],
     user_login:'authenticate', 
   },
 

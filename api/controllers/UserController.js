@@ -112,17 +112,12 @@ var authi = req.headers['authorization'].split(' ')[1];
 var userEmail = new Buffer(authi, 'base64').toString().split(':')[0];
 
 User.update({token:req.body.token, email:userEmail, status:'registered'},{status:'active'}, function(err, changed){
-	if (err)
-		{// HANDLE ERRORS
-			console.log(err);
-			return res.json(err);
-		}
-		if (changed.length===0)
-		{
-			return res.json({error:'No Such User'});
-		}
-		changed[0].success=true;
-		return res.json(changed[0]);
+	if (err) return res.json(err);
+	if (changed.length===0) return res.json({error:'No Such User'});
+
+	changed[0].success=true;
+	mailer_service.send_activation_mail(changed[0].email, changed[0].firstName);
+	return res.json({success:true});
 		
 	});
 },
