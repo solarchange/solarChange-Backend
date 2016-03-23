@@ -88,15 +88,18 @@ module.exports = {
 		if (granting.event)
 		{	
 			var event_to_add = sails.controllers.solar_device.parse_granting_event(granting.event);
-			to_update.approval_history = device.approval_history;
-			to_update.approval_history.push({event:event_to_add, date:granting.timestamp});
+			if (event_to_add){
+				to_update.approval_history = device.approval_history;
+				to_update.approval_history.push({event:event_to_add, date:granting.timestamp});
+			}
 		}
 
 		if (granting.period_start)
 		{
 			var granting_to_add = sails.controllers.solar_device.parse_granting_period(granting);
-			to_update.approval_history = device.approval_history;
 			to_update.solar_grantings = device.solar_grantings;
+			if (!to_update.solar_grantings) to_update.solar_grantings=[];
+			to_update.solar_grantings.push(granting_to_add);
 		}
 
 		return(to_update);
@@ -108,6 +111,7 @@ module.exports = {
 				energy_generated:granting.energy_generated,
 				period_start:granting.period_start,
 				period_end:granting.period_end,
+				key:granting.key,
 				date:granting.timestamp
 			});
 	},
@@ -121,6 +125,7 @@ module.exports = {
 				return 'granting_rejected';
 				break;
 		}
+		return false;
 
 	},
 
@@ -129,8 +134,6 @@ module.exports = {
 			if (err) return res.json(err);
 			if (!found) return res.json({error:'No such solar device'});
 			if (found.user.id!=req.headers.sender) return res.json({error:'Solar Device does not belong to user'});
-			
-
 			return res.json({status:sails.controllers.solar_device.get_status_of_solar_device(found), 
 							grantings:found.solar_grantings});
 		});

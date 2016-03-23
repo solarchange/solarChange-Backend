@@ -159,7 +159,10 @@ module.exports = {
 
 	granting_judgement: function(req, res){
 		var cb = function(err,updated){
-			return res.json(updated);
+			if (err) return res.json(err);
+			return res.json({events:updated[0].approval_history, 
+				grantings:updated[0].solar_grantings,
+				id:updated[0].granting_id});
 		};
 		sails.controllers.solar_device.add_granting(req.body.id,req.body,req.body.timestamp,cb);
 	},

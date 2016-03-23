@@ -49,6 +49,8 @@ module.exports = {
 
     creditRequests : { collection: 'TRequest' , via: 'credit'},
 
+    social_shares: {type: 'array', defaultsTo:[]},
+
     token: {type : 'string'},
 
     
