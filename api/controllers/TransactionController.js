@@ -40,6 +40,10 @@ module.exports = {
   },
 
 
+blockChain_input: function(req, res){
+  
+},
+
 destroy_transactions: function(req, res){
    Transaction.destroy({to:{'!':'joe'}}).exec(function deleteCB(err){
   console.log('The record has been deleted');

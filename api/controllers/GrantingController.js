@@ -152,6 +152,7 @@ module.exports = {
 
 		Solar_device.update({id:device.id},{granting_id:granting_response.id, affiliate:granting_response.affiliate, approval_history:device.approval_history})
 		.exec(function(err,updated){
+			mailer_service.solar_device_submitted(updated[0].user.email, updated[0]);
 			if (err) return cb(err);
 			return cb(null, updated);
 		});

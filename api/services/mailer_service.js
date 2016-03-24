@@ -61,13 +61,13 @@ mailer.sendMail(email, function(err, res) {
 
 
 solar_device_registration:function(to, device){
-var email_body = 'Welcome to SolarChange, '+name;
+var email_body = 'You have just registered a new solar device. yuhu';
 
 var email = {
     to: to,
     from: 'do-not-reply@solarchange.co',
-    subject: 'Welcome to SolarChange',
-    text: 'Welcome to SolarChange',
+    subject: 'New Solar Device Registered',
+    text: 'Thank you for registering a new solar device',
     html: email_body,
 };
 
@@ -77,6 +77,28 @@ mailer.sendMail(email, function(err, res) {
     }
     console.log(res);
 });
+
+},
+
+solar_device_submitted:function(to,device){
+
+var email_body = 'cool solar device dude';
+
+var email = {
+    to: to,
+    from: 'do-not-reply@solarchange.co',
+    subject: 'Solar Device Approved',
+    text: 'Your Solar Device has been approved by SolarChange',
+    html: email_body,
+};
+
+mailer.sendMail(email, function(err, res) {
+    if (err) { 
+        console.log(err) 
+    }
+    console.log(res);
+});
+
 
 },
 

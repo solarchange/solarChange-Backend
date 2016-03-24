@@ -149,6 +149,35 @@ add_public_key:function(){
 },
 
 
+social_share:function(req,res){	
+	async.waterfall([
+		
+		function(cb){
+			User.findOne({id:req.headers['sender']}).exec(function(err,found){
+				if (err) return cb(err);
+				return cb(null,found);
+			});
+		},
+
+		function(the_user,cb){
+			if (!the_user.social_shares) the_user.social_shares = [];
+			the_user.social_shares.push({social_network:req.body.social_network,
+				item:req.body.item,
+				date:Date.now()
+			});
+			User.update({id:req.headers['sender']},{social_shares:the_user.social_shares}).exec(function(err,updated){
+				if (err) return cb(err);
+				return cb(null, updated);
+			});
+		}
+
+		],
+		function(err, updated){
+			if (err) return res.json(err);
+			return res.json({shares:updated.social_shares, success:true});
+	});
+},
+
 
 /// ------ TESTING FUNCTIONS (to be deleted late)
 

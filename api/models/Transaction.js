@@ -21,6 +21,8 @@ module.exports = {
 
     blockChaninInfo : { type: 'json', defaultsTo: {} },
 
+    hash: { type:'string' },
+
     trequest : { model: 'trequest'},
 
     status : {type: 'string', enum:['used','approved', 'unsent', 'sent'], defaultsTo: 'unsent'}

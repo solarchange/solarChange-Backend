@@ -49,6 +49,18 @@ module.exports = {
 
     creditRequests : { collection: 'TRequest' , via: 'credit'},
 
+    /*
+      social_shares should look like this:
+      [
+      {
+          social_network:'facebook',
+          item:'www.solarchange.com',
+          date:7272746823
+      }
+      ]
+    */
+
+
     social_shares: {type: 'array', defaultsTo:[]},
 
     token: {type : 'string'},
