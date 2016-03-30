@@ -15,9 +15,9 @@ module.exports = {
 
     user : { model: 'user'},
 
-    debitTs : {collection: 'transaction', via: 'from'},
+    debits : {collection: 'transaction', via: 'from'},
 
-    creditTs : {collection: 'transaction', via: 'to'},
+    credits : {collection: 'transaction', via: 'to'},
 
     solar_device : { model: 'solar_device' },
 

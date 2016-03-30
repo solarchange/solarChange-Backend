@@ -52,7 +52,7 @@ module.exports.routes = {
 
   'post /public_key/add': {controller:'public_key', action:'add_non_blockchained_key'},  
 
-  'post /transaction/blockChainInfo' : {controller: 'transaction', action:'blockChain_input'},
+  'post /transaction/block_info' : {controller: 'transaction', action:'blockChain_input'},
 
   'post /user/social_share' : {controller:'user', action:'social_share'},
 

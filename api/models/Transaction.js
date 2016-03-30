@@ -9,23 +9,32 @@ module.exports = {
 
   attributes: {
 
-    to : { model: 'public_key' },
+    /*
+    
+        to and from should be in the following form:
 
-    from : { model: 'public_key' },
+        [   {pk: 'jasdfhjgasdjfhgasd', amount:42},
+        ]
 
-    value : { type: 'float' },
+    */
+
+    recipients : { type: 'array' },
+
+    senders : { type: 'array' },
+
+    to: {collection: 'public_key', via:'credits'},
+
+    from: {collection: 'public_key', via:'debits'},
 
     signed : {type: 'date'}, 
 
     inputs : { type: 'array', defaultsTo: [] },
 
-    blockChaninInfo : { type: 'json', defaultsTo: {} },
+    blockChainConfirmed : { type: 'date', defaultsTo: null },
 
     hash: { type:'string' },
 
     trequest : { model: 'trequest'},
-
-    status : {type: 'string', enum:['used','approved', 'unsent', 'sent'], defaultsTo: 'unsent'}
   }
 };
 

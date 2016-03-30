@@ -8,6 +8,67 @@
 module.exports = {
 	
 
+  block_info:function(req, res){
+   var callback = function(err,transi){
+      if (err) return res.send(500,{error:err});
+      return res.send(200);
+   };
+   sails.Controllers.transaction.add_from_blockChain(req.body.hash)
+  },
+
+
+  add_from_blockChain: function(hash,date,senders,recipients, callback, relevant_pks){
+
+    var nu_recipients = [];
+    var nu_senders = [];
+
+    for (var i=0 ; i <sender.length ; i++)
+    {
+      nu_senders[i]={pk:senders[i].SenderPublicKey, amount:senders[i].AmountSent};
+    }
+
+    for (i=0 ; i<recipient.length ; i++ )
+    {
+      nu_recipients[i] = {pk:recipients[i].RecipientPublicKey, amount:recipients[i].AmountReceived};
+    }
+
+    async.waterfall([
+
+
+      function(cb){
+        Transaction.findOne({hash:hash}).exec(function(err, found){
+          if (err) return cb(err);
+          return(null, found);
+        });
+      },
+
+      function(found,cb){
+        if (found){
+          Transaction.update({hash:hash},{recipients:nu_to, senders:nu, blockChainConfirmed: date}).exec(function(err,updated){
+            if (err) return cb(err);
+            return cb(null, updated);
+          });
+        }
+        else{
+          Transaction.create({hash:hash,recipients:nu_to, senders:nu, blockChainConfirmed: date}).exec(function(err, created){
+            if (err) return cb(err);
+            return cb(null, created);
+          });
+        }
+      },
+
+
+      ],
+      function(err, transi){
+        if (err) return callback(err);
+        return callback(null, transi);
+    });
+
+  },
+
+
+
+
   initWithRequest: function (to_create, created_trequest_id, cb) {
 
   	var isSigned = to_create.signed || null;
