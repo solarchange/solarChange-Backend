@@ -42,7 +42,12 @@ module.exports = {
         });
       },
 
+      function(found, cb){
+
+      },
+
       function(found,cb){
+
         if (found){
           Transaction.update({hash:hash},{recipients:nu_to, senders:nu, blockChainConfirmed: date}).exec(function(err,updated){
             if (err) return cb(err);

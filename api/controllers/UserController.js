@@ -108,10 +108,10 @@ newUser: function(nu_user, initialSessionData, cb){
 
 activate_user: function(req, res){
 
-var authi = req.headers['authorization'].split(' ')[1];
-var userEmail = new Buffer(authi, 'base64').toString().split(':')[0];
+// var authi = req.headers['authorization'].split(' ')[1];
+// var userEmail = new Buffer(authi, 'base64').toString().split(':')[0];
 
-User.update({token:req.body.token, email:userEmail, status:'registered'},{status:'active'}, function(err, changed){
+User.update({token:req.body.token, status:'registered'},{status:'active'}, function(err, changed){
 	if (err) return res.json(err);
 	if (changed.length===0) return res.json({error:'No Such User'});
 
