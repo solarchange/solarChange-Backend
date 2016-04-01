@@ -48,6 +48,8 @@ module.exports = {
 
 			function(found,callback){
 
+				if (!found) return callback({error:'Wrong ID'});
+
 				var update_variables = sails.controllers.solar_device.update_device_with_granting(found,granting_detail);
 
 				Solar_device.update({granting_id:granting_id},update_variables).exec(function(err,updated){
@@ -92,6 +94,7 @@ module.exports = {
 				to_update.approval_history = device.approval_history;
 				to_update.approval_history.push({event:event_to_add, date:granting.timestamp});
 			}
+
 		}
 
 		if (granting.period_start)
@@ -103,7 +106,6 @@ module.exports = {
 		}
 
 		return(to_update);
-
 	},
 
 	parse_granting_period:function(granting){
@@ -117,7 +119,7 @@ module.exports = {
 	},
 
 	parse_granting_event:function(granting_reply){
-		switch (granting_reply.event){
+		switch (granting_reply){
 			case 'approved':
 				return 'granting_approved';
 				break;

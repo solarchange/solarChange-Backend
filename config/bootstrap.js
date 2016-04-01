@@ -36,7 +36,5 @@ module.exports.bootstrap = function(cb) {
     });
   });
 
-  console.log('whattttt');
-
   cb();
 };
