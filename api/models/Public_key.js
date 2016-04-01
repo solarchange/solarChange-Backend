@@ -23,7 +23,7 @@ module.exports = {
 
     currentValue : { type: 'float', defaultsTo: 0 },
 
-    blockchain_status: {type:'string', enum:['confirmed', 'unconfirmed'], defaultsTo:'unconfirmed'}
+    blockchain_status: {type:'string', enum:['confirmed', 'unconfirmed', 'external'], defaultsTo:'unconfirmed'}
   }
 };
 

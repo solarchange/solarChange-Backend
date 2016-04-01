@@ -49,6 +49,8 @@ function list_items(the_list){
 	 	console.log('wait what');
 	 	console.log(the_list[i]);
 	 	insert_solar_device_into_table('#solar_device_table',the_list[i]);
+	 	//
+	 	insert_solar_device('#solar_device_list',the_list[i]);
 	 }
 };
 
@@ -152,6 +154,7 @@ var solar_device = '<tr class="solar_list_item" id="solar-'+device.id+'">'+
 
 $(document).ready(function(){
 	console.log('whats gfoin on');
+	console.log(document.Session)
 	if (!pageInitialized)
 	{
 		pageInitialized=true;

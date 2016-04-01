@@ -52,21 +52,24 @@ module.exports.routes = {
 
   'post /public_key/add': {controller:'public_key', action:'add_non_blockchained_key'},  
 
-  'post /transaction/block_info' : {controller: 'transaction', action:'blockChain_input'},
+  'post /transaction/block_info' : {controller: 'transaction', action:'block_info'},
 
   'post /user/social_share' : {controller:'user', action:'social_share'},
 
+  'post /transaction/wtf' :{ controller:'transaction', action:'blockChain_input'},
   
+  'GET /admin/dashboard_solar':{view:'dashboard_solar'},
+
+
 
   'post /trequest/new': { controller: 'trequest', action:'initNew'},
 
   'GET /admin/login': {view: 'admin_login'},
 
-  'GET /admin/dashboard':{view:'dashboard'},
 
   'post /admin/login': {controller:'auth', action:'login'},
 
-  'post /admin/approve_solar': {controller:'granting', action:'approve_and_sumbmit'},
+  'post /admin/approve_solar': {controller:'granting', action:'approve_and_submit'},
 
   'post /login': { controller: 'auth', action:'login'},
 

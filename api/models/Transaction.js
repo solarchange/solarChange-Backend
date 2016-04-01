@@ -13,7 +13,7 @@ module.exports = {
     
         to and from should be in the following form:
 
-        [   {pk: 'jasdfhjgasdjfhgasd', amount:42},
+        [   {publicKey: 'jasdfhjgasdjfhgasd', amount:42},
         ]
 
     */
@@ -26,11 +26,11 @@ module.exports = {
 
     from: {collection: 'public_key', via:'debits'},
 
-    signed : {type: 'date'}, 
+    signed : {type: 'integer'}, 
 
     inputs : { type: 'array', defaultsTo: [] },
 
-    blockChainConfirmed : { type: 'date', defaultsTo: null },
+    blockChainConfirmed : { type: 'integer', defaultsTo: null },
 
     hash: { type:'string' },
 

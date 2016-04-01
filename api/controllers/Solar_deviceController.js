@@ -153,11 +153,8 @@ module.exports = {
 		sails.Controllers.user.get_solars(req.headers.sender,cb);
 		*/
 
-		console.log('ah huhh');
 		Solar_device.find({user:req.headers.sender}).populate('public_key').exec(function(err, found){
 			if (err) return res.json(err);
-			console.log("this is it bastardo")
-			console.log(found)
 			return res.json(found);
 		});
 

@@ -7,55 +7,83 @@
 
 module.exports = {
 	
-
   block_info:function(req, res){
-   var callback = function(err,transi){
-      if (err) return res.send(500,{error:err});
-      return res.send(200);
-   };
-   sails.Controllers.transaction.add_from_blockChain(req.body.hash)
+
+  var transactions = JSON.parse(req.body.transactions);
+
+  async.each(transactions, function(a_transaction,cb){
+    sails.controllers.transaction.add_from_blockChain(a_transaction,cb);
+  },
+  function(err){
+    if (err) return res.send(500,{error:err});
+    return res.send(200);
+  })
+
+  //var recipients = JSON.parse(req.body.recipients);
+  //var senders = JSON.parse(req.body.senders);
+   //sails.controllers.transaction.add_from_blockChain(req.body.hash, req.body.date, senders, recipients, callback);
   },
 
 
-  add_from_blockChain: function(hash,date,senders,recipients, callback, relevant_pks){
-
-    var nu_recipients = [];
-    var nu_senders = [];
-
-    for (var i=0 ; i <sender.length ; i++)
-    {
-      nu_senders[i]={pk:senders[i].SenderPublicKey, amount:senders[i].AmountSent};
-    }
-
-    for (i=0 ; i<recipient.length ; i++ )
-    {
-      nu_recipients[i] = {pk:recipients[i].RecipientPublicKey, amount:recipients[i].AmountReceived};
-    }
+  add_from_blockChain: function(the_transaction, callback){
+    var hash = the_transaction.hash;
+    var date = the_transaction.date;
+    var senders = the_transaction.senders;
+    var recipients = the_transaction.recipients;
 
     async.waterfall([
-
 
       function(cb){
         Transaction.findOne({hash:hash}).exec(function(err, found){
           if (err) return cb(err);
-          return(null, found);
+          return cb(null, found);
         });
       },
 
       function(found, cb){
+        var nu_to=[];
+        for (var i=0; i<recipients.length ; i++)
+        {
+          nu_to.push(recipients[i].publicKey);
+        }
+        var cally=function(err){
+          if (err) return cb(err);
+          return cb(null,found,nu_to);
+        }; 
+        sails.controllers.public_key.make_sure_created(nu_to,cally);
+
+
 
       },
 
-      function(found,cb){
+      function(found, nu_to, cb){
+        console.log('8687687687687686876876876')
+        console.log(nu_to);
+        var nu_from=[];
+
+        for (var i=0; i<senders.length ; i++)
+        {
+          nu_from.push(senders[i].publicKey);
+        }
+        var cally=function(err){
+          if (err) return cb(err);
+          return cb(null,found,nu_to, nu_from);
+        }; 
+        sails.controllers.public_key.make_sure_created(nu_from,cally);
+      },
+
+
+      function(found,nu_to,nu_from,cb){
+
 
         if (found){
-          Transaction.update({hash:hash},{recipients:nu_to, senders:nu, blockChainConfirmed: date}).exec(function(err,updated){
+          Transaction.update({hash:hash},{recipients:recipients, senders:senders, blockChainConfirmed: date, to:nu_to, from:nu_from}).exec(function(err,updated){
             if (err) return cb(err);
             return cb(null, updated);
           });
         }
         else{
-          Transaction.create({hash:hash,recipients:nu_to, senders:nu, blockChainConfirmed: date}).exec(function(err, created){
+          Transaction.create({hash:hash,recipients:recipients, senders:senders, blockChainConfirmed: date, to:nu_to, from:nu_from}).exec(function(err, created){
             if (err) return cb(err);
             return cb(null, created);
           });

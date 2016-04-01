@@ -32,12 +32,26 @@ module.exports = {
     });
   },
 
+  make_sure_created: function(pk_ar,cb){
+    async.each(pk_ar,function(pk,callback){
+      Public_key.findOrCreate({key:pk},{key:pk, user:null, currentValue:null, blockchain_status:'external'}).exec(function(err, created){
+  
+        if (err) return callback(err);
+        return callback(null,created);
+      });
+    },function(err){
+      if (err) return cb(err);
+      return cb();
+    });
+  },
+
+
+
   get_blockchain_history:function(key){
   
     // THIS IS WHERE THE BLOCKCHAIN THING WOULD BE GETTING TO
 
   },
-
 
   /**
    * `PublicKeyController.newPrime()`

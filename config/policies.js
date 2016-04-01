@@ -42,12 +42,15 @@ module.exports.policies = {
 
   'Granting':{
     '*':'authenticate',
+    'approve_and_submit':['passport_socket','isAuthenticated'],
     'granting_judgement':'granting_auth'
   },
 
   'Solar_device':{
     //'*':'authenticate'
   },
+
+  
 
   /*
   'TrequestController': {
@@ -65,10 +68,6 @@ module.exports.policies = {
 /*
 
 [default]
-
-aws_access_key_id = AKIAJMUFDYZMKOD456DA
-
-aws_secret_access_key = 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
 
 
 

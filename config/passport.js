@@ -55,7 +55,6 @@ passport.use('basic-user',new BasicStrategy({
   },
   function(email, password, done) {
 
-    console.log('HERE I S AMMMMM')
 
    User.findOne({ email: email }, function (err, user) {
       if (err) { return done(err); }
@@ -86,7 +85,6 @@ passport.use('basic-granting',new BasicStrategy({
     passwordField: 'password'
   },
   function(email, password, done) {
-    console.log('FUCKTINTITITITITI')
 
    User.findOne({ email: email }, function (err, user) {
       if (err) { return done(err); }

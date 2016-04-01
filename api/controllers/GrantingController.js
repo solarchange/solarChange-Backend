@@ -76,7 +76,7 @@ module.exports = {
 	},
 
 
-	approve_and_sumbmit:function(req, res){
+	approve_and_submit:function(req, res){
 
 		async.waterfall([
 
@@ -127,6 +127,9 @@ module.exports = {
 				    var callback = function(err,res,body,solar){
 				    	cb(err,res,body,solar);
 				    }
+
+				    console.log('welll well')
+				    console.log(options)
 
 				request(options,function(err,httRes,body){
 				 	if (err) return cb(err);
