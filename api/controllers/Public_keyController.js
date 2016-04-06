@@ -45,7 +45,26 @@ module.exports = {
     });
   },
 
+  get_populated_pk:function(key,cb){
+      Public_key.findOne({key:key}).populate('debits').populate('credits').exec(function(err,found){
+        if (err) return cb(err);
+        return cb(null,found);
+      });
+  },
 
+  get_populated_organization: function(key, cb){
+    Public_key.findOne({key:key}).populate('organization').exec(function(err,found){
+        if (err) return cb(err);
+        return cb(null,found);
+      });
+  },
+
+  get_populated_organization_user: function(key, cb){
+    Public_key.findOne({key:key}).populate('user').populate('organization').exec(function(err,found){
+        if (err) return cb(err);
+        return cb(null,found);
+      });
+  },
 
   get_blockchain_history:function(key){
   

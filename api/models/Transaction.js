@@ -11,7 +11,7 @@ module.exports = {
 
     /*
     
-        to and from should be in the following form:
+        recipients and senders should be in the following form:
 
         [   {publicKey: 'jasdfhjgasdjfhgasd', amount:42},
         ]

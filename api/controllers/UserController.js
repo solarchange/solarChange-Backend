@@ -62,6 +62,260 @@ async.waterfall([
 	},
 
 
+	get_balance_history:function(req, res){
+		async.waterfall([
+			function(cb){
+				User.findOne({id:req.headers.sender}).populate('publicKeys').exec(function (err, found) {
+					if (err) return cb(err);
+					if (!found) return cb ({error:'Wrong ID'});
+					return cb(null, found);
+				});
+			},
+
+			function (found_user, cb) {
+				var pks=[];
+				async.each(found_user.publicKeys, function(key,callback){
+					var cally = function(err, found){
+						if (err) return callback(err);
+						if (found) pks.push(found);
+						return callback(null, found);
+					};
+					sails.controllers.public_key.get_populated_pk(key.key,cally);
+				}, 
+					function(err){
+
+						if (err) return cb(err);
+						return cb(null, pks);
+				});
+			},
+
+			function(pks, cb){
+				console.log('0-0-0-0-0-0-0-0-0-0-0-0-0-0-0-0-0-0-0-0-0-0-0-0-0-0-0')
+				//console.log(pks)
+				console.log('0-0-0-0-0-0-0-0-0-0-0-0-0-0-0-0-0-0-0-0-0-0-0-0-0-0-0')
+				var debs=[];
+				var creds=[];
+				for (var i=0 ; i<pks.length ; i++)
+				{
+					for (var j =0 ; j<pks[i].debits.length ; j++)
+					{
+						debs.push(pks[i].debits[j]);
+					}
+
+					for (j=0 ; j<pks[i].credits.length ; j++)
+					{
+						creds.push(pks[i].credits[j]);
+					}
+				}
+				async.parallel({
+					credits:function(callback){
+						var credit_arr = [];
+						async.each(creds, function(trans,cally){
+							var callcall = function(err, found){
+								if (err) return cally(err);
+								credit_arr.push(found);
+								return cally(null,found);
+							};
+							console.log('CREDIT ------------------------------')
+							console.log(trans)
+							sails.controllers.transaction.get_request_populated_transaction(trans.id, callcall);
+						},
+						function(err){
+							if (err) return callback(err);
+							return callback(null, credit_arr);
+						});
+					},
+
+					debits:function(callback){
+						var debit_arr = [];
+						async.each(debs, function(trans,cally){
+							var callcall = function(err, found){
+								if (err) return cally(err);
+								debit_arr.push(found);
+								return cally(null,found);
+							};
+							console.log('DEBIT =----------------------------------')
+							console.log(trans)
+							sails.controllers.transaction.get_request_populated_transaction(trans.id,callcall);
+						},
+						function(err){
+							if (err) return callback(err);
+							return callback(null, debit_arr);
+						});
+					}
+
+				},
+					function(err,results){
+					if (err) return cb(err);
+					return cb(null,pks,results);	
+				});
+			},
+
+			function(pks, transactions, cb){
+				console.log('--------------------------------')
+				//console.log(transactions)
+				console.log('/././././././././././././././././././././././././.')
+				console.log(pks)
+					async.parallel({
+
+						credits:function(callback){
+							var credit_arr = [];
+							async.each(transactions.credits,function(trans,cally){
+								var callcall = function(err,arr){
+									if (err) return cally(err);
+									console.log('yo this is is isi isos is sis ')
+									console.log(arr);
+									credit_arr = credit_arr.concat(arr);
+									cally(null);
+								};
+								sails.controllers.user.trans_to_entry(trans,pks,true,callcall);
+							},
+
+								function(err){
+									if (err) return callback(err);
+									return callback(null, credit_arr);
+								});
+						},
+
+						debits:function(callback){
+							var debit_arr = [];
+							async.each(transactions.debits,function(trans,cally){
+								var callcall = function(err,arr){
+									if (err) return cally(err);
+									debit_arr = debit_arr.concat(arr);
+									cally(null);
+								};
+								sails.controllers.user.trans_to_entry(trans,pks,false,callcall);
+							},
+
+								function(err){
+									if (err) return callback(err);
+									return callback(null, debit_arr);
+								});
+						},
+
+					},
+
+						function(err, results){
+							if (err) return cb(err);
+							console.log(results)
+							var trans_arr = results.credits.concat(results.debits);
+							return cb(null,trans_arr);
+						});
+			},
+
+			],
+
+			function(err, trans_arr){
+				if (err) return res.json(err);
+
+				trans_arr = _.sortBy(trans_arr, 'date');
+
+				var balance = 0;
+
+				for (var i = 0 ; i<trans_arr.length; i++)
+				{
+					balance+=trans_arr[i].amount;
+					trans_arr[i].balance = balance;
+				}
+
+				return res.json(trans_arr);
+		});
+
+	},
+
+
+
+	trans_to_entry: function(trans, publicKeys, is_credit, cb){
+
+		console.log(',x,x,,x,x,x,x,x,x,x,x,x,x,x,x,x,x,x,x,x,x,x,x,x,x,x,x,')
+		//console.log(publicKeys)
+		console.log('.............,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.')
+
+		console.log(trans);
+
+		var pks =[];
+
+		for (var i=0 ; i<publicKeys.length ; i++)
+		{
+			pks[i] = publicKeys[i].key;
+		}
+		console.log('and noowwwwwwwww')
+		console.log(pks)
+
+		if (is_credit) // THIS IS FOR CREDIT TRANSACTIONS
+		{
+			var amount_counter=0;
+			for (i=0; i<trans.recipients.length ; i++)
+			{
+				if(pks.indexOf(trans.recipients[i].publicKey)>=0)
+				{
+					amount_counter+=trans.recipients[i].amount;
+				}
+			}
+
+			console.log('+++++++'+amount_counter)
+			if (trans.trequest){
+				if (!trans.trequest.annonymous){
+					var callback=function(err,found){
+						if (err) return cb(err);
+						var from_to = found.debit.firstName+' '+found.lastName;
+						return cb(null, [{date:trans.blockChainConfirmed, amount:amount_counter, from_to:from_to}]);
+					};
+					sails.controllers.trequest.get_populated_with_user(trans.trequest.id,'debit',callback);
+				}
+				else{
+					return cb(null,[{date:trans.blockChainConfirmed, amount:amount_counter, from_to:trans.senders[0].publicKey}]);
+				}
+			}
+			else
+			{
+				var callback = function(err,found){
+					if (err) return cb(err);
+					if (found){
+						if (found.organization) from_to = fond.organization.name;
+						else from_to = found.key;
+					}
+					else from_to = trans.senders[0].publicKey;
+
+					return cb(null,[{date:trans.blockChainConfirmed, amount:amount_counter, from_to:from_to}]);
+				};
+				sails.controllers.public_key.get_populated_organization(trans.senders[0].publicKey,callback);
+			}
+		}
+		else // THIS IS FOR DEBIT TRANSAC
+		{
+			if (pks.indexOf(trans.senders[0].publicKey)<0) return cb(null,[]);
+
+			var entry_arr = [];
+
+			async.each(trans.recipients, function(recipient, callback){
+				var cally = function(err,found){	
+					if (err) return callback(err);
+					if (found.organization){
+						var from_to = found.organization.name;
+					}
+					else if (found.user){
+						var from_to = found.user.firstName+' '+found.user.lastName;
+					}
+					else{
+						var from_to = recipient.publicKey;
+					}
+					console.log('--------'+recipient.amount)
+					entry_arr.push({date:trans.blockChainConfirmed, amount:(recipient.amount*-1), from_to:from_to});
+					return callback(null);
+				};
+				sails.controllers.public_key.get_populated_organization_user(recipient.publicKey,cally);
+			}, 
+
+				function(err){
+					if (err) return cb(err);
+					return cb(null, entry_arr);
+			});
+		} 
+	},
+
+
 	getUserByID: function(eyed,cb){
 		User.findOne({id:eyed}, function(err,found){
 			if (err)

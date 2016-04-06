@@ -56,16 +56,19 @@ module.exports.routes = {
 
   'post /user/social_share' : {controller:'user', action:'social_share'},
 
-  'post /transaction/wtf' :{ controller:'transaction', action:'blockChain_input'},
-  
   'GET /admin/dashboard_solar':{view:'dashboard_solar'},
 
+  'get /user/balance_history':{controller:'user', action:'get_balance_history'},
 
 
   'post /trequest/new': { controller: 'trequest', action:'initNew'},
 
   'GET /admin/login': {view: 'admin_login'},
 
+
+
+  'post /transaction/wtf' :{ controller:'transaction', action:'blockChain_input'},
+  
 
   'post /admin/login': {controller:'auth', action:'login'},
 

@@ -7,6 +7,11 @@
 
 module.exports = {
 	
+
+
+
+
+
   block_info:function(req, res){
 
   var transactions = JSON.parse(req.body.transactions);
@@ -75,6 +80,7 @@ module.exports = {
 
       function(found,nu_to,nu_from,cb){
 
+        console.log(found);
 
         if (found){
           Transaction.update({hash:hash},{recipients:recipients, senders:senders, blockChainConfirmed: date, to:nu_to, from:nu_from}).exec(function(err,updated){
@@ -99,7 +105,12 @@ module.exports = {
 
   },
 
-
+  get_request_populated_transaction:function(id,cb){
+    Transaction.findOne({id:id}).populate('trequest').exec(function(err, found){
+      if (err) return cb(err);
+      return cb(null, found);
+    });
+  },
 
 
   initWithRequest: function (to_create, created_trequest_id, cb) {

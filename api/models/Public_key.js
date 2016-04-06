@@ -23,6 +23,10 @@ module.exports = {
 
     currentValue : { type: 'float', defaultsTo: 0 },
 
+    known: {type: 'boolean', defaultsTo:false},
+
+    organization: {model: 'organization'},
+
     blockchain_status: {type:'string', enum:['confirmed', 'unconfirmed', 'external'], defaultsTo:'unconfirmed'}
   }
 };

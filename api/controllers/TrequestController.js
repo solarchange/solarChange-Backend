@@ -8,6 +8,16 @@
 module.exports = {
 	
 
+  get_populated_with_user:function(eyed,who,cb){
+    Trequest.findOne({id:eyed}).populate(who).exec(function(err,found){
+      if (err) return cb(err);
+      return cb(null,found);
+    });
+  },
+
+
+
+
   initNew: function (cb, sender, request, transaction) {
 
   	var initObj = {at:Date.now(),by:sender};
