@@ -90,9 +90,6 @@ async.waterfall([
 			},
 
 			function(pks, cb){
-				console.log('0-0-0-0-0-0-0-0-0-0-0-0-0-0-0-0-0-0-0-0-0-0-0-0-0-0-0')
-				//console.log(pks)
-				console.log('0-0-0-0-0-0-0-0-0-0-0-0-0-0-0-0-0-0-0-0-0-0-0-0-0-0-0')
 				var debs=[];
 				var creds=[];
 				for (var i=0 ; i<pks.length ; i++)
@@ -116,8 +113,6 @@ async.waterfall([
 								credit_arr.push(found);
 								return cally(null,found);
 							};
-							console.log('CREDIT ------------------------------')
-							console.log(trans)
 							sails.controllers.transaction.get_request_populated_transaction(trans.id, callcall);
 						},
 						function(err){
@@ -134,8 +129,6 @@ async.waterfall([
 								debit_arr.push(found);
 								return cally(null,found);
 							};
-							console.log('DEBIT =----------------------------------')
-							console.log(trans)
 							sails.controllers.transaction.get_request_populated_transaction(trans.id,callcall);
 						},
 						function(err){
@@ -152,10 +145,6 @@ async.waterfall([
 			},
 
 			function(pks, transactions, cb){
-				console.log('--------------------------------')
-				//console.log(transactions)
-				console.log('/././././././././././././././././././././././././.')
-				console.log(pks)
 					async.parallel({
 
 						credits:function(callback){
@@ -163,8 +152,6 @@ async.waterfall([
 							async.each(transactions.credits,function(trans,cally){
 								var callcall = function(err,arr){
 									if (err) return cally(err);
-									console.log('yo this is is isi isos is sis ')
-									console.log(arr);
 									credit_arr = credit_arr.concat(arr);
 									cally(null);
 								};
@@ -198,7 +185,6 @@ async.waterfall([
 
 						function(err, results){
 							if (err) return cb(err);
-							console.log(results)
 							var trans_arr = results.credits.concat(results.debits);
 							return cb(null,trans_arr);
 						});
@@ -228,20 +214,12 @@ async.waterfall([
 
 	trans_to_entry: function(trans, publicKeys, is_credit, cb){
 
-		console.log(',x,x,,x,x,x,x,x,x,x,x,x,x,x,x,x,x,x,x,x,x,x,x,x,x,x,x,')
-		//console.log(publicKeys)
-		console.log('.............,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.')
-
-		console.log(trans);
-
 		var pks =[];
 
 		for (var i=0 ; i<publicKeys.length ; i++)
 		{
 			pks[i] = publicKeys[i].key;
 		}
-		console.log('and noowwwwwwwww')
-		console.log(pks)
 
 		if (is_credit) // THIS IS FOR CREDIT TRANSACTIONS
 		{
@@ -301,7 +279,6 @@ async.waterfall([
 					else{
 						var from_to = recipient.publicKey;
 					}
-					console.log('--------'+recipient.amount)
 					entry_arr.push({date:trans.blockChainConfirmed, amount:(recipient.amount*-1), from_to:from_to});
 					return callback(null);
 				};
