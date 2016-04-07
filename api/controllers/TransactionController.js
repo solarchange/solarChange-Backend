@@ -17,15 +17,16 @@ module.exports = {
   //var transactions = JSON.parse(req.body.transactions);
   var transactions = req.body;
 
-  console.log('i see this yo yo yo yo yo yo ')
-  console.log(req.body)
-  console.log('------------------------------------------')
+  // console.log('i see this yo yo yo yo yo yo ')
+  // console.log(req.body)
+  // console.log('------------------------------------------')
 
   async.each(transactions, function(a_transaction,cb){
     sails.controllers.transaction.add_from_blockChain(a_transaction,cb);
   },
   function(err){
     if (err) return res.send(500,{error:err});
+    console.log('OK OK OK OK OK OK')
     return res.send(200);
   });
   //var recipients = JSON.parse(req.body.recipients);
@@ -82,7 +83,7 @@ module.exports = {
 
       function(found,nu_to,nu_from,cb){
 
-        console.log(found);
+       // console.log(found);
 
         if (found){
           Transaction.update({hash:hash},{recipients:recipients, senders:senders, blockChainConfirmed: date, to:nu_to, from:nu_from}).exec(function(err,updated){
