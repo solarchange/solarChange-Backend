@@ -38,6 +38,14 @@ module.exports = {
           if (err) return cb(err);
           //var txs = JSON.parse(body);
           console.log(body.txs)
+          async.each(transactions, function(a_transaction,callback){
+            sails.controllers.transaction.add_from_blockChain(a_transaction,cb);
+          },
+          function(err){
+            if (err) return cb(err);
+            return cb();
+          });
+
          });
   },
 
