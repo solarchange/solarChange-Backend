@@ -15,12 +15,11 @@ module.exports = {
   block_info:function(req, res){
 
   //var transactions = JSON.parse(req.body.transactions);
-  var transactions = req.body.transactions;
+  var transactions = req.body;
 
   console.log('i see this yo yo yo yo yo yo ')
-  console.log(req.body.transactions)
+  console.log(req.body)
   console.log('------------------------------------------')
-  console.log(req.body.transactions[0])
 
   async.each(transactions, function(a_transaction,cb){
     sails.controllers.transaction.add_from_blockChain(a_transaction,cb);
