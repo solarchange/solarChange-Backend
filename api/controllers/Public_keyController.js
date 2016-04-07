@@ -5,8 +5,42 @@
  * @help        :: See http://sailsjs.org/#!/documentation/concepts/Controllers
  */
 
+
+var request = require('request');
+var http = require('http');
+
 module.exports = {
 	
+
+  send_pk:function(req,res){
+    this.get_pks_transactions(['huhuhuhuhuhuhuh'], res.json);
+  },
+
+
+
+  get_pks_transactions:function(pks, cb){
+    var way = 'get-info?pubKeys=';
+    var begin = true;
+    for (i=0; i<pks.length ; i++){
+      if (begin) begin = false;
+      else way = way+'|';
+      way = way+pks[i];
+    }
+
+    var options = {
+              url:sails.config.blockChainUnit.url+way,
+              headers: {Authorization: 'Basic '},
+              method: "GET",
+              json:true,
+            };
+
+    request(options,function(err,httRes,body){
+          if (err) return cb(err);
+          //var txs = JSON.parse(body);
+          console.log(body.txs)
+         });
+  },
+
 
   add_non_blockchained_key: function(req, res){
     var to_create={};

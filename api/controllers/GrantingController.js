@@ -128,9 +128,6 @@ module.exports = {
 				    	cb(err,res,body,solar);
 				    }
 
-				    console.log('welll well')
-				    console.log(options)
-
 				request(options,function(err,httRes,body){
 				 	if (err) return cb(err);
 				 	callback(null, httRes, body, solar_device);
