@@ -19,7 +19,7 @@ module.exports = {
   console.log('i see this yo yo yo yo yo yo ')
   console.log(req.body)
   console.log('------------------------------------------')
-
+/*
   async.each(transactions, function(a_transaction,cb){
     sails.controllers.transaction.add_from_blockChain(a_transaction,cb);
   },
@@ -27,7 +27,7 @@ module.exports = {
     if (err) return res.send(500,{error:err});
     return res.send(200);
   })
-
+*/
   //var recipients = JSON.parse(req.body.recipients);
   //var senders = JSON.parse(req.body.senders);
    //sails.controllers.transaction.add_from_blockChain(req.body.hash, req.body.date, senders, recipients, callback);
