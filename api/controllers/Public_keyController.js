@@ -43,7 +43,7 @@ module.exports = {
           },
           function(err){
             if (err) return cb(err);
-            return cb();
+            return cb(null,{success:true});
           });
 
          });

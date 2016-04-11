@@ -17,10 +17,6 @@ module.exports = {
   //var transactions = JSON.parse(req.body.transactions);
   var transactions = req.body;
 
-  // console.log('i see this yo yo yo yo yo yo ')
-  // console.log(req.body)
-  // console.log('------------------------------------------')
-
   async.each(transactions, function(a_transaction,cb){
     sails.controllers.transaction.add_from_blockChain(a_transaction,cb);
   },
@@ -82,8 +78,6 @@ module.exports = {
 
 
       function(found,nu_to,nu_from,cb){
-
-       // console.log(found);
 
         if (found){
           Transaction.update({hash:hash},{recipients:recipients, senders:senders, blockChainConfirmed: date, to:nu_to, from:nu_from}).exec(function(err,updated){
