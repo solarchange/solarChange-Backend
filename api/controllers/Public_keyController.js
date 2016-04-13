@@ -190,16 +190,19 @@ sails.controllers.public_key.get_pks_blockchain_info(pk_arr,cb);
 
   add_txs:function(tx_id,keys,to_from, cb){
 
+  if (to_from=='to') var cred_deb = 'credits';
+  else var cred_deb = 'debits';
+
     var search_obj = [];
     for (var i =0 ; i<keys.length ; i++){
       search_obj.push({key:keys[i]});
     }
   
-      Public_key.find({or:search_obj}).populate(to_from).exec(function(err,found){
+      Public_key.find({or:search_obj}).populate(cred_deb).exec(function(err,found){
         if (err) return cb(err);
 
         async.each(found,function(wallet,callback){
-          wallet[to_from].add(tx_id);
+          wallet[cred_deb].add(tx_id);
           wallet.save(function(err,saved){
             if (err) return callback(err);
             return callback(null);
