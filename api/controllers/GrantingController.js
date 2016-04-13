@@ -52,6 +52,7 @@ module.exports = {
 
 			function(file,cb){
 				new_device_data.file_info = file;
+				delete new_device_data.proof;
 				sails.controllers.solar_device.new_device(new_device_data,cb);
 			},
 

@@ -18,60 +18,159 @@ module.exports = {
 
 
 
-  get_pks_transactions:function(pks, cb){
-    var way = 'get-info?pubKeys=';
-    var begin = true;
-    for (i=0; i<pks.length ; i++){
-      if (begin) begin = false;
-      else way = way+'|';
-      way = way+pks[i];
-    }
+get_blockchain_data:function(req,res){
 
-    var options = {
-              url:sails.config.blockChainUnit.url+way,
-              headers: {Authorization: 'Basic '},
-              method: "GET",
-              json:true,
-            };
+  var pk_arr = [req.params.pk];
+  var cb = function(err, success){
+    if (err) return res.json(err);
+    return res.json(success);
+  };
 
-    request(options,function(err,httRes,body){
-          if (err) return cb(err);
-          //var txs = JSON.parse(body);
-          console.log(body.txs)
-          async.each(transactions, function(a_transaction,callback){
-            sails.controllers.transaction.add_from_blockChain(a_transaction,cb);
+sails.controllers.public_key.get_pks_blockchain_info(pk_arr,cb);
+},
+
+
+  get_blockchain_history:function(pks, cb){
+
+    var authHeader = new Buffer(sails.config.blockChainUnit.username+':'+sails.config.blockChainUnit.password).toString('base64');
+
+    async.waterfall([
+
+      function(callback){
+        var way = 'get-info?pubKeys=';
+        var begin = true;
+        for (i=0; i<pks.length ; i++){
+          if (begin) begin = false;
+          else way = way+'|';
+          way = way+pks[i];
+        }
+
+     
+        var options = {
+                  url:sails.config.blockChainUnit.url+way,
+                  headers: {Authorization: 'Basic '+authHeader},
+                  method: "GET",
+                  json:true,
+                };
+
+        request(options,function(err,httRes,body){
+              if (err) return callback(err);
+              return callback(null,body);
+
+             });
+      },
+
+      function(block_res,callback){
+        async.each(block_res.txs, function(a_transaction,callcall){
+          sails.controllers.transaction.add_from_blockChain(a_transaction,callcall);
           },
           function(err){
-            if (err) return cb(err);
-            return cb(null,{success:true});
-          });
+            if (err) return callback(err);
+            return callback(null,{success:true});
+              });             
+      }
 
-         });
+      ],function(err,success){
+        
+        if (err) return cb(err);
+
+        var options = {
+                  url:sails.config.blockChainUnit.url+'set-public-keys',
+                  headers: {Authorization: 'Basic '+authHeader},
+                  method: "POST",
+                  json:true,
+                  body:pks
+                };
+
+        request(options,function(err,httRes,body){
+              if (err) return cb(err);
+              return cb(null,{success:true});
+             });
+    });
   },
 
 
-  add_non_blockchained_key: function(req, res){
-    var to_create={};
-    to_create.key = req.body.key;
-    to_create.user = req.headers.sender;
-    Public_key.create(to_create).exec(function(err, created){
-      if (err) return res.json(err);
-      sails.controllers.public_key.get_blockchain_history(created.key);
-      return res.json(created);
-    });
+  add_key: function(req, res){
+
+    async.waterfall([
+
+      function(cb){
+        var to_create={};
+        to_create.key = req.body.key;
+        to_create.user = req.headers.sender;
+        Public_key.create(to_create).exec(function(err, created){
+        if (err) return cb(err);
+          return cb(null,created);
+        });
+      },
+
+      function(created, cb){
+          var callback = function(err, success){
+            if (err) return cb(err);
+            return cb(null,created,success);
+          };
+         sails.controllers.public_key.get_blockchain_history(created.key,callback);
+      },
+
+      function(created, success, cb){
+        if (success){
+          Public_key.update({key:created.key},{blockchain_status:'confirmed'}).exec(function(err,updated){
+            if (err) return cb(err);
+            return cb(null,updated);
+          });
+        }
+        else return cb({error:'could not get data from blockchain'});
+      }
+
+      ],
+
+      function(err,created){
+        if (err) return res.json(err);
+        return res.json(created);
+      })
   },
 
   add_from_solar_device: function(key, device_id,user_id,cb){
-    Public_key.findOrCreate({key:key},{key:key, user:user_id},function(err,pk){
-      if (err) return cb(err);
 
-      Public_key.update({key:key},{solar_device:device_id}).exec(function(err,updated){
+    async.waterfall([
+      function(callback){
+        Public_key.findOrCreate({key:key},{key:key, user:user_id},function(err,pk){
+          if (err) return cb(err);
+
+          Public_key.update({key:key},{solar_device:device_id}).exec(function(err,updated){
+            if (err) return cb(err);
+            return callback(null, updated);
+          });
+        });
+      },
+
+      function(key_object,callback){
+            if (updated.blockchain_status=='unconfirmed'){
+            async.waterfall([
+              function(callcall){
+              var cally = function(err,success){
+                if (err) return callback(err);
+                return callback(null,key_object)
+              };
+              sails.controllers.public_key.get_blockchain_history(updated.key, cally);
+              }
+              ],
+              function(err,the_key){
+                Public_key.update({key:key_object.key},{blockchain_status:'confirmed'}).exec(function(err,updated){
+                  if (err) return callback(err);
+                  return callback(null,updated);
+                });
+               });
+           }
+            else return callback(null,key_object);
+      }
+
+      ],
+      function(err,key_object){
         if (err) return cb(err);
-
-        if (updated.blockchain_status=='unconfirmed') sails.controllers.public_key.get_blockchain_history(updated.key);
-        return cb(null, updated);
+        return cb(null,key_object);
       });
-    });
+   
   },
 
   make_sure_created: function(pk_ar,cb){
@@ -106,12 +205,6 @@ module.exports = {
         if (err) return cb(err);
         return cb(null,found);
       });
-  },
-
-  get_blockchain_history:function(key){
-  
-    // THIS IS WHERE THE BLOCKCHAIN THING WOULD BE GETTING TO
-
   },
 
   /**

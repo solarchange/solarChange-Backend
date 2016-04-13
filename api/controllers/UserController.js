@@ -226,13 +226,15 @@ async.waterfall([
 			var amount_counter=0;
 			for (i=0; i<trans.recipients.length ; i++)
 			{
-				if(pks.indexOf(trans.recipients[i].publicKey)>=0)
+				if(pks.indexOf(trans.recipients[i].publicKey)>=0 && (trans.recipients[i].publicKey!=trans.senders[0].publicKey))
 				{
 					amount_counter+=trans.recipients[i].amount;
 				}
 			}
 
-			console.log('+++++++'+amount_counter)
+			// this is to make sure it doesn't count transactions from a user's own public key to itself
+			if (amount_counter==0) return cb([]); 
+
 			if (trans.trequest){
 				if (!trans.trequest.annonymous){
 					var callback=function(err,found){
@@ -268,6 +270,9 @@ async.waterfall([
 			var entry_arr = [];
 
 			async.each(trans.recipients, function(recipient, callback){
+
+				if (recipient.publicKey == trans.senders[0].publicKey) return callback(null);
+
 				var cally = function(err,found){	
 					if (err) return callback(err);
 					if (found.organization){

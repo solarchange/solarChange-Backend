@@ -94,7 +94,7 @@ var solar_device = '<li class="solar_list_item" id="solar-'+device.id+'"><div>'+
 '<span class="solar_device_info"><strong> Address Line: </strong>'+device.address+'</span>'+
 '<span class="solar_device_info"><strong> City: </strong>'+device.city+'</span> '+
 '<span class="solar_device_info"><strong> State: </strong>'+device.state+'</span>'+
-'<span class="solar_device_info"><strong> City: </strong>'+device.city+'</span>'+
+'<span class="solar_device_info"><strong> Country: </strong>'+device.city+'</span>'+
 '<span class="solar_device_info"><strong> Zipcode: </strong>'+device.zipcode+'</span>'+
 '<span class="solar_device_info"><strong> Country: </strong>'+device.country+'</span><br />'+
 '<span class="solar_device_info"><strong> Nameplate: </strong>'+device.nameplate+'</span>'+
@@ -129,12 +129,10 @@ var solar_device = '<tr class="solar_list_item" id="solar-'+device.id+'">'+
 '<td class="solar_device_info">'+device.address+'</td>'+
 '<td class="solar_device_info">'+device.city+'</td> '+
 '<td class="solar_device_info">'+device.state+'</td>'+
-'<td class="solar_device_info">'+device.city+'</td>'+
-'<td class="solar_device_info">'+device.zipcode+'</td>'+
 '<td class="solar_device_info">'+device.country+'</td>'+
 '<td class="solar_device_info">'+device.nameplate+'</td>'+
 '<td class="solar_device_info">'+device.public_key+'</td>'+
-'<td class="solar_device_info"><strong> <a href="'+device.file_info.fd+'">Installation File</a> </strong></td>'+
+'<td class="solar_device_info"><strong> <a href="'+device.file_info.location+'">Installation File</a> </strong></td>'+
 '<td class="solar_device_info"><strong> Status: </strong>'+device.status+'</td>'+
 '<td><input data-id="'+device.id+'" id="approve'+device.id+'" class="approve solar-button" value="Approve And Submit" type="button" /></td>'+
 '<td><input data-id="'+device.id+'" id="reject'+device.id+'" class="reject solar-button" value="Reject" type="button" /></td>'+

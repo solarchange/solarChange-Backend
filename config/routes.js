@@ -50,7 +50,7 @@ module.exports.routes = {
 
   'post /granting/granting_feedback': {controller:'granting', action:'granting_judgement' },
 
-  'post /public_key/add': {controller:'public_key', action:'add_non_blockchained_key'},  
+  'post /public_key/add': {controller:'public_key', action:'add_key'},  
 
   'post /transaction/block_info' : {controller: 'transaction', action:'block_info'},
 
@@ -59,6 +59,9 @@ module.exports.routes = {
   'GET /admin/dashboard_solar':{view:'dashboard_solar'},
 
   'get /user/balance_history':{controller:'user', action:'get_balance_history'},
+
+  'get /public_key/blockchain_data/:pk':{controller:'public_key', action:'get_blockchain_data'},
+
 
 
   'post /trequest/new': { controller: 'trequest', action:'initNew'},
