@@ -186,6 +186,34 @@ sails.controllers.public_key.get_pks_blockchain_info(pk_arr,cb);
     });
   },
 
+
+
+  add_txs:function(tx_id,keys,to_from, cb){
+
+    var search_obj = [];
+    for (var i =0 ; i<keys.length ; i++){
+      search_obj.push({key:keys[i]});
+    }
+  
+      Public_key.find(or:search_obj).populate(to_from).exec(function(err,found){
+        if (err) return cb(err);
+
+        async.each(found,function(wallet,callback){
+          wallet[to_from].add(tx_id);
+          wallet.save(function(err,saved){
+            if (err) return callback(err);
+            return callback(null);
+          });
+        },
+
+          function(err){
+            if (err) return cb(err);
+            return (cb(null,found));
+        });
+      });
+  },
+  
+
   get_populated_pk:function(key,cb){
       Public_key.findOne({key:key}).populate('debits').populate('credits').exec(function(err,found){
         if (err) return cb(err);

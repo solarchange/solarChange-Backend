@@ -46,14 +46,17 @@ module.exports = {
         });
       },
 
+      /*
       function(found, cb){
-        if (found) return cb(null, found);
+        if (found!==undefined) return cb(null, found);
 
+        console.log('AM HERE WHAT DA FUKN------------------------')
         Transaction.create({recipients:recipients, senders:senders, hash:hash, blockChainConfirmed:date}).exec(function(err,created){
           if (err) return cb(err);
           return cb(null,created);
         });
       },
+      */
 
       function(found, cb){
         var nu_to=[];
@@ -89,17 +92,34 @@ module.exports = {
         if (found){
           Transaction.update({hash:hash},{recipients:recipients, senders:senders, blockChainConfirmed: date, to:nu_to, from:nu_from}).exec(function(err,updated){
             if (err) return cb(err);
-            return cb(null, updated);
+            return cb(null, updated, nu_to,nu_from);
           });
         }
         else{
           Transaction.create({hash:hash,recipients:recipients, senders:senders, blockChainConfirmed: date, to:nu_to, from:nu_from}).exec(function(err, created){
             if (err) return cb(err);
-            return cb(null, created);
+
+            console.log('AWEHrasdg;kawhrsfg,uagsfdghj,gzsrhkqfgirhlgsdr')
+            console.log(created)
+            return cb(null, created,nu_to,nu_from);
           });
         }
       },
 
+      function(tx,nu_to,nu_from,cb){
+        async.parallel({
+          to:function(callback){
+            sails.controllers.public_key.add_txs(tx.id,nu_to,'to',callback);
+          },
+          from:function(callback){
+            sails.controllers.public_key.add_txs(tx.id,nu_from,'from',callback);
+          }
+        },
+          function(err, results){
+            if (err) return cb(err);
+            return cb(null, tx);
+          });
+      },
 
       ],
       function(err, transi){
