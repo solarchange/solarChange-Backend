@@ -195,7 +195,7 @@ sails.controllers.public_key.get_pks_blockchain_info(pk_arr,cb);
       search_obj.push({key:keys[i]});
     }
   
-      Public_key.find(or:search_obj).populate(to_from).exec(function(err,found){
+      Public_key.find({or:search_obj}).populate(to_from).exec(function(err,found){
         if (err) return cb(err);
 
         async.each(found,function(wallet,callback){
