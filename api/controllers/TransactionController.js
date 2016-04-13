@@ -47,6 +47,15 @@ module.exports = {
       },
 
       function(found, cb){
+        if (found) return cb(null, found);
+
+        Transaction.create({recipients:recipients, senders:senders, hash:hash, blockChainConfirmed:date}).exec(function(err,created){
+          if (err) return cb(err);
+          return cb(null,created);
+        });
+      },
+
+      function(found, cb){
         var nu_to=[];
         for (var i=0; i<recipients.length ; i++)
         {
@@ -57,8 +66,6 @@ module.exports = {
           return cb(null,found,nu_to);
         }; 
         sails.controllers.public_key.make_sure_created(nu_to,cally);
-
-
 
       },
 
