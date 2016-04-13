@@ -89,9 +89,14 @@ module.exports = {
 
       function(found,nu_to,nu_from,cb){
 
+        console.log('ok I am here and what the fucj')
+        console.log(found)
+
         if (found){
           Transaction.update({hash:hash},{recipients:recipients, senders:senders, blockChainConfirmed: date, to:nu_to, from:nu_from}).exec(function(err,updated){
             if (err) return cb(err);
+            console.log('000dfkghagfh000000000000000000000000000000')
+            console.log(updated)
             return cb(null, updated, nu_to,nu_from);
           });
         }
@@ -99,7 +104,7 @@ module.exports = {
           Transaction.create({hash:hash,recipients:recipients, senders:senders, blockChainConfirmed: date, to:nu_to, from:nu_from}).exec(function(err, created){
             if (err) return cb(err);
 
-            console.log('AWEHrasdg;kawhrsfg,uagsfdghj,gzsrhkqfgirhlgsdr')
+            console.log('JJJJJJJJJJJJJJJJJJJJ')
             console.log(created)
             return cb(null, created,nu_to,nu_from);
           });
