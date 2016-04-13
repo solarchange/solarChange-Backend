@@ -127,13 +127,13 @@ console.log(transactions)
           }
         },
 
-        */
+        
           function(err, results){
             if (err) return cb(err);
             return cb(null, tx);
           });
       },
-
+      */
       ],
       function(err, transi){
         if (err) return callback(err);
