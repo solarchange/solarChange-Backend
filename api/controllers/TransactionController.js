@@ -16,7 +16,13 @@ module.exports = {
 
   //var transactions = JSON.parse(req.body.transactions);
   var transactions = req.body;
-
+     console.log('...............................................................')
+        console.log('...............................................................')
+           console.log('...............................................................')
+console.log(transactions)
+   console.log('...............................................................')
+      console.log('...............................................................')
+         console.log('...............................................................')
   async.each(transactions, function(a_transaction,cb){
     sails.controllers.transaction.add_from_blockChain(a_transaction,cb);
   },
@@ -37,10 +43,6 @@ module.exports = {
     var senders = the_transaction.senders;
     var recipients = the_transaction.recipients;
 
-    console.log('waiiiiiiiiiiiiiit -----------    ')
-
-    console.log(the_transaction)
-    console.log('...............................................................')
 
     async.waterfall([
 
