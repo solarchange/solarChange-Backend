@@ -37,6 +37,11 @@ module.exports = {
     var senders = the_transaction.senders;
     var recipients = the_transaction.recipients;
 
+    console.log('waiiiiiiiiiiiiiit -----------    ')
+
+    console.log(the_transaction)
+    console.log('...............................................................')
+
     async.waterfall([
 
       function(cb){
