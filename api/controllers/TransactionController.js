@@ -96,9 +96,6 @@ console.log(transactions)
 
       function(found,nu_to,nu_from,cb){
 
-        console.log('ok I am here and what the fucj')
-        console.log(found)
-
         if (found){
           Transaction.update({hash:hash},{recipients:recipients, senders:senders, blockChainConfirmed: date, to:nu_to, from:nu_from}).exec(function(err,updated){
             if (err) return cb(err);
@@ -118,6 +115,8 @@ console.log(transactions)
         }
       },
 
+
+      /*
       function(tx,nu_to,nu_from,cb){
         async.parallel({
           to:function(callback){
@@ -127,6 +126,8 @@ console.log(transactions)
             sails.controllers.public_key.add_txs(tx.id,nu_from,'from',callback);
           }
         },
+
+        */
           function(err, results){
             if (err) return cb(err);
             return cb(null, tx);
