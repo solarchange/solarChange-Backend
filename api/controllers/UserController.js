@@ -213,7 +213,10 @@ async.waterfall([
 
 
 	trans_to_entry: function(trans, publicKeys, is_credit, cb){
-
+	
+		console.log('..............................................................')
+		console.log(trans)
+		console.log('xxxzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzz')
 		var pks =[];
 
 		for (var i=0 ; i<publicKeys.length ; i++)
