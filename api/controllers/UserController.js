@@ -267,7 +267,7 @@ async.waterfall([
 		}
 		else // THIS IS FOR DEBIT TRANSAC
 		{
-			if (pks.indexOf(trans.senders[0].publicKey)<0) return cb(null,[]);
+			//if (pks.indexOf(trans.senders[0].publicKey)<0) return cb(null,[]);
 
 			var entry_arr = [];
 
