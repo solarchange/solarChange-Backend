@@ -228,8 +228,6 @@ async.waterfall([
 
 
 	trans_to_entry: function(trans, publicKeys, is_credit, cb){
-	
-
 
 		var pks =[];
 
@@ -250,7 +248,7 @@ async.waterfall([
 			}
 
 			// this is to make sure it doesn't count transactions from a user's own public key to itself
-			if (amount_counter==0) return cb([]); 
+			if (amount_counter==0) return cb(null, []); 
 
 			if (trans.trequest){
 				if (!trans.trequest.annonymous){
