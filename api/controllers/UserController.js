@@ -221,9 +221,10 @@ async.waterfall([
 
 	get_current_balanace:function(debits,credits, key){
 	var amount = 0;
-
+	console.log(key)
+	console.log(',,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,')
 	for (var i=0; i<credits.length; i++){
-		console.log('...........')
+		
 		for (var j=0; j<credits[i].recipients.length ; j++)
 		{
 			if (credits[i].recipients[j].publicKey==key) 
