@@ -16,13 +16,6 @@ module.exports = {
 
   //var transactions = JSON.parse(req.body.transactions);
   var transactions = req.body;
-     console.log('...............................................................')
-        console.log('...............................................................')
-           console.log('...............................................................')
-console.log(transactions)
-   console.log('...............................................................')
-      console.log('...............................................................')
-         console.log('...............................................................')
   async.each(transactions, function(a_transaction,cb){
     sails.controllers.transaction.add_from_blockChain(a_transaction,cb);
   },
@@ -99,17 +92,12 @@ console.log(transactions)
         if (found){
           Transaction.update({hash:hash},{recipients:recipients, senders:senders, blockChainConfirmed: date, to:nu_to, from:nu_from}).exec(function(err,updated){
             if (err) return cb(err);
-            console.log('000dfkghagfh000000000000000000000000000000')
-            console.log(updated)
             return cb(null, updated, nu_to,nu_from);
           });
         }
         else{
           Transaction.create({hash:hash,recipients:recipients, senders:senders, blockChainConfirmed: date, to:nu_to, from:nu_from}).exec(function(err, created){
             if (err) return cb(err);
-
-            console.log('JJJJJJJJJJJJJJJJJJJJ')
-            console.log(created)
             return cb(null, created,nu_to,nu_from);
           });
         }
@@ -173,8 +161,7 @@ console.log(transactions)
   				cb (err);
   				return err;
   			}
-
-        console.log('created the transaction');
+        
   			cb(null, created);
 
   		});
