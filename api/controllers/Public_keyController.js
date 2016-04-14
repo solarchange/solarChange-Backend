@@ -62,6 +62,10 @@ sails.controllers.public_key.get_pks_blockchain_info(pk_arr,cb);
 
       function(block_res,callback){
 
+        console.log('...........................')
+        console.log(sails.controllers.public_key.get_current_balanace(block_res.txs,pks[0]))
+        console.log('...........................')
+        
         async.each(block_res.txs, function(a_transaction,callcall){
           sails.controllers.transaction.add_from_blockChain(a_transaction,callcall);
           },
@@ -88,6 +92,33 @@ sails.controllers.public_key.get_pks_blockchain_info(pk_arr,cb);
               return cb(null,{success:true});
              });
     });
+  },
+
+  get_current_balanace:function(txs,key){
+  var amount = 0;
+  console.log(key)
+  console.log(',,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,')
+  for (var i=0; i<txs; i++){
+    
+    for (var j=0; j<txs[i].recipients.length ; j++)
+    {
+      if (txs[i].recipients[j].publicKey==key) 
+        { 
+          amount = amount+credits[i].recipients[j].amount;
+        }
+    }
+
+    for (j=0; j<txs.senders.length ; j++)
+    {
+      if (txs[i].senders[j].publicKey==key)
+      {
+        amount = amount-txs[i].senders[j].amount;    
+      }
+    }
+  }
+  
+  return amount;
+
   },
 
 

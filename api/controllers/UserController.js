@@ -234,23 +234,17 @@ async.waterfall([
 				}
 		}
 	}
-	console.log('huhhhhh')
-	console.log(amount)
-
+	
 	for ( i=0; i<debits.length; i++)
 	{
 		for ( j=0; j<debits[i].senders.length ; j++)
 		{
 		if (debits[i].senders[j].publicKey==key) 
 				{	
-					console.log(amount)
 					amount = amount-debits[i].senders[j].amount;
 				}
 		}		
 	}
-
-	console.log('hih asgdasrg')
-	console.log(amount)
 	return amount;
 
 	},

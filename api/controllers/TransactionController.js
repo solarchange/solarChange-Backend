@@ -21,7 +21,6 @@ module.exports = {
   },
   function(err){
     if (err) return res.send(500,{error:err});
-    console.log('OK OK OK OK OK OK')
     return res.send(200);
   });
   //var recipients = JSON.parse(req.body.recipients);
@@ -132,6 +131,8 @@ module.exports = {
     });
 
   },
+
+ 
 
   get_request_populated_transaction:function(id,cb){
     Transaction.findOne({id:id}).populate('trequest').exec(function(err, found){
