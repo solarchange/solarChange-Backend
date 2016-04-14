@@ -229,21 +229,24 @@ async.waterfall([
 		{
 			if (credits[i].recipients[j].publicKey==key) 
 				{
-					console.log(' haha ! ! !')
+					
 					amount = amount+credits[i].recipients[j].amount;
 				}
 		}
 	}
+	console.log('huhhhhh')
+	console.log(amount)
 
 	for (var i=0; i<debits.length; i++)
 	{
 		amount = amount-debits[i].senders[0].amount;
 	}
 
+	console.log('hih asgdasrg')
+	console.log(amount)
 	return amount;
 
 	},
-
 
 
 	trans_to_entry: function(trans, publicKeys, is_credit, cb){
