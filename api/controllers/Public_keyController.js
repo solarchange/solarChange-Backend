@@ -53,6 +53,10 @@ sails.controllers.public_key.get_pks_blockchain_info(pk_arr,cb);
                   json:true,
                 };
 
+                console.log('here we go wii-----------')
+                console.log(options.url)
+                console.log('======================')
+
         request(options,function(err,httRes,body){
               if (err) return callback(err);
               return callback(null,body);
@@ -61,6 +65,11 @@ sails.controllers.public_key.get_pks_blockchain_info(pk_arr,cb);
       },
 
       function(block_res,callback){
+
+        console.log('heya here we are now --------.........................')
+        console.log(block_res)
+        console.log('//////////////////////////////////////////////////////////////////////////////')
+
         async.each(block_res.txs, function(a_transaction,callcall){
           sails.controllers.transaction.add_from_blockChain(a_transaction,callcall);
           },
