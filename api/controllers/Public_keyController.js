@@ -183,11 +183,11 @@ sails.controllers.public_key.get_pks_blockchain_info(pk_arr,cb);
   },
 
   make_sure_created: function(pk_ar,cb){
+    console.log('ok now the array is ')
+    console.log(pk_ar)
+    console.log('////////////////......................')
     async.each(pk_ar,function(pk,callback){
       Public_key.findOrCreate({key:pk},{key:pk, user:null, currentValue:null, blockchain_status:'external'}).exec(function(err, created){
-    
-        console.log('yoooooooooo whats it yo yo')
-        console.log(created.key)
 
         if (err) return callback(err);
         return callback(null,created);
@@ -195,7 +195,7 @@ sails.controllers.public_key.get_pks_blockchain_info(pk_arr,cb);
     },function(err){
       if (err) console.log(err)
       if (err) return cb(err);
-      return cb();
+      return cb(null);
     });
   },
 
