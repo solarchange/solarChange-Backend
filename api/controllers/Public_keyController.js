@@ -186,6 +186,9 @@ sails.controllers.public_key.get_pks_blockchain_info(pk_arr,cb);
     console.log('ok now the array is ')
     console.log(pk_ar)
     console.log('////////////////......................')
+
+    pk_ar = _.uniq(pk_ar);
+
     async.each(pk_ar,function(pk,callback){
       Public_key.findOrCreate({key:pk},{key:pk, user:null, currentValue:null, blockchain_status:'external'}).exec(function(err, created){
 
