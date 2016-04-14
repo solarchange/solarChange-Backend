@@ -142,7 +142,7 @@ async.waterfall([
 					if (err) return cb(err);
 
 					for (var i=0; i<pks.length ; i++){
-						var huh = sails.controllers.user.get_current_balanace(results.debits, results.credits, pks[i]);
+						var huh = sails.controllers.user.get_current_balanace(results.debits, results.credits, pks[i].key);
 						console.log('fuckin fuck fukci 000000000000000000000000000000')
 						console.log(huh)
 						console.log('=========================================')
