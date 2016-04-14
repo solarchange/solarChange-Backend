@@ -232,6 +232,8 @@ async.waterfall([
 					
 					amount = amount+credits[i].recipients[j].amount;
 				}
+				else
+					console.log ('asdhfaskhdgzdbfhjdfhklsvabfsgafhsdghksvbfkfgksbk√≈ vk')
 		}
 	}
 	console.log('huhhhhh')
