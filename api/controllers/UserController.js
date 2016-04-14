@@ -160,6 +160,8 @@ async.waterfall([
 
 								function(err){
 									if (err) return callback(err);
+									console.log('==========____________________________')
+									console.log(credit_arr)
 									return callback(null, credit_arr);
 								});
 						},
@@ -177,6 +179,8 @@ async.waterfall([
 
 								function(err){
 									if (err) return callback(err);
+									console.log('------------------00000000000000000000000000000')
+									console.log('debit_arr')
 									return callback(null, debit_arr);
 								});
 						},
@@ -184,6 +188,7 @@ async.waterfall([
 					},
 
 						function(err, results){
+							console.log('here i am before thee EROORORORORORORORORORO')
 							if (err) return cb(err);
 							var trans_arr = results.credits.concat(results.debits);
 							console.log('=======================================')
@@ -218,7 +223,6 @@ async.waterfall([
 	trans_to_entry: function(trans, publicKeys, is_credit, cb){
 	
 		console.log('..............................................................')
-		console.log(trans)
 		console.log('xxxzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzz')
 		var pks =[];
 
