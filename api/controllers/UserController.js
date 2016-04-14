@@ -163,6 +163,8 @@ async.waterfall([
 							},
 
 								function(err){
+									console.log('THE ERroooo is ---')
+									console.log(err)
 									if (err) return callback(err);
 									console.log('==========____________________________')
 									console.log(credit_arr)
@@ -193,6 +195,7 @@ async.waterfall([
 
 						function(err, results){
 							console.log('here i am before thee EROORORORORORORORORORO')
+							console.log(err)
 							if (err) return cb(err);
 							var trans_arr = results.credits.concat(results.debits);
 							console.log('=======================================')
