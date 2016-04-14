@@ -223,9 +223,15 @@ async.waterfall([
 	var amount = 0;
 
 	for (var i=0; i<credits.length; i++){
+		console.log('...........')
+		console.log(credits)
 		for (var j=0; j<credits[i].recipients.length ; j++)
 		{
-			if (credits[i].recipients[j].publicKey==key) amount = amount+credits[i].recipients[j].amount;
+			if (credits[i].recipients[j].publicKey==key) 
+				{
+					console.log(' haha ! ! !')
+					amount = amount+credits[i].recipients[j].amount;
+				}
 		}
 	}
 
