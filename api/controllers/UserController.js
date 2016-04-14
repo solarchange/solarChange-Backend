@@ -227,7 +227,7 @@ async.waterfall([
 			var amount_counter=0;
 			for (i=0; i<trans.recipients.length ; i++)
 			{
-				if(pks.indexOf(trans.recipients[i].publicKey)>=0 /*&& (trans.recipients[i].publicKey!=trans.senders[0].publicKey) */)
+				if(pks.indexOf(trans.recipients[i].publicKey)>=0 /*&& (trans.recipients[i].publicKey!=trans.senders[0].publicKey)*/)
 				{
 					amount_counter+=trans.recipients[i].amount;
 				}
@@ -267,13 +267,13 @@ async.waterfall([
 		}
 		else // THIS IS FOR DEBIT TRANSAC
 		{
-			//if (pks.indexOf(trans.senders[0].publicKey)<0) return cb(null,[]);
+			if (pks.indexOf(trans.senders[0].publicKey)<0) return cb(null,[]);
 
 			var entry_arr = [];
 
 			async.each(trans.recipients, function(recipient, callback){
 
-				if (recipient.publicKey == trans.senders[0].publicKey) return callback(null);
+				//if (recipient.publicKey == trans.senders[0].publicKey) return callback(null);
 
 				var cally = function(err,found){	
 					if (err) return callback(err);

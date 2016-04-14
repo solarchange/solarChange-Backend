@@ -17,7 +17,7 @@ module.exports = {
 send_confirmation_mail:function(to,token){
 
 var email_body = 'Thank you for signing up to SolarChange. <br /> By Joining SolarChange, you are promoting the world towards a more sustainable future! <br/><br/> '+
-'<b> To activate your account, please click on the link below:</b> <br/> http://52.27.201.224/html/#/activate/'+token;+'<br/><br/>'+
+'<b> To activate your account, please click on the link below:</b> <br/> http://staging.solarchange.co/#/activate/'+token;+'<br/><br/>'+
 'Thank you for being part of the solar revolution,<br/>'+
 'The SolarChange team<br/>----<br/>Please do not reply to this email, we will be happy to hear from you here: www.solarchange.co';
 
