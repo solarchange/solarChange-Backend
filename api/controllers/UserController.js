@@ -152,9 +152,6 @@ async.waterfall([
 							async.each(transactions.credits,function(trans,cally){
 								var callcall = function(err,arr){
 									if (err) return cally(err);
-
-									console.log('adding to the credit')
-									console.log(arr)
 									credit_arr = credit_arr.concat(arr);
 
 									cally(null);
@@ -163,11 +160,7 @@ async.waterfall([
 							},
 
 								function(err){
-									console.log('THE ERroooo is ---')
-									console.log(err)
 									if (err) return callback(err);
-									console.log('==========____________________________')
-									console.log(credit_arr)
 									return callback(null, credit_arr);
 								});
 						},
@@ -185,8 +178,6 @@ async.waterfall([
 
 								function(err){
 									if (err) return callback(err);
-									console.log('------------------00000000000000000000000000000')
-									console.log(debit_arr)
 									return callback(null, debit_arr);
 								});
 						},
@@ -194,13 +185,8 @@ async.waterfall([
 					},
 
 						function(err, results){
-							console.log('here i am before thee EROORORORORORORORORORO')
-							console.log(err)
 							if (err) return cb(err);
 							var trans_arr = results.credits.concat(results.debits);
-							console.log('=======================================')
-							console.log(trans_arr)
-							console.log('--------------------------------------------------')
 							return cb(null,trans_arr);
 						});
 			},
