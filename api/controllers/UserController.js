@@ -140,6 +140,13 @@ async.waterfall([
 				},
 					function(err,results){
 					if (err) return cb(err);
+
+					for (var i=0; i<pks.length ; i++){
+						var huh = sails.controllers.user.get_current_balanace(results.debits, results.credits, pks[i]);
+						console.log('fuckin fuck fukci 000000000000000000000000000000')
+						console.log(huh)
+						console.log('=========================================')
+					}
 					return cb(null,pks,results);	
 				});
 			},
@@ -208,6 +215,26 @@ async.waterfall([
 
 				return res.json(trans_arr);
 		});
+
+	},
+
+
+	get_current_balanace:function(debits,credits, key){
+	var amount = 0;
+
+	for (var i=0; i<credits.length; i++){
+		for (var j=0; j<credits[i].recipients.length ; j++)
+		{
+			if (credits[i].recipients[j].publicKey==key) amount = amount+credits[i].recipients[j].amount;
+		}
+	}
+
+	for (var i=0; i<debits.length; i++)
+	{
+		amount = amount-debits[i].senders[0].amount;
+	}
+
+	return amount;
 
 	},
 
