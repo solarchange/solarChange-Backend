@@ -227,7 +227,7 @@ async.waterfall([
 			var amount_counter=0;
 			for (i=0; i<trans.recipients.length ; i++)
 			{
-				if(pks.indexOf(trans.recipients[i].publicKey)>=0 && (trans.recipients[i].publicKey!=trans.senders[0].publicKey))
+				if(pks.indexOf(trans.recipients[i].publicKey)>=0 /*&& (trans.recipients[i].publicKey!=trans.senders[0].publicKey) */)
 				{
 					amount_counter+=trans.recipients[i].amount;
 				}
