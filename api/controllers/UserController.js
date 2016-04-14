@@ -224,7 +224,6 @@ async.waterfall([
 
 	for (var i=0; i<credits.length; i++){
 		console.log('...........')
-		console.log(credits)
 		for (var j=0; j<credits[i].recipients.length ; j++)
 		{
 			if (credits[i].recipients[j].publicKey==key) 
