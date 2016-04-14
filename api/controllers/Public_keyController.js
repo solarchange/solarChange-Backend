@@ -118,7 +118,7 @@ sails.controllers.public_key.get_pks_blockchain_info(pk_arr,cb);
             if (err) return cb(err);
             return cb(null,created,success);
           };
-         sails.controllers.public_key.get_blockchain_history(created.key,callback);
+         sails.controllers.public_key.get_blockchain_history([created.key],callback);
       },
 
       function(created, success, cb){
@@ -161,7 +161,7 @@ sails.controllers.public_key.get_pks_blockchain_info(pk_arr,cb);
                 if (err) return callback(err);
                 return callback(null,key_object)
               };
-              sails.controllers.public_key.get_blockchain_history(updated.key, cally);
+              sails.controllers.public_key.get_blockchain_history([updated.key], cally);
               }
               ],
               function(err,the_key){
