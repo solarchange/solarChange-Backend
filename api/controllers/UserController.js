@@ -152,7 +152,11 @@ async.waterfall([
 							async.each(transactions.credits,function(trans,cally){
 								var callcall = function(err,arr){
 									if (err) return cally(err);
+
+									console.log('adding to the credit')
+									console.log(arr)
 									credit_arr = credit_arr.concat(arr);
+
 									cally(null);
 								};
 								sails.controllers.user.trans_to_entry(trans,pks,true,callcall);
@@ -180,7 +184,7 @@ async.waterfall([
 								function(err){
 									if (err) return callback(err);
 									console.log('------------------00000000000000000000000000000')
-									console.log('debit_arr')
+									console.log(debit_arr)
 									return callback(null, debit_arr);
 								});
 						},
@@ -222,8 +226,8 @@ async.waterfall([
 
 	trans_to_entry: function(trans, publicKeys, is_credit, cb){
 	
-		console.log('..............................................................')
-		console.log('xxxzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzz')
+
+
 		var pks =[];
 
 		for (var i=0 ; i<publicKeys.length ; i++)
@@ -255,6 +259,7 @@ async.waterfall([
 					sails.controllers.trequest.get_populated_with_user(trans.trequest.id,'debit',callback);
 				}
 				else{
+					console.log('heya wHA da f')
 					return cb(null,[{date:trans.blockChainConfirmed, amount:amount_counter, from_to:trans.senders[0].publicKey}]);
 				}
 			}
