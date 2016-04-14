@@ -146,7 +146,7 @@ sails.controllers.public_key.get_pks_blockchain_info(pk_arr,cb);
       },
 
       function(key_object,callback){
-            if (updated.blockchain_status=='unconfirmed'){
+            if (key_object.blockchain_status=='unconfirmed'){
             async.waterfall([
               function(callcall){
               var cally = function(err,success){
