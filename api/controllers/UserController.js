@@ -186,6 +186,9 @@ async.waterfall([
 						function(err, results){
 							if (err) return cb(err);
 							var trans_arr = results.credits.concat(results.debits);
+							console.log('=======================================')
+							console.log(trans_arr)
+							console.log('--------------------------------------------------')
 							return cb(null,trans_arr);
 						});
 			},
