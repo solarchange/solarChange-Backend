@@ -89,6 +89,9 @@ module.exports = {
 
       function(found,nu_to,nu_from,cb){
 
+        nu_to=_.uniq(nu_to);
+        nu_from=_.uniq(nu_from);
+
         if (found){
           Transaction.update({hash:hash},{recipients:recipients, senders:senders, blockChainConfirmed: date, to:nu_to, from:nu_from}).exec(function(err,updated){
             if (err) return cb(err);
