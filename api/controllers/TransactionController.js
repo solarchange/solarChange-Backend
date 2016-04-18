@@ -1,4 +1,4 @@
-/**
+  /**
  * TransactionController
  *
  * @description :: Server-side logic for managing transactions
@@ -27,6 +27,8 @@ module.exports = {
   //var senders = JSON.parse(req.body.senders);
    //sails.controllers.transaction.add_from_blockChain(req.body.hash, req.body.date, senders, recipients, callback);
   },
+
+  
 
 
   add_from_blockChain: function(the_transaction, callback){

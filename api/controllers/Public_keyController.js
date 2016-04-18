@@ -45,7 +45,10 @@ sails.controllers.public_key.get_pks_blockchain_info(pk_arr,cb);
           way = way+pks[i];
         }
 
-     
+      console.log('a;jksdhfkdjsfbjczxbhjkbcxm,cxgfbhj,dfgbkk,')
+      console.log('whaaaaaaaaaaaaat ----------------------------------')
+
+
         var options = {
                   url:sails.config.blockChainUnit.url+way,
                   headers: {Authorization: 'Basic '+authHeader},
