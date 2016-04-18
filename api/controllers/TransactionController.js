@@ -47,10 +47,10 @@ module.exports = {
     var pks = [];
 
     for (var i =0 ; i<txs.length ; i++){
-      for (var j = 0 ; j<txs[i].recipients ; j++){
+      for (var j = 0 ; j<txs[i].recipients.length ; j++){
         pks.push(txs[i].recipients[j].publicKey);
       }
-      for (j = 0 ; j<txs[i].senders ; j++){
+      for (j = 0 ; j<txs[i].senders.length ; j++){
         pks.push(txs[i].senders[j].publicKey);
       }
     }
