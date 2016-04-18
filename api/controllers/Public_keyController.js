@@ -147,7 +147,7 @@ sails.controllers.public_key.get_pks_blockchain_info(pk_arr,cb);
   console.log('the debit is ')
   console.log(deb)
   console.log('....................................')
-  console('credit is')
+  console.log('credit is')
   console.log(cred)
   console.log('-------------------------------------')
 
