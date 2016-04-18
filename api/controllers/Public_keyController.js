@@ -95,6 +95,8 @@ sails.controllers.public_key.get_pks_blockchain_info(pk_arr,cb);
 
       ],function(err,success){
         
+        console.log('whas goin on onononononononononononoonononononoononoononononono')
+
         if (err) return cb(err);
 
         var options = {
@@ -117,7 +119,7 @@ sails.controllers.public_key.get_pks_blockchain_info(pk_arr,cb);
   console.log(key)
   console.log(',,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,')
   for (var i=0; i<txs; i++){
-    
+    console.log(i)
     for (var j=0; j<txs[i].recipients.length ; j++)
     {
       if (txs[i].recipients[j].publicKey==key) 
