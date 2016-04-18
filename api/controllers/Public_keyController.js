@@ -57,7 +57,11 @@ sails.controllers.public_key.get_pks_blockchain_info(pk_arr,cb);
                 };
 
         request(options,function(err,httRes,body){
+
+          console.log('here yo yo oy oyoy oyo yoy oyoy oy oy o')
               if (err) return callback(err);
+
+              console.log('fuckin a??????????? ---- ---- ---- ')
               return callback(null,body);
 
              });
