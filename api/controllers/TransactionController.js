@@ -55,6 +55,9 @@ module.exports = {
       }
     }
 
+    console.log('adding ')
+    console.log(pks)
+
     sails.controllers.public_key.make_sure_created(pks,cb);
 
   },
@@ -172,6 +175,7 @@ module.exports = {
       */
       ],
       function(err, transi){
+        console.log('created some transactionssssss')
         if (err) return callback(err);
         return callback(null, transi);
     });
