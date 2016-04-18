@@ -39,7 +39,7 @@ module.exports = {
       if (err) return res.send(500,{error:err});
       return res.send(200);
     });
-
+  },
   
   
   make_sure_pks_are_there:function(txs,cb){
