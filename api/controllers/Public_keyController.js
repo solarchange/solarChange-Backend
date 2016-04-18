@@ -242,20 +242,24 @@ sails.controllers.public_key.get_pks_blockchain_info(pk_arr,cb);
   make_sure_created: function(pk_ar,cb){
 
     pk_ar = _.uniq(pk_ar);
+    console.log('============================')
+    console.log(pk_ar);
 
     async.each(pk_ar,function(pk,callback){
       Public_key.findOrCreate({key:pk},{key:pk, user:null, currentValue:null, blockchain_status:'external'}).exec(function(err, created){
 
-        console.log('what is going on ')
-        console.log(pk)
-        console.log('++++++++++++++++++++++++')
+        //console.log('what is going on ')
+        //console.log(pk)
+        //console.log('++++++++++++++++++++++++')
 
         if (err) return callback(err);
         return callback(null,created);
       });
     },function(err){
+      console.log('here we are you fuck fuck')
       if (err) console.log(err)
       if (err) return cb(err);
+
       return cb(null);
     });
   },
