@@ -127,7 +127,7 @@ sails.controllers.public_key.get_pks_blockchain_info(pk_arr,cb);
     {
       if (txs[i].recipients[j].publicKey==key) 
         { 
-          amount = amount+tx[i].recipients[j].amount;
+          amount = amount+txs[i].recipients[j].amount;
         }
     }
 
