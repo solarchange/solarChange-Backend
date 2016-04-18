@@ -71,6 +71,10 @@ sails.controllers.public_key.get_pks_blockchain_info(pk_arr,cb);
 
         console.log('...........................')
         console.log('THE BALANCE NOW IS ')
+        console.log(block_res)
+
+        console.log('jjjjjjj')
+        console.log('whaaaaaauuuuuuuuuuuuu')
         console.log(sails.controllers.public_key.get_current_balanace(block_res.txs,pks[0]))
         console.log('...........................')
         // as;ghalsiuhsdfghjkdfsghjkdzfghjkdfgsbjdfzkhjbdfkzdvkbhdshkjbdf
