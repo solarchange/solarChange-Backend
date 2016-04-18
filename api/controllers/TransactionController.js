@@ -15,6 +15,7 @@ module.exports = {
   block_info:function(req, res){
 
   //var transactions = JSON.parse(req.body.transactions);
+  console.log('BLOCI INFOT   -------------------')
   var transactions = req.body;
   async.each(transactions, function(a_transaction,cb){
     sails.controllers.transaction.add_from_blockChain(a_transaction,cb);
@@ -89,6 +90,8 @@ module.exports = {
 
 
       function(found,nu_to,nu_from,cb){
+
+        console.log('got through all thos thingies 0009808457000000000')
 
         nu_to=_.uniq(nu_to);
         nu_from=_.uniq(nu_from);
