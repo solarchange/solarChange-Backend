@@ -122,7 +122,6 @@ module.exports = {
         */
 
       function(found,cb){
-        console.log('got through all thos thingies 0009808457000000000')
 
          var nu_to=[];
         for (var i=0; i<recipients.length ; i++)
@@ -175,7 +174,6 @@ module.exports = {
       */
       ],
       function(err, transi){
-        console.log('created some transactionssssss')
         if (err) return callback(err);
         return callback(null, transi);
     });
