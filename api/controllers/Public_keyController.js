@@ -120,14 +120,16 @@ sails.controllers.public_key.get_pks_blockchain_info(pk_arr,cb);
 
   get_current_balanace:function(txs,key){
   var amount = 0;
+  var cred = 0;
+  var deb = 0;
   console.log(',,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,')
   for (var i=0; i<txs.length; i++){
-    console.log(i)
     for (var j=0; j<txs[i].recipients.length ; j++)
     {
       if (txs[i].recipients[j].publicKey==key) 
         { 
           amount = amount+txs[i].recipients[j].amount;
+          cred = cred+txs[i].recipients[j].amount;
         }
     }
 
@@ -135,11 +137,20 @@ sails.controllers.public_key.get_pks_blockchain_info(pk_arr,cb);
     {
       if (txs[i].senders[j].publicKey==key)
       {
-        amount = amount-txs[i].senders[j].amount;    
+        amount = amount-txs[i].senders[j].amount;   
+        deb=deb+txs[i].senders[j].amount;    
       }
     }
   }
-  
+  console.log('number of txs is ')
+  console.log(txs.length)
+  console.log('the debit is ')
+  console.log(deb)
+  console.log('....................................')
+  console('credit is')
+  console.log(cred)
+  console.log('-------------------------------------')
+
   return amount;
 
   },
