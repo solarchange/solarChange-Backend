@@ -131,7 +131,7 @@ sails.controllers.public_key.get_pks_blockchain_info(pk_arr,cb);
         }
     }
 
-    for (j=0; j<txs.senders.length ; j++)
+    for (j=0; j<txs[i].senders.length ; j++)
     {
       if (txs[i].senders[j].publicKey==key)
       {
