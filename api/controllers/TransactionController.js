@@ -17,20 +17,54 @@ module.exports = {
   //var transactions = JSON.parse(req.body.transactions);
   console.log('BLOCI INFOT   -------------------')
   var transactions = req.body;
-  async.each(transactions, function(a_transaction,cb){
-    sails.controllers.transaction.add_from_blockChain(a_transaction,cb);
-  },
-  function(err){
-    if (err) return res.send(500,{error:err});
-    return res.send(200);
-  });
-  //var recipients = JSON.parse(req.body.recipients);
-  //var senders = JSON.parse(req.body.senders);
-   //sails.controllers.transaction.add_from_blockChain(req.body.hash, req.body.date, senders, recipients, callback);
-  },
+
+  async.waterfall([
+        function(cb){
+          sails.controllers.transaction.make_sure_pks_are_there(transactions,cb);
+        },
+
+        function(cb){
+
+          async.each(transactions, function(a_transaction,cb){
+            sails.controllers.transaction.add_from_blockChain(a_transaction,cb);
+          },
+          function(err){
+            if (err) return cb(err);
+            return cb(null,{ok:true});
+            
+          });
+          //var recipients = JSON.parse(req.body.recipients);
+          //var senders = JSON.parse(req.body.senders);
+           //sails.controllers.transaction.add_from_blockChain(req.body.hash, req.body.date, senders, recipients, callback);
+          },
+
+        }
+
+    ],
+
+    function(err, results){
+      if (err) return res.send(500,{error:err});
+      return res.send(200);
+    });
 
   
+  
+  make_sure_pks_are_there:function(txs,cb){
+    
+    var pks = [];
 
+    for (var i =0 ; i<txs.length ; i++){
+      for (var j = 0 ; j<txs[i].recipients ; j++){
+        pks.push(txs[i].recipients[j].publicKey);
+      }
+      for (j = 0 ; j<txs[i].senders ; j++){
+        pks.push(txs[i].senders[j].publicKey);
+      }
+    }
+
+    sails.controllers.public_key.make_sure_created(pks,cb);
+
+  },
 
   add_from_blockChain: function(the_transaction, callback){
     var hash = the_transaction.hash;
@@ -58,7 +92,6 @@ module.exports = {
           return cb(null,created);
         });
       },
-      */
 
       function(found, cb){
         var nu_to=[];
@@ -66,6 +99,8 @@ module.exports = {
         {
           nu_to.push(recipients[i].publicKey);
         }
+
+
         var cally=function(err){
           if (err) return cb(err);
           return cb(null,found,nu_to);
@@ -87,11 +122,24 @@ module.exports = {
         }; 
         sails.controllers.public_key.make_sure_created(nu_from,cally);
       },
+      //function(found,nu_to,nu_from,cb){
+        */
 
-
-      function(found,nu_to,nu_from,cb){
-
+      function(found,cb){
         console.log('got through all thos thingies 0009808457000000000')
+
+         var nu_to=[];
+        for (var i=0; i<recipients.length ; i++)
+        {
+          nu_to.push(recipients[i].publicKey);
+        }
+
+        var nu_from=[];
+
+        for (var i=0; i<senders.length ; i++)
+        {
+          nu_from.push(senders[i].publicKey);
+        }
 
         nu_to=_.uniq(nu_to);
         nu_from=_.uniq(nu_from);
