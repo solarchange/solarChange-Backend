@@ -24,7 +24,6 @@ module.exports = {
         },
 
         function(cb){
-
           async.each(transactions, function(a_transaction,cb){
             sails.controllers.transaction.add_from_blockChain(a_transaction,cb);
           },
@@ -33,13 +32,7 @@ module.exports = {
             return cb(null,{ok:true});
             
           });
-          //var recipients = JSON.parse(req.body.recipients);
-          //var senders = JSON.parse(req.body.senders);
-           //sails.controllers.transaction.add_from_blockChain(req.body.hash, req.body.date, senders, recipients, callback);
-          },
-
-        }
-
+         },
     ],
 
     function(err, results){
