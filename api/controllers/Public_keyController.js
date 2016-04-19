@@ -116,14 +116,6 @@ sails.controllers.public_key.get_pks_blockchain_info(pk_arr,cb);
       }
     }
   }
-  console.log('number of txs is ')
-  console.log(txs.length)
-  console.log('the debit is ')
-  console.log(deb)
-  console.log('....................................')
-  console.log('credit is')
-  console.log(cred)
-  console.log('-------------------------------------')
 
   return amount;
 

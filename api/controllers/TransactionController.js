@@ -138,6 +138,11 @@ module.exports = {
         nu_to=_.uniq(nu_to);
         nu_from=_.uniq(nu_from);
 
+        console.log('...................................................')
+        console.log(nu_to)
+        console.log(nu_from)
+        console.log(',,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,')
+
         if (found){
           Transaction.update({hash:hash},{recipients:recipients, senders:senders, blockChainConfirmed: date, to:nu_to, from:nu_from}).exec(function(err,updated){
             if (err) return cb(err);
