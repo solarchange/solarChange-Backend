@@ -55,9 +55,6 @@ module.exports = {
       }
     }
 
-    console.log('adding ')
-    console.log(pks)
-
     sails.controllers.public_key.make_sure_created(pks,cb);
 
   },
@@ -147,6 +144,9 @@ module.exports = {
         }
         else{
           Transaction.create({hash:hash,recipients:recipients, senders:senders, blockChainConfirmed: date, to:nu_to, from:nu_from}).exec(function(err, created){
+            console.log('i am here')
+            console.log(err)
+            console.log('--------------------------')
             if (err) return cb(err);
             return cb(null, created,nu_to,nu_from);
           });

@@ -58,10 +58,7 @@ sails.controllers.public_key.get_pks_blockchain_info(pk_arr,cb);
 
         request(options,function(err,httRes,body){
 
-          console.log('here yo yo oy oyoy oyo yoy oyoy oy oy o')
               if (err) return callback(err);
-
-              console.log('fuckin a??????????? ---- ---- ---- ')
               return callback(null,body);
 
              });
@@ -69,24 +66,6 @@ sails.controllers.public_key.get_pks_blockchain_info(pk_arr,cb);
 
       function(block_res,callback){
 
-        console.log('...........................')
-        console.log('THE BALANCE NOW IS ')
-       // console.log(block_res.txs)
-
-        console.log('jjjjjjj')
-        console.log('whaaaaaauuuuuuuuuuuuu')
-        console.log(sails.controllers.public_key.get_current_balanace(block_res.txs,pks[0]))
-        console.log('...........................')
-        // as;ghalsiuhsdfghjkdfsghjkdzfghjkdfgsbjdfzkhjbdfkzdvkbhdshkjbdf
-        // this is you
-        //angry
-        //AAAAHHHHHHHH
-        //very angry
-        //
-        //
-        //
-        //
-        //asdgiofuha
         
         async.each(block_res.txs, function(a_transaction,callcall){
           sails.controllers.transaction.add_from_blockChain(a_transaction,callcall);
@@ -122,7 +101,6 @@ sails.controllers.public_key.get_pks_blockchain_info(pk_arr,cb);
   var amount = 0;
   var cred = 0;
   var deb = 0;
-  console.log(',,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,')
   for (var i=0; i<txs.length; i++){
     for (var j=0; j<txs[i].recipients.length ; j++)
     {
