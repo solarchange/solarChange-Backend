@@ -98,10 +98,12 @@ sails.controllers.public_key.get_pks_blockchain_info(pk_arr,cb);
   var cred = 0;
   var deb = 0;
   for (var i=0; i<txs.length; i++){
+    var inside_it = false
     for (var j=0; j<txs[i].recipients.length ; j++)
     {
       if (txs[i].recipients[j].publicKey==key) 
         { 
+          inside_it = true;
           amount = amount+txs[i].recipients[j].amount;
           cred = cred+txs[i].recipients[j].amount;
         }
@@ -111,10 +113,13 @@ sails.controllers.public_key.get_pks_blockchain_info(pk_arr,cb);
     {
       if (txs[i].senders[j].publicKey==key)
       {
+        inside_it = true;
         amount = amount-txs[i].senders[j].amount;   
         deb=deb+txs[i].senders[j].amount;    
       }
     }
+
+    if (!inside_it) console.log('WIIIIIIIWOOOOOOO NOT INSIDE THE TRANSACTioN YO YO YO YO YO YO YO YO OY YOY OY OYO YO YOY ')
   }
 
   return amount;
