@@ -45,10 +45,6 @@ sails.controllers.public_key.get_pks_blockchain_info(pk_arr,cb);
           way = way+pks[i];
         }
 
-      console.log('a;jksdhfkdjsfbjczxbhjkbcxm,cxgfbhj,dfgbkk,')
-      console.log('whaaaaaaaaaaaaat ----------------------------------')
-
-
         var options = {
                   url:sails.config.blockChainUnit.url+way,
                   headers: {Authorization: 'Basic '+authHeader},
@@ -220,7 +216,7 @@ sails.controllers.public_key.get_pks_blockchain_info(pk_arr,cb);
   make_sure_created: function(pk_ar,cb){
 
     pk_ar = _.uniq(pk_ar);
-    console.log('============================')
+
     //console.log(pk_ar);
 
     async.each(pk_ar,function(pk,callback){
@@ -230,7 +226,6 @@ sails.controllers.public_key.get_pks_blockchain_info(pk_arr,cb);
         return callback(null,created);
       });
     },function(err){
-      console.log('here we are you fuck fuck')
       if (err) console.log(err)
       if (err) return cb(err);
 

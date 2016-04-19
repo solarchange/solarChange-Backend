@@ -15,7 +15,6 @@ module.exports = {
   block_info:function(req, res){
 
   //var transactions = JSON.parse(req.body.transactions);
-  console.log('BLOCI INFOT   -------------------')
   var transactions = req.body;
 
   async.waterfall([
@@ -55,6 +54,9 @@ module.exports = {
       }
     }
 
+    console.log('----------------==========================')
+    console.log(pks)
+    console.log('//////////////////////////////////////////')
     sails.controllers.public_key.make_sure_created(pks,cb);
 
   },
@@ -228,6 +230,7 @@ blockChain_input: function(req, res){
 destroy_transactions: function(req, res){
    Transaction.destroy({to:{'!':'joe'}}).exec(function deleteCB(err){
   console.log('The record has been deleted');
+  return res.json('wooooo wiiiiii')
    });
 },
 
