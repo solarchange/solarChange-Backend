@@ -49,8 +49,8 @@ module.exports = {
       for (var j = 0 ; j<txs[i].recipients.length ; j++){
         pks.push(txs[i].recipients[j].publicKey);
       }
-      for (j = 0 ; j<txs[i].senders.length ; j++){
-        pks.push(txs[i].senders[j].publicKey);
+      for (var k = 0 ; k<txs[i].senders.length ; k++){
+        pks.push(txs[i].senders[k].publicKey);
       }
     }
 
@@ -139,10 +139,10 @@ module.exports = {
         nu_to=_.uniq(nu_to);
         nu_from=_.uniq(nu_from);
 
-        console.log('...................................................')
-        console.log(nu_to)
-        console.log(nu_from)
-        console.log(',,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,')
+        // console.log('...................................................')
+        // console.log(nu_to)
+        // console.log(nu_from)
+        // console.log(',,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,')
 
         if (found){
           Transaction.update({hash:hash},{recipients:recipients, senders:senders, blockChainConfirmed: date, to:nu_to, from:nu_from}).exec(function(err,updated){
@@ -152,9 +152,13 @@ module.exports = {
         }
         else{
           Transaction.create({hash:hash,recipients:recipients, senders:senders, blockChainConfirmed: date, to:nu_to, from:nu_from}).exec(function(err, created){
-            console.log('i am here')
+            //console.log('i am here')
+           // console.log(err)
+           // console.log('--------------------------')
+           if (err) {
+            console.log('hmmmmmmmmmmm----------------------------------------------')
             console.log(err)
-            console.log('--------------------------')
+          }
             if (err) return cb(err);
             return cb(null, created,nu_to,nu_from);
           });

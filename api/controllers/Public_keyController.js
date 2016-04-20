@@ -60,9 +60,24 @@ sails.controllers.public_key.get_pks_blockchain_info(pk_arr,cb);
              });
       },
 
+
+      function(block_res,callback){
+        var cally = function(err){
+          if (err) return callback(err);
+          return callback(null,block_res);
+        };
+        sails.controllers.transaction.make_sure_pks_are_there(block_res.txs,cally);
+
+      },
+
+
       function(block_res,callback){
 
-        
+        console.log('////////////////////////////////////////////////////////')
+        var bla = sails.controllers.public_key.get_current_balanace(block_res.txs, pks[0])
+        console.log(bla)
+        console.log('.........................................................')
+
         async.each(block_res.txs, function(a_transaction,callcall){
           sails.controllers.transaction.add_from_blockChain(a_transaction,callcall);
           },
