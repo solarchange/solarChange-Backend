@@ -153,9 +153,11 @@ async.waterfall([
 
 			function(pks, transactions, cb){
 
+				/*
 				console.log('gonna do it with keys')
 				console.log(pks.length)
 				console.log(pks[0].key)
+				*/
 					async.parallel({
 
 						credits:function(callback){
@@ -338,15 +340,8 @@ async.waterfall([
 					if (recipient_keys.indexOf(trans.recipients[j].publicKey)<0) recipient_keys.push(trans.recipients[j].publicKey);
 				}
 
-			console.log('yo yo yo')
-			console.log(recipient_keys)
-			console.log('....................')
-
 			if (recipient_keys.length==1 && trans.senders[0].publicKey==recipient_keys[0])
 			{
-
-				console.log('dis yo uuuuuuuuuuuuuuuuu')
-
 
 				var sender_keys=[];
 				for(j = 0; j<trans.senders.length ; j++)
