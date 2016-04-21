@@ -152,6 +152,10 @@ async.waterfall([
 			},
 
 			function(pks, transactions, cb){
+
+				console.log('gonna do it with keys')
+				console.log(pks.length)
+				console.log(pks[0].key)
 					async.parallel({
 
 						credits:function(callback){
@@ -262,16 +266,38 @@ async.waterfall([
 		if (is_credit) // THIS IS FOR CREDIT TRANSACTIONS
 		{
 			var amount_counter=0;
+			var recipient_keys = [];
+
 			for (i=0; i<trans.recipients.length ; i++)
 			{
+				if (recipient_keys.indexOf(trans.recipients[i].publicKey)<0) recipient_keys.push(trans.recipients[i].publicKey);
 				if(pks.indexOf(trans.recipients[i].publicKey)>=0 /*&& (trans.recipients[i].publicKey!=trans.senders[0].publicKey)*/)
 				{
 					amount_counter+=trans.recipients[i].amount;
 				}
 			}
 
+			//Check for staking 
+			if (recipient_keys.length===1)
+			{
+				var debit_amount = 0;
+				var sender_keys = [];
+				for(var j = 0; j<trans.senders.length ; j++)
+				{
+					if (sender_keys.indexOf(trans.senders[j].publicKey)<0)sender_keys.push(trans.senders[j].publicKey);
+					debit_amount = debit_amount + trans.senders[j].amount;
+				}
+
+				if (sender_keys.length==1 && recipient_keys[0]==trans.senders[0].publicKey)
+				{
+					// This means it's a case of staking (!)
+
+					return cb(null,[{date:trans.blockChainConfirmed, amount:(amount_counter-debit_amount), from_to:'staking'}]);
+				}
+			}
+
 			// this is to make sure it doesn't count transactions from a user's own public key to itself
-			if (amount_counter==0) return cb(null, []); 
+			// if (amount_counter==0) return cb(null, []); 
 
 			if (trans.trequest){
 				if (!trans.trequest.annonymous){
@@ -283,7 +309,6 @@ async.waterfall([
 					sails.controllers.trequest.get_populated_with_user(trans.trequest.id,'debit',callback);
 				}
 				else{
-					console.log('heya wHA da f')
 					return cb(null,[{date:trans.blockChainConfirmed, amount:amount_counter, from_to:trans.senders[0].publicKey}]);
 				}
 			}
@@ -306,11 +331,43 @@ async.waterfall([
 		{
 			if (pks.indexOf(trans.senders[0].publicKey)<0) return cb(null,[]);
 
+			// check for staking 
+			var recipient_keys = [];
+			for(var j = 0; j<trans.recipients.length ; j++)
+				{
+					if (recipient_keys.indexOf(trans.recipients[j].publicKey)<0) recipient_keys.push(trans.recipients[j].publicKey);
+				}
+
+			console.log('yo yo yo')
+			console.log(recipient_keys)
+			console.log('....................')
+
+			if (recipient_keys.length==1 && trans.senders[0].publicKey==recipient_keys[0])
+			{
+
+				console.log('dis yo uuuuuuuuuuuuuuuuu')
+
+
+				var sender_keys=[];
+				for(j = 0; j<trans.senders.length ; j++)
+				{
+					if (sender_keys.indexOf(trans.senders[j].publicKey)<0) sender_keys.push(trans.senders[j].publicKey);
+				}
+				if (sender_keys.length==1)
+				{
+					// this is staking
+					// in the case of staking in debit there should be a null result since 
+					// the staking was already given in the credit
+					return cb(null,[]);
+				}
+			}
+
 			var entry_arr = [];
 
 			async.each(trans.recipients, function(recipient, callback){
 
 				//if (recipient.publicKey == trans.senders[0].publicKey) return callback(null);
+
 
 				var cally = function(err,found){	
 					if (err) return callback(err);
