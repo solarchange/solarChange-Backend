@@ -174,6 +174,20 @@ module.exports = {
 		});
 	},
 
+	subscribe_and_get:function(req, res){
+		if (!req.isSocket) {
+      		return res.badRequest('Only a client socket can subscribe to Louies.  You, sir or madame, appear to be an HTTP request.');
+    	}
+    	Solar_device.find({}).populate('user').populate('public_key').exec(function(err,all_solars){
+    		if (err) return res.serverError(err);
+
+    		Solar_device.subscribe(req, _.pluck(all_solars,'id'));
+    		return res.json(all_solars);
+    	});
+
+	},
+
+
 // -------
 
 

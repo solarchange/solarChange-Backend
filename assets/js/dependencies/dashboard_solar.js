@@ -7,7 +7,7 @@ var granting_approved_list = [];
 var granting_rejected_list = [];
 
 function set_socket(){
-	io.socket.get('/solar_device', function (resData) {
+	io.socket.get('/solar_device/admin_subscribe', function (resData) {
 	  for (var i = 0 ; i<resData.length ; i++)
 	  {
 	  	console.log(resData[i]);
@@ -80,9 +80,110 @@ function approveAll(){
 };
 
 function granting_reaction(resData,jwers,solar_id){
-	console.log(resData);
-	console.log(jwers);
+	console.log('hahahahahahahahahahhahahsahahahah - zongo')
+	console.log(resData[0]);
+	update_solar_device(resData[0])
 }
+
+function update_solar_device(device){
+	device.status = device.approval_history[device.approval_history.length-1].event;
+	var entry = $('#solar-'+device.id);
+	entry.find('.user-name').html(device.user.firstName+' '+device.user.lastName);
+	entry.find('.owner-name').html(device.firstName+' '+device.lastName);
+	entry.find('.inst-date').html(device.date_of_installation);
+	entry.find('.address').html(device.address);
+	entry.find('.city').html(device.city);
+	entry.find('.state').html(device.state);
+	entry.find('.country').html(device.country);
+	entry.find('.nameplate').html(device.nameplate);
+	entry.find('.public_key').html(device.public_key.key);
+	entry.find('.device-status').html('<strong>'+device.status+'</strong>');
+
+	switch(device.status){
+	case 'pending':
+		entry.find('.approve').prop('disabled',false);
+		entry.find('.reject').prop('disabled', false);
+		break;
+	case 'rejected':
+		entry.find('.approve').prop('disabled',false);
+		break;
+	default:
+		entry.find('.approve').prop('disabled',true);
+		entry.find('.reject').prop('disabled', true);
+	}
+
+};
+
+function insert_solar_device_into_table(container,device){
+
+console.log('this is the containiter')
+console.log(container);
+
+var approve_button_disable='disabled';
+var reject_button_disable='disabled';
+switch(device.status){
+	case 'pending':
+		approve_button_disable='';
+		reject_button_disable='';
+		break;
+	case 'rejected':
+		approve_button_disable='';
+		break;
+}
+
+var solar_device = '<tr class="solar_list_item" id="solar-'+device.id+'">'+
+'<td class="solar_device_info user-name">'+device.user.firstName+' '+device.user.lastName+'</td> '+
+'<td class="solar_device_info owner-name">'+device.firstName+' '+device.lastName+'</td>'+
+'<td class="solar_device_info inst-date">'+device.date_of_installation+'</td>'+
+'<td class="solar_device_info address">'+device.address+'</td>'+
+'<td class="solar_device_info city">'+device.city+'</td> '+
+'<td class="solar_device_info state">'+device.state+'</td>'+
+'<td class="solar_device_info country">'+device.country+'</td>'+
+'<td class="solar_device_info nameplate">'+device.nameplate+'</td>'+
+'<td class="solar_device_info public_key">'+device.public_key.key+'</td>'+
+'<td class="solar_device_info file_location"><strong> <a href="'+device.file_info.location+'">Installation File</a> </strong></td>'+
+'<td class="solar_device_info device-status"><strong>'+device.status+'</strong></td>'+
+'<td><button data-id="'+device.id+'" id="approve'+device.id+'" class="approve solar-button" value="Approve And Submit" type="button" '+
+approve_button_disable+'>Approve</button></td>'+
+'<td><button data-id="'+device.id+'" id="reject'+device.id+'" class="reject solar-button" value="Reject" type="button" '+
+reject_button_disable+'>Reject</button></td>'+
+	'</tr>';
+	$(container).append(solar_device);
+
+	$('#approve'+device.id).click(function(){
+		approveNsubmit(this);
+	});
+
+	$('#reject'+device.id).click(function(){
+		rejectLocally(this);
+	});
+
+};
+
+
+
+$(document).ready(function(){
+	console.log('whats gfoin on');
+	console.log(document.Session)
+	if (!pageInitialized)
+	{
+		pageInitialized=true;
+
+		set_socket();
+
+		$('.approve').click(function(){
+			approveNsubmit(this);
+		});
+	}
+});
+
+
+
+
+
+
+// ------- Not used anymore
+
 
 
 function insert_solar_device(container,device){
@@ -115,55 +216,6 @@ var solar_device = '<li class="solar_list_item" id="solar-'+device.id+'"><div>'+
 	});
 
 };
-
-
-function insert_solar_device_into_table(container,device){
-
-console.log('this is the containiter')
-console.log(container);
-
-var solar_device = '<tr class="solar_list_item" id="solar-'+device.id+'">'+
-'<td class="solar_device_info">'+device.user.firstName+' '+device.user.lastName+'</td> '+
-'<td class="solar_device_info">'+device.firstName+' '+device.lastName+'</td>'+
-'<td class="solar_device_info">'+device.date_of_installation+'</td>'+
-'<td class="solar_device_info">'+device.address+'</td>'+
-'<td class="solar_device_info">'+device.city+'</td> '+
-'<td class="solar_device_info">'+device.state+'</td>'+
-'<td class="solar_device_info">'+device.country+'</td>'+
-'<td class="solar_device_info">'+device.nameplate+'</td>'+
-'<td class="solar_device_info">'+device.public_key+'</td>'+
-'<td class="solar_device_info"><strong> <a href="'+device.file_info.location+'">Installation File</a> </strong></td>'+
-'<td class="solar_device_info"><strong> Status: </strong>'+device.status+'</td>'+
-'<td><input data-id="'+device.id+'" id="approve'+device.id+'" class="approve solar-button" value="Approve And Submit" type="button" /></td>'+
-'<td><input data-id="'+device.id+'" id="reject'+device.id+'" class="reject solar-button" value="Reject" type="button" /></td>'+
-	'</tr>';
-	$(container).append(solar_device);
-
-	$('#approve'+device.id).click(function(){
-		approveNsubmit(this);
-	});
-
-	$('#reject'+device.id).click(function(){
-		rejectLocally(this);
-	});
-
-};
-
-
-$(document).ready(function(){
-	console.log('whats gfoin on');
-	console.log(document.Session)
-	if (!pageInitialized)
-	{
-		pageInitialized=true;
-
-		set_socket();
-
-		$('.approve').click(function(){
-			approveNsubmit(this);
-		});
-	}
-});
 
 
 

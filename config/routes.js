@@ -42,40 +42,50 @@ module.exports.routes = {
 
   'post /user/login': {controller:'user', action:'user_login'},
 
+  'post /user/social_share' : {controller:'user', action:'social_share'},
+
+  'get /user/balance_history':{controller:'user', action:'get_balance_history'},
+
+
   'post /solar_device/add': {controller:'granting', action:'register_new_solar_device'},
 
   'get /solar_device/user_status': {controller:'solar_device', action:'get_user_solar_status'},
 
   'get /solar_device/solar_status/:solar_id':{controller:'solar_device', action:'get_solar_device_status'},
 
-  'post /granting/granting_feedback': {controller:'granting', action:'granting_judgement' },
+  'get /solar_device/admin_subscribe':{controller:'solar_device', action:'subscribe_and_get'},
+
 
   'post /public_key/add': {controller:'public_key', action:'add_key'},  
-
-  'post /transaction/block_info' : {controller: 'transaction', action:'block_info'},
-
-  'post /user/social_share' : {controller:'user', action:'social_share'},
-
-  'GET /admin/dashboard_solar':{view:'dashboard_solar'},
-
-  'get /user/balance_history':{controller:'user', action:'get_balance_history'},
 
   'get /public_key/blockchain_data/:pk':{controller:'public_key', action:'get_blockchain_data'},
 
 
+  'post /admin/approve_solar': {controller:'granting', action:'approve_and_submit'},
 
-  'post /trequest/new': { controller: 'trequest', action:'initNew'},
+  'GET /admin/dashboard_solar':{view:'dashboard_solar'},
 
   'GET /admin/login': {view: 'admin_login'},
 
 
+  'post /granting/granting_feedback': {controller:'granting', action:'granting_judgement' },
+
+
+  'post /transaction/block_info' : {controller: 'transaction', action:'block_info'},
+
+
+
+
+
+
+  // ------------------------------------ 
+
+
+  'post /trequest/new': { controller: 'trequest', action:'initNew'},
 
   'post /transaction/wtf' :{ controller:'transaction', action:'blockChain_input'},
-  
 
   'post /admin/login': {controller:'auth', action:'login'},
-
-  'post /admin/approve_solar': {controller:'granting', action:'approve_and_submit'},
 
   'post /login': { controller: 'auth', action:'login'},
 
