@@ -72,6 +72,8 @@ module.exports = {
     async.waterfall([
 
       function(cb){
+
+        console.log('starting yo kskskskskskskkskskskskskskskskskskksksksksksksksk')
         Transaction.findOne({hash:hash}).exec(function(err, found){
           if (err) return cb(err);
           return cb(null, found);
@@ -143,6 +145,8 @@ module.exports = {
         // console.log(nu_to)
         // console.log(nu_from)
         // console.log(',,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,')
+
+        console.log('whats going on babe babe babe babeb abebebebebebebe')
 
         if (found){
           Transaction.update({hash:hash},{recipients:recipients, senders:senders, blockChainConfirmed: date, to:nu_to, from:nu_from}).exec(function(err,updated){
