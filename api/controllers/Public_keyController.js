@@ -170,6 +170,8 @@ sails.controllers.public_key.get_pks_blockchain_info(pk_arr,cb);
           if (found.user){
             return cb({error:'This Key Belongs to another user'});
           }
+
+          console.log('this key already exists------')
           Public_key.update({key:req.body.key},{user:req.headers.sender}).exec(function(err,updated){
             if (err) return cb(err);
             return cb(null,updated);
