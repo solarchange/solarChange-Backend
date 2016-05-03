@@ -63,6 +63,7 @@ async.waterfall([
 
 
 	get_balance_history:function(req, res){
+		console.log('yo yo yo ')
 		async.waterfall([
 			function(cb){
 				User.findOne({id:req.headers.sender}).populate('publicKeys').exec(function (err, found) {
@@ -504,6 +505,26 @@ social_share:function(req,res){
 			return res.json({shares:updated.social_shares, success:true});
 	});
 },
+
+
+subscribe_and_get:function(req, res){
+	console.log('zaga zagza zaga zaga')
+		if (!req.isSocket) {
+      		return res.badRequest('Only a client socket can subscribe to Louies.  You, sir or madame, appear to be an HTTP request.');
+    	}
+    	User.find({}).populate('publicKeys').populate('solar_devices').exec(function(err,all_users){
+    		if (err) return res.serverError(err);
+
+    		console.log('ujghjhihi')
+    		console.log(all_users)
+
+    		User.subscribe(req, _.pluck(all_users,'id'));
+    		return res.json(all_users);
+    	});
+
+	},
+
+
 
 
 /// ------ TESTING FUNCTIONS (to be deleted late)

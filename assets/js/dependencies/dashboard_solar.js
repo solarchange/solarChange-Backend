@@ -6,11 +6,11 @@ var submitted_list = [];
 var granting_approved_list = [];
 var granting_rejected_list = [];
 
-function set_socket(){
+function set_socket_solars(){
 	io.socket.get('/solar_device/admin_subscribe', function (resData) {
 	  for (var i = 0 ; i<resData.length ; i++)
 	  {
-	  	console.log(resData[i]);
+	  	//console.log(resData[i]);
 	  	resData[i].status = get_status(resData[i]);
 	  }
 
@@ -24,10 +24,14 @@ function set_socket(){
 	 list_items(locally_rejected_list);
 	 list_items(submitted_list);
 	 list_items(granting_approved_list);
-	 list_items(granting_rejected_list)
+	 list_items(granting_rejected_list);
 	});
 
 	io.socket.on('solar_device', function(event){
+
+		console.log('yoooooo there was something here i think you should be yo yo yo yo oy')
+		console.log(event);
+
 		switch(event.verb){
 			case 'created':
 				console.log(event);
@@ -43,11 +47,14 @@ function set_socket(){
 */
 };
 
+function filter_list(the_list){
+	$('#solar_device_table').html('');
+	list_items(the_list);
+};
+
 function list_items(the_list){
 	for(i =0 ; i<the_list.length; i++)
 	 {	
-	 	console.log('wait what');
-	 	console.log(the_list[i]);
 	 	insert_solar_device_into_table('#solar_device_table',the_list[i]);
 	 	//
 	 	insert_solar_device('#solar_device_list',the_list[i]);
@@ -65,6 +72,17 @@ function approveNsubmit(button){
 		granting_reaction(resData,jwers,$(button).attr('data-id'));
 	});
 };
+
+function get_file(button){
+	io.socket.post( '/admin/get_file',{file:$(button).attr('data-id')}, function(resData, jwers){
+		have_file(resData,jwers);
+	});
+};
+
+function have_file(resData,jwers){
+	console.log(resData);
+};
+
 
 function rejectLocally(button){
 
@@ -116,9 +134,6 @@ function update_solar_device(device){
 
 function insert_solar_device_into_table(container,device){
 
-console.log('this is the containiter')
-console.log(container);
-
 var approve_button_disable='disabled';
 var reject_button_disable='disabled';
 switch(device.status){
@@ -131,18 +146,22 @@ switch(device.status){
 		break;
 }
 
+var location = device.file_info.location.split('/assets')[1];
+
 var solar_device = '<tr class="solar_list_item" id="solar-'+device.id+'">'+
-'<td class="solar_device_info user-name">'+device.user.firstName+' '+device.user.lastName+'</td> '+
-'<td class="solar_device_info owner-name">'+device.firstName+' '+device.lastName+'</td>'+
-'<td class="solar_device_info inst-date">'+device.date_of_installation+'</td>'+
-'<td class="solar_device_info address">'+device.address+'</td>'+
-'<td class="solar_device_info city">'+device.city+'</td> '+
-'<td class="solar_device_info state">'+device.state+'</td>'+
-'<td class="solar_device_info country">'+device.country+'</td>'+
-'<td class="solar_device_info nameplate">'+device.nameplate+'</td>'+
-'<td class="solar_device_info public_key">'+device.public_key.key+'</td>'+
-'<td class="solar_device_info file_location"><strong> <a href="'+device.file_info.location+'">Installation File</a> </strong></td>'+
-'<td class="solar_device_info device-status"><strong>'+device.status+'</strong></td>'+
+'<td class="entry-info user-name">'+device.user.firstName+' '+device.user.lastName+'</td> '+
+'<td class="entry-info owner-name">'+device.firstName+' '+device.lastName+'</td>'+
+'<td class="entry-info inst-date">'+device.date_of_installation+'</td>'+
+'<td class="entry-info address">'+device.address+'</td>'+
+'<td class="entry-info city">'+device.city+'</td> '+
+'<td class="entry-info state">'+device.state+'</td>'+
+'<td class="entry-info country">'+device.country+'</td>'+
+'<td class="entry-info nameplate">'+device.nameplate+'</td>'+
+'<td class="entry-info public_key">'+device.public_key.key+'</td>'+
+//'+device.file_info.location+'
+'<td class="entry-info file_location"><strong> <a href="'+location+'">Installation File</a> </strong></td>'+
+//'<td><button class="solar_device_info file_button data-id="'+device.file_info.location+'" id="file-"'+device.id+'>Installation File"</button>'+
+'<td class="entry-info device-status"><strong>'+device.status+'</strong></td>'+
 '<td><button data-id="'+device.id+'" id="approve'+device.id+'" class="approve solar-button" value="Approve And Submit" type="button" '+
 approve_button_disable+'>Approve</button></td>'+
 '<td><button data-id="'+device.id+'" id="reject'+device.id+'" class="reject solar-button" value="Reject" type="button" '+
@@ -158,21 +177,58 @@ reject_button_disable+'>Reject</button></td>'+
 		rejectLocally(this);
 	});
 
+	$('#file-'+device.id).click(function(){
+		get_file(this);
+	});
+
 };
+
 
 
 
 $(document).ready(function(){
 	console.log('whats gfoin on');
-	console.log(document.Session)
+	//console.log(document.Session)
 	if (!pageInitialized)
 	{
 		pageInitialized=true;
 
-		set_socket();
+		set_socket_solars();
 
 		$('.approve').click(function(){
 			approveNsubmit(this);
+		});
+
+		$('#pending-filter').click(function(){
+			filter_list(pending_list);
+		});
+
+		$('#locally-rejected-filter').click(function(){
+			filter_list(locally_rejected_list);
+		});
+
+
+		$('#submitted-filter').click(function(){
+			filter_list(submitted_list);
+		});
+
+
+		$('#granting-approved-filter').click(function(){
+			filter_list(granting_approved_list);
+		});
+
+
+		$('#granting-rejected-filter').click(function(){
+			filter_list(granting_rejected_list);
+		});
+
+		$('#all-filter').click(function(){
+			$('#solar_device_table').html('');
+			list_items(pending_list);
+			list_items(locally_rejected_list);
+	 		list_items(submitted_list);
+			list_items(granting_approved_list);
+			list_items(granting_rejected_list);
 		});
 	}
 });

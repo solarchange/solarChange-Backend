@@ -54,6 +54,11 @@ sails.controllers.public_key.get_pks_blockchain_info(pk_arr,cb);
 
         request(options,function(err,httRes,body){
 
+          console.log('090909090090909009')
+            console.log(err)
+            console.log('----------------------------')
+            console.log(body)
+            console.log('...................................')
               if (err) return callback(err);
               return callback(null,body);
 
@@ -91,6 +96,10 @@ sails.controllers.public_key.get_pks_blockchain_info(pk_arr,cb);
         
         console.log('whas goin on onononononononononononoonononononoononoononononono')
 
+        console.log(success)
+
+        console.log('0--0-0-0-0-0-0--0-0-0-0-0-0-0-0-0-0-0-0--0-0-')
+        
         if (err) return cb(err);
 
         var options = {
@@ -144,14 +153,19 @@ sails.controllers.public_key.get_pks_blockchain_info(pk_arr,cb);
 
   add_key: function(req, res){
 
+    console.log('yo this is whats going on now. i am acting yet again. this is called')
+
     async.waterfall([
 
       function(cb){
         var to_create={};
         to_create.key = req.body.key;
         to_create.user = req.headers.sender;
+        console.log('zonkin the key here yo yo yo yo yo yo yo yoy oo')
         Public_key.create(to_create).exec(function(err, created){
         if (err) return cb(err);
+        console.log('yyuuuuuuuuuuuuuuuuuuuu')
+        console.log(created)
           return cb(null,created);
         });
       },

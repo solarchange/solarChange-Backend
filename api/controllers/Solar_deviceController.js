@@ -187,6 +187,14 @@ module.exports = {
 
 	},
 
+	access_file:function(req,res){
+		res.view('file_view',{file:req.body.file});
+	},
+
+	the_file:function(req, res){
+		res.view('the_file',{file:req.params['file']});
+	},
+
 
 // -------
 

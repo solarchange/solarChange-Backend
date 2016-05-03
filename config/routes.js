@@ -44,7 +44,9 @@ module.exports.routes = {
 
   'post /user/social_share' : {controller:'user', action:'social_share'},
 
-  'get /user/balance_history':{controller:'user', action:'get_balance_history'},
+  'get /user/balance_history': {controller:'user', action:'get_balance_history'},
+
+  'get /user/admin_subscribe': {controller:'user', action:'subscribe_and_get'},
 
 
   'post /solar_device/add': {controller:'granting', action:'register_new_solar_device'},
@@ -63,9 +65,17 @@ module.exports.routes = {
 
   'post /admin/approve_solar': {controller:'granting', action:'approve_and_submit'},
 
+  'post /admin/login': {controller:'auth', action:'login'},
+
+  'post /admin/get_file':{controller: 'solar_device', action:'access_file'},
+
   'GET /admin/dashboard_solar':{view:'dashboard_solar'},
 
   'GET /admin/login': {view: 'admin_login'},
+
+  //'get /admin/social': {view: 'dashboard_user_social'},
+
+  'get /admin/inst_file/': {controller:'solar_device', action:'the_file'},
 
 
   'post /granting/granting_feedback': {controller:'granting', action:'granting_judgement' },
@@ -85,7 +95,7 @@ module.exports.routes = {
 
   'post /transaction/wtf' :{ controller:'transaction', action:'blockChain_input'},
 
-  'post /admin/login': {controller:'auth', action:'login'},
+ 
 
   'post /login': { controller: 'auth', action:'login'},
 

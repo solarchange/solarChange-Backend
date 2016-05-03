@@ -54,10 +54,10 @@ module.exports = {
       }
     }
 
-    console.log('----------------==========================')
-    console.log('number of transactions is '+i)
-    console.log(pks)
-    console.log('//////////////////////////////////////////')
+    //console.log('----------------==========================')
+    //console.log('number of transactions is '+i)
+    //console.log(pks)
+    //console.log('//////////////////////////////////////////')
     sails.controllers.public_key.make_sure_created(pks,cb);
 
   },
