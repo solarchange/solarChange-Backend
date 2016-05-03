@@ -158,16 +158,35 @@ sails.controllers.public_key.get_pks_blockchain_info(pk_arr,cb);
     async.waterfall([
 
       function(cb){
-        var to_create={};
-        to_create.key = req.body.key;
-        to_create.user = req.headers.sender;
-        console.log('zonkin the key here yo yo yo yo yo yo yo yoy oo')
-        Public_key.create(to_create).exec(function(err, created){
-        if (err) return cb(err);
-        console.log('yyuuuuuuuuuuuuuuuuuuuu')
-        console.log(created)
-          return cb(null,created);
+        Public_key.findOne({key:req.body.key}).populate('user').exec(function(err,found){
+          if (err) return cb(err);
+          return cb(null,found);
         });
+      },
+
+      function(found,cb){
+
+        if (found){
+          if (found.user){
+            return cb({error:'This Key Belongs to another user'});
+          }
+          Public_key.update({key:req.body.key},{user:req.headers.sender}).exec(function(err,updated){
+            if (err) return cb(err);
+            return cb(null,updated);
+          });
+        }
+        else {
+          var to_create={};
+          to_create.key = req.body.key;
+          to_create.user = req.headers.sender;
+          console.log('zonkin the key here yo yo yo yo yo yo yo yoy oo')
+          Public_key.create(to_create).exec(function(err, created){
+          if (err) return cb(err);
+          console.log('yyuuuuuuuuuuuuuuuuuuuu')
+          console.log(created)
+            return cb(null,created);
+          });
+        }
       },
 
       function(created, cb){
