@@ -78,7 +78,7 @@ sails.controllers.public_key.get_pks_blockchain_info(pk_arr,cb);
 
       function(block_res,callback){
 
-        // console.log('////////////////////////////////////////////////////////')
+      console.log('////////////////////////////////////////////////////////')
         var bla = sails.controllers.public_key.get_current_balanace(block_res.txs, pks[0])
        // console.log(bla)
        // console.log('.........................................................')
@@ -201,6 +201,7 @@ sails.controllers.public_key.get_pks_blockchain_info(pk_arr,cb);
       },
 
       function(created, success, cb){
+        console.log('i am here now what the fuckkkkkkkkkkkk')
         if (success){
           Public_key.update({key:created.key},{blockchain_status:'confirmed'}).exec(function(err,updated){
             if (err) return cb(err);
