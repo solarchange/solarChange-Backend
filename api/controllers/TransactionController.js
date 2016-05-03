@@ -42,7 +42,7 @@ module.exports = {
   
   
   make_sure_pks_are_there:function(txs,cb){
-    
+    console.log('making sure things are there')
     var pks = [];
 
     for (var i =0 ; i<txs.length ; i++){
