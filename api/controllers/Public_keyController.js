@@ -57,7 +57,7 @@ sails.controllers.public_key.get_pks_blockchain_info(pk_arr,cb);
           console.log('090909090090909009')
             console.log(err)
             console.log('----------------------------')
-            console.log(body)
+            // console.log(body)
             console.log('...................................')
               if (err) return callback(err);
               return callback(null,body);
