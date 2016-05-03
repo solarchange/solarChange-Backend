@@ -168,6 +168,7 @@ sails.controllers.public_key.get_pks_blockchain_info(pk_arr,cb);
 
         if (found){
           if (found.user){
+            console.log('what da funk ufnkkkkkkkk')
             return cb({error:'This Key Belongs to another user'});
           }
 
