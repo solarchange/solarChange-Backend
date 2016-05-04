@@ -14,6 +14,8 @@ module.exports = {
 
   block_info:function(req, res){
 
+    return res.send(200);
+
   //var transactions = JSON.parse(req.body.transactions);
   var transactions = req.body;
 
