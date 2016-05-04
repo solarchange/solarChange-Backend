@@ -81,7 +81,11 @@ sails.controllers.public_key.get_pks_blockchain_info(pk_arr,cb);
       console.log('wanna get the current balance of the key')
         var bla = sails.controllers.public_key.get_current_balanace(block_res.txs, pks[0])
     
-      console.log('now, adding the transactions to the mix --0000000000000000000')
+      console.log('now, adding TXS. the number is: : : : : : : : : : : :')
+
+      console.log(block_res.txs.length)
+
+      console.log(': : : : : : : : : : : : : : : : : : : : : : : : :: : : : : :')
 
         async.each(block_res.txs, function(a_transaction,callcall){
           sails.controllers.transaction.add_from_blockChain(a_transaction,callcall);
