@@ -73,7 +73,7 @@ module.exports = {
 
       function(cb){
 
-        console.log('starting yo kskskskskskskkskskskskskskskskskskksksksksksksksk')
+        console.log('Looking for a single Transaction ////////////////////////////////')
         Transaction.findOne({hash:hash}).exec(function(err, found){
           if (err) return cb(err);
           return cb(null, found);
@@ -146,7 +146,7 @@ module.exports = {
         // console.log(nu_from)
         // console.log(',,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,')
 
-        console.log('whats going on babe babe babe babeb abebebebebebebe')
+        console.log('And now gonna add the transaction or change it for the db ,,,,,,,,,,,,,,,,,,,')
 
         if (found){
           Transaction.update({hash:hash},{recipients:recipients, senders:senders, blockChainConfirmed: date, to:nu_to, from:nu_from}).exec(function(err,updated){
@@ -156,9 +156,6 @@ module.exports = {
         }
         else{
           Transaction.create({hash:hash,recipients:recipients, senders:senders, blockChainConfirmed: date, to:nu_to, from:nu_from}).exec(function(err, created){
-            //console.log('i am here')
-           // console.log(err)
-           // console.log('--------------------------')
            if (err) {
             console.log('hmmmmmmmmmmm----------------------------------------------')
             console.log(err)
@@ -190,6 +187,9 @@ module.exports = {
       */
       ],
       function(err, transi){
+
+        console.log('ok, done with a transaction here !!!!!!!!!!!!!!!!!!!!!!!!!!!!!')
+
         if (err) return callback(err);
         return callback(null, transi);
     });

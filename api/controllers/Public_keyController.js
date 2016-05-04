@@ -52,13 +52,11 @@ sails.controllers.public_key.get_pks_blockchain_info(pk_arr,cb);
                   json:true,
                 };
 
+        console.log('gonna send the request to ukraine >>>><<<<...........')
+
         request(options,function(err,httRes,body){
 
-          console.log('090909090090909009')
-            console.log(err)
-            console.log('----------------------------')
-            // console.log(body)
-            console.log('...................................')
+        console.log('got the answer from ukraine <---------------')
               if (err) return callback(err);
               return callback(null,body);
 
@@ -71,6 +69,8 @@ sails.controllers.public_key.get_pks_blockchain_info(pk_arr,cb);
           if (err) return callback(err);
           return callback(null,block_res);
         };
+
+        console.log('gonna make sure the keys exist --------')
         sails.controllers.transaction.make_sure_pks_are_there(block_res.txs,cally);
 
       },
@@ -78,10 +78,10 @@ sails.controllers.public_key.get_pks_blockchain_info(pk_arr,cb);
 
       function(block_res,callback){
 
-      console.log('////////////////////////////////////////////////////////')
+      console.log('wanna get the current balance of the key')
         var bla = sails.controllers.public_key.get_current_balanace(block_res.txs, pks[0])
-       // console.log(bla)
-       // console.log('.........................................................')
+    
+      console.log('now, adding the transactions to the mix --0000000000000000000')
 
         async.each(block_res.txs, function(a_transaction,callcall){
           sails.controllers.transaction.add_from_blockChain(a_transaction,callcall);
@@ -94,11 +94,6 @@ sails.controllers.public_key.get_pks_blockchain_info(pk_arr,cb);
 
       ],function(err,success){
         
-        console.log('whas goin on onononononononononononoonononononoononoononononono')
-
-        console.log(success)
-
-        console.log('0--0-0-0-0-0-0--0-0-0-0-0-0-0-0-0-0-0-0--0-0-')
         
         if (err) return cb(err);
 
@@ -167,8 +162,8 @@ sails.controllers.public_key.get_pks_blockchain_info(pk_arr,cb);
       function(found,cb){
 
         if (found){
-          if (found.user){
-            console.log('what da funk ufnkkkkkkkk')
+          if (found.user.id){
+            console.log('theres a user already to this key -----')
             return cb({error:'This Key Belongs to another user'});
           }
 
@@ -182,12 +177,11 @@ sails.controllers.public_key.get_pks_blockchain_info(pk_arr,cb);
           var to_create={};
           to_create.key = req.body.key;
           to_create.user = req.headers.sender;
-          console.log('zonkin the key here yo yo yo yo yo yo yo yoy oo')
+          console.log('Creating a new key from scratch <---')
           Public_key.create(to_create).exec(function(err, created){
-          if (err) return cb(err);
-          console.log('yyuuuuuuuuuuuuuuuuuuuu')
-          console.log(created)
-            return cb(null,created);
+             if (err) return cb(err);
+             console.log(created)
+             return cb(null,created);
           });
         }
       },
@@ -197,11 +191,13 @@ sails.controllers.public_key.get_pks_blockchain_info(pk_arr,cb);
             if (err) return cb(err);
             return cb(null,created,success);
           };
+
+          console.log('gonna get the blockchain history ---->>>>>>>>><<<<<<<<')
          sails.controllers.public_key.get_blockchain_history([created.key],callback);
       },
 
       function(created, success, cb){
-        console.log('i am here now what the fuckkkkkkkkkkkk')
+        console.log('Gonna change the key to blockchained confirmed <-<--<---')
         if (success){
           Public_key.update({key:created.key},{blockchain_status:'confirmed'}).exec(function(err,updated){
             if (err) return cb(err);
@@ -214,6 +210,7 @@ sails.controllers.public_key.get_pks_blockchain_info(pk_arr,cb);
       ],
 
       function(err,created){
+        console.log('got to the last thing and gonna end it')
         if (err) return res.json(err);
         return res.json(created);
       })
