@@ -146,11 +146,10 @@ switch(device.status){
 }
 
 var location = device.file_info.location.split('/assets')[1];
-	console.log('ooooooo')
-	console.log(device)
-	var the_key = device.public_key.key;
-	if (!the_key) the_key='';
-
+	
+	var the_key = '';
+	if (device.public_key.key) the_key = device.public_key.key;
+		
 var solar_device = '<tr class="solar_list_item" id="solar-'+device.id+'">'+
 '<td class="entry-info user-name">'+device.user.firstName+' '+device.user.lastName+'</td> '+
 '<td class="entry-info owner-name">'+device.firstName+' '+device.lastName+'</td>'+
