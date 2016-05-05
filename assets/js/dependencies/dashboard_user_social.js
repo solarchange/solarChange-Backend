@@ -3,7 +3,7 @@ var pageInitialized = false;
 
 user_list = [];
 
-function set_socket_users(){
+function set_socket_social(){
 	io.socket.get('/user/admin_subscribe', function (resData) {
 		user_list = resData;
 	  for (var i = 0 ; i<resData.length ; i++)
@@ -48,7 +48,7 @@ function insert_user(container, user){
 };
 
 function sort_social(column){
-	$('#user_social_table').html('');
+	$('.user_entry').remove();
 	function compare(a,b){
 		return (a.social_state[column]-b.social_state[column]);
 	}
@@ -59,7 +59,7 @@ function sort_social(column){
 };
 
 function sort_prop(column){
-	$('#user_social_table').html('');
+	$('.user_entry').remove();
 	function compare(a,b){
 		return (a[column].length-b[column].length);
 	}
@@ -71,12 +71,15 @@ function sort_prop(column){
 
 
 $(document).ready(function(){
+
+	if ($('#the-body').attr('data-page')!='social') return;
+
 	//console.log(document.Session)
 	if (!pageInitialized)
 	{
 		pageInitialized=true;
 
-		set_socket_users();
+		set_socket_social();
 
 		$('#facebook-button').click(function(){
 			sort_social('facebook');

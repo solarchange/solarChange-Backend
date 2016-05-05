@@ -17,6 +17,12 @@ module.exports = {
 	},
 
 
+	get_to_view:function(req,res){
+		res.view('admin/'+req.params['page']);
+	},
+
+
+
   /**
    * `AdminController.email()`
    */

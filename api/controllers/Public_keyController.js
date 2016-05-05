@@ -269,8 +269,12 @@ sails.controllers.public_key.get_pks_blockchain_info(pk_arr,cb);
 
     //console.log(pk_ar);
 
+    console.log('i am now making sure that the keys are actually there')
+
     async.each(pk_ar,function(pk,callback){
       Public_key.findOrCreate({key:pk},{key:pk, user:null, currentValue:null, blockchain_status:'external'}).exec(function(err, created){
+
+        console.log('looking at a key now >>>>>>>>>>-----------+++++++++')
 
         if (err) return callback(err);
         return callback(null,created);
@@ -335,6 +339,56 @@ sails.controllers.public_key.get_pks_blockchain_info(pk_arr,cb);
       });
   },
 
+  get_known: function(req, res){
+    if (!req.isSocket) {
+          return res.badRequest('Only a client socket can subscribe to Louies.  You, sir or madame, appear to be an HTTP request.');
+      }
+    Public_key.find({known:true}).populate('organization').exec(function(err, found){
+      if (err) return res.serverError(err);
+
+      Public_key.subscribe(req, _.pluck(found,'key'));
+        return res.json(found);
+    });
+  },
+
+
+  add_known: function(req, res){
+     if (!req.isSocket) {
+          return res.badRequest('Only a client socket can use this function.  You, sir or madame, appear to be an HTTP request.');
+      }
+
+      async.waterfall([
+
+        function(cb){
+          Public_key.findOne({key:req.body.key}).exec(function(err,found){
+            if (err) return cb(err);
+            return cb(null, found);
+          });
+        },
+
+        function(found, cb){
+          if (found){
+            Public_key.update({key:found.key},{known:true, organization:req.body.org}).exec(function(err, updated){
+              if (err) return cb(err);
+              return cb(null,updated);
+            });
+          }
+          else{
+            Public_key.create({key:req.body.key, known:true, organization:req.body.org}).exec(function (err,created){
+              if (err) return cb(err);
+              return cb(null, created);
+            })
+          }
+        },
+
+        ], 
+        function(err, result){
+          if (err) return res.json(err);
+          return res.json(result);
+      })
+  },
+
+
   /**
    * `PublicKeyController.newPrime()`
    */
@@ -353,6 +407,13 @@ destroy_keys:function(req,res){
     res.json('YEAAAAH')
   });
 },
+
+
+destroy_known: function(req, res) {
+  Public_key.destroy({known:true}).exec(function (err) {
+    res.json('known dead ')
+  })
+}
 
 };
 

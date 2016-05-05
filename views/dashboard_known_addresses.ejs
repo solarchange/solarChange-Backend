@@ -7,41 +7,52 @@
 <link rel="stylesheet" href="/styles/admin.css">
 <script type"text/javascript" src="/js/dependencies/sails.io.js"></script>
 <script type"text/javascript" src="/js/dependencies/underscore.js"></script>
-<script type"text/javascript" src="/js/dependencies/dashboard_user_social.js"></script>
+<script type"text/javascript" src="/js/dependencies/dashboard_known.js"></script>
 </head>
 <script type="text/javascript">console.log('WTF')
 
 </script>
-<body data-page='social' id='the-body'>
-<h1>Welcome to the Admin Social Section</h1>
-
+<body data-page='known' id='the-body'>
+<h1>Welcome to the Admin Known Address Section</h1>
 
 <ul id='menu-nav'>
   <li><a href="/admin/solars">Solar Devices</a></li>
   <li><a href="/admin/social">Social Sharing</a></li>
   <li><a href="/admin/known">Known Addresses</a></li>
 </ul>
+
+
 <!--
 <ul id='solar_device_list'>
 	
 </ul>
 -->
 
-<table id='user_social_table' border="1" style="width:100%">
+<div id="organization-area">
+New Organization: <input type="text" id='new-org-name' /><input type="text" id='new-org-email'><button id='new-org-submit'>Submit</button>
+<table id='organization-table' border="1" style="width:100%">
 	<tr id='header'>
 	<strong>
-		<td>User</td>
+		<td>Organization</td>
 		<td>Email</td>
-		<td><button id='facebook-button'>Facebook</button></td>
-		<td><button id='twitter-button'>Twitter</button></td>
-		<td><button id='linkedin-button'>LinkedIn</button></td>
-		<td><button id='solars-button'>Number of solar devices</button></td>
-		<td><button id='pk-button'>Number of public keys</button></td>
+		<!-- <td><button>Edit</button></td> -->
 	</strong>
 	</tr>
-
-
 </table>
+</div>
+<br/>
+
+<div id="known-area">
+New Known Address: <input type="text" id='new-known-key' /><select class="org-chooser" id='new-known-org'></select><button id='new-address-submit'>Submit</button>
+<table id='known-address-table' border="1" style="width:100%">
+	<tr id='header'>
+	<strong>
+		<td>Known Address</td>
+		<td>Organization</td>
+	</strong>
+	</tr>
+</table>
+</div>
 
 </body>
 </html>

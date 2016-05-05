@@ -60,7 +60,11 @@ module.exports.routes = {
 
   'post /public_key/add': {controller:'public_key', action:'add_key'},  
 
-  'get /public_key/blockchain_data/:pk':{controller:'public_key', action:'get_blockchain_data'},
+  'get /public_key/blockchain_data/:pk': {controller:'public_key', action:'get_blockchain_data'},
+
+  'get /public_key/get_known': {controller:'public_key', action:'get_known'},
+
+  'post /public_key/add_known': {controller:'public_key', action:'add_known'},
 
 
   'post /admin/approve_solar': {controller:'granting', action:'approve_and_submit'},
@@ -73,9 +77,15 @@ module.exports.routes = {
 
   'GET /admin/login': {view: 'admin_login'},
 
-  //'get /admin/social': {view: 'dashboard_user_social'},
+  'get /admin/solars': {view: 'dashboard_solar'},
 
-  'get /admin/inst_file/': {controller:'solar_device', action:'the_file'},
+  'get /admin/social': {view: 'dashboard_user_social'},
+
+  'get /admin/dashboard/:page': {controller:'admin', action:'get_to_view'},
+
+  'get /admin/inst_file': {controller:'solar_device', action:'the_file'},
+
+  'get /admin/known': {view: 'dashboard_known_addresses'},
 
 
   'post /granting/granting_feedback': {controller:'granting', action:'granting_judgement' },
@@ -84,7 +94,9 @@ module.exports.routes = {
   'post /transaction/block_info' : {controller: 'transaction', action:'block_info'},
 
 
+  'post /organization/add' : {controller:'organization', action: 'add_new'},
 
+  'get /organization/get_orgs' : {controller: 'organization', action:'get_and_subscribe'},
 
 
 

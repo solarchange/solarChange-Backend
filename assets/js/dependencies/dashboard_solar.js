@@ -48,7 +48,7 @@ function set_socket_solars(){
 };
 
 function filter_list(the_list){
-	$('#solar_device_table').html('');
+	$('.solar_list_item').remove();
 	list_items(the_list);
 };
 
@@ -60,7 +60,6 @@ function list_items(the_list){
 	 	insert_solar_device('#solar_device_list',the_list[i]);
 	 }
 };
-
 
 function get_status(device){
 	return device.approval_history[device.approval_history.length-1].event;
@@ -147,6 +146,8 @@ switch(device.status){
 }
 
 var location = device.file_info.location.split('/assets')[1];
+	console.log('ooooooo')
+	console.log(device)
 
 var solar_device = '<tr class="solar_list_item" id="solar-'+device.id+'">'+
 '<td class="entry-info user-name">'+device.user.firstName+' '+device.user.lastName+'</td> '+
@@ -188,6 +189,9 @@ reject_button_disable+'>Reject</button></td>'+
 
 $(document).ready(function(){
 	console.log('whats gfoin on');
+
+	if ($('#the-body').attr('data-page')!='solar') return;
+
 	//console.log(document.Session)
 	if (!pageInitialized)
 	{
@@ -223,7 +227,7 @@ $(document).ready(function(){
 		});
 
 		$('#all-filter').click(function(){
-			$('#solar_device_table').html('');
+			$('.solar_list_item').remove();
 			list_items(pending_list);
 			list_items(locally_rejected_list);
 	 		list_items(submitted_list);

@@ -7,9 +7,11 @@
 
 module.exports = {
 
+  autoPK:false,
+
   attributes: {
 
-  	name: {type: 'string'},
+  	name: {type: 'string', unique: true, primaryKey: true},
 
   	email: {type: 'string'},
 
