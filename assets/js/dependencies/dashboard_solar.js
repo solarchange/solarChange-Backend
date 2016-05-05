@@ -148,7 +148,7 @@ switch(device.status){
 var location = device.file_info.location.split('/assets')[1];
 	
 	var the_key = '';
-	if (device.public_key.key) the_key = device.public_key.key;
+	if (device.public_key) the_key = device.public_key.key;
 		
 var solar_device = '<tr class="solar_list_item" id="solar-'+device.id+'">'+
 '<td class="entry-info user-name">'+device.user.firstName+' '+device.user.lastName+'</td> '+
