@@ -148,6 +148,8 @@ switch(device.status){
 var location = device.file_info.location.split('/assets')[1];
 	console.log('ooooooo')
 	console.log(device)
+	var the_key = device.public_key.key;
+	if (!the_key) the_key='';
 
 var solar_device = '<tr class="solar_list_item" id="solar-'+device.id+'">'+
 '<td class="entry-info user-name">'+device.user.firstName+' '+device.user.lastName+'</td> '+
@@ -158,7 +160,7 @@ var solar_device = '<tr class="solar_list_item" id="solar-'+device.id+'">'+
 '<td class="entry-info state">'+device.state+'</td>'+
 '<td class="entry-info country">'+device.country+'</td>'+
 '<td class="entry-info nameplate">'+device.nameplate+'</td>'+
-'<td class="entry-info public_key">'+device.public_key.key+'</td>'+
+'<td class="entry-info public_key">'+the_key+'</td>'+
 //'+device.file_info.location+'
 '<td class="entry-info file_location"><strong> <a href="'+location+'">Installation File</a> </strong></td>'+
 //'<td><button class="solar_device_info file_button data-id="'+device.file_info.location+'" id="file-"'+device.id+'>Installation File"</button>'+
