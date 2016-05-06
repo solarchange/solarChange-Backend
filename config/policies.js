@@ -51,6 +51,9 @@ module.exports.policies = {
   },
 
   
+  'admin':{
+    '*': 'isAuthenticated'
+  },
 
   /*
   'TrequestController': {

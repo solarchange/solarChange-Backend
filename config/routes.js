@@ -75,17 +75,17 @@ module.exports.routes = {
 
   'GET /admin/dashboard_solar':{view:'dashboard_solar'},
 
-  'GET /admin/login': {view: 'admin_login'},
+   'GET /admin/login': {view: 'admin_login'},
 
-  'get /admin/solars': {view: 'dashboard_solar'},
+  // 'get /admin/solars': {view: 'dashboard_solar'},
 
-  'get /admin/social': {view: 'dashboard_user_social'},
+  // 'get /admin/social': {view: 'dashboard_user_social'},
 
-  'get /admin/dashboard/:page': {controller:'admin', action:'get_to_view'},
+  'get /admin/admin/:page': {controller:'admin', action:'get_to_view'},
 
   'get /admin/inst_file': {controller:'solar_device', action:'the_file'},
 
-  'get /admin/known': {view: 'dashboard_known_addresses'},
+  // 'get /admin/known': {view: 'dashboard_known_addresses'},
 
 
   'post /granting/granting_feedback': {controller:'granting', action:'granting_judgement' },
