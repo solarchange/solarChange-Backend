@@ -48,6 +48,8 @@ module.exports.routes = {
 
   'get /user/admin_subscribe': {controller:'user', action:'subscribe_and_get'},
 
+  'get /user/social_share': {controller:'user', action:'get_social_shares'},
+
 
   'post /solar_device/add': {controller:'granting', action:'register_new_solar_device'},
 
@@ -75,17 +77,11 @@ module.exports.routes = {
 
   'GET /admin/dashboard_solar':{view:'dashboard_solar'},
 
-   'GET /admin/login': {view: 'admin_login'},
-
-  // 'get /admin/solars': {view: 'dashboard_solar'},
-
-  // 'get /admin/social': {view: 'dashboard_user_social'},
+  'GET /admin/login': {view: 'admin_login'},
 
   'get /admin/admin/:page': {controller:'admin', action:'get_to_view'},
 
   'get /admin/inst_file': {controller:'solar_device', action:'the_file'},
-
-  // 'get /admin/known': {view: 'dashboard_known_addresses'},
 
 
   'post /granting/granting_feedback': {controller:'granting', action:'granting_judgement' },
@@ -115,6 +111,15 @@ module.exports.routes = {
   /// ------- TRYING THINGS
 
   //'post /trequest/huh':{controller:}
+
+
+  // 'get /admin/solars': {view: 'dashboard_solar'},
+
+  // 'get /admin/social': {view: 'dashboard_user_social'},
+
+  // 'get /admin/known': {view: 'dashboard_known_addresses'},
+
+
 
   'GET /solar_device/form':{view:'solar_device_form'},
 

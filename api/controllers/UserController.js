@@ -507,6 +507,13 @@ social_share:function(req,res){
 },
 
 
+get_social_shares: function(req, res){
+	User.findOne({id:req.headers.sender}).exec(function(err, found) {
+		if (err) return res.json(err);
+		return res.json(found.social_shares);
+	})
+},
+
 subscribe_and_get:function(req, res){
 	console.log('zaga zagza zaga zaga')
 		if (!req.isSocket) {
