@@ -27,7 +27,7 @@ login: function(req, res) {
             req.logIn(user, function(err) {
                 if (err) res.send(err);
 
-                return res.view('dashboard_solar',{user:user});
+                return res.view('admin/solar',{user:user});
                 /*
                 return res.send({
                     message: info.message,
