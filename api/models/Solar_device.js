@@ -57,6 +57,8 @@ module.exports = {
 
     data : { type: 'json', defaultsTo:{} },
 
+    solar_angel_code: {type: 'string'},
+
     /*
             solar_grantings: [{coins_granted: 29,
                                energy_generated: 12,

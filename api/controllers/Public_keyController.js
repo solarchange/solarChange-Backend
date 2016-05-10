@@ -215,10 +215,26 @@ sails.controllers.public_key.get_pks_blockchain_info(pk_arr,cb);
 
       function(err,created){
         console.log('got to the last thing and gonna end it')
-        if (err) return res.json(err);
+        if (err) return sails.controllers.public_key.make_sure_for_twice(req, res, err);
+          ///res.json(err);
         return res.json(created);
       })
   },
+
+
+  make_sure_for_twice: function(req, res, original_err){
+      Public_key.findOne({key:req.body.key}).populate('user').exec(function (err, found) {
+          if (err) return res.json(err);
+          
+          if (found.user){
+            if (found.user.id == req.headers.sender) return res.json(found);
+          }
+
+         return res.json(original_err);
+        });
+  },
+
+
 
   add_from_solar_device: function(key, device_id,user_id,cb){
 

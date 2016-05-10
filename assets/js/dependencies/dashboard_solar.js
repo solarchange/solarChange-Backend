@@ -1,36 +1,38 @@
 var pageInitialized = false;
 
-var pending_list= [];
-var locally_rejected_list = [];
-var submitted_list = [];
-var granting_approved_list = [];
-var granting_rejected_list = [];
+var lists = {};
+
+lists.pending= [];
+lists.locally_rejected = [];
+lists.submitted = [];
+lists.granting_approved = [];
+lists.granting_rejected = [];
+lists.non_filtered = [];
+var current_list = 'non_filtered';
 
 function set_socket_solars(){
 	io.socket.get('/solar_device/admin_subscribe', function (resData) {
 	  for (var i = 0 ; i<resData.length ; i++)
 	  {
-	  	//console.log(resData[i]);
+	  	console.log(resData[i]);
 	  	resData[i].status = get_status(resData[i]);
 	  }
 
-	  pending_list= _.where(resData,{status:'pending'});
-	  locally_rejected_list = _.where(resData,{status:'locally_rejected'});
-	  submitted_list = _.where(resData,{status:'submitted'});
-	  granting_approved_list = _.where(resData,{status:'granting_approved'});
-	  granting_rejected_list = _.where(resData,{status:'granting_rejected'});
+	  lists.non_filtered = resData;
+	  lists.pending= _.where(resData,{status:'pending'});
+	  lists.locally_rejected = _.where(resData,{status:'locally_rejected'});
+	  lists.submitted = _.where(resData,{status:'submitted'});
+	  lists.granting_approved = _.where(resData,{status:'granting_approved'});
+	  lists.granting_rejected = _.where(resData,{status:'granting_rejected'});
 
-	 list_items(pending_list);
-	 list_items(locally_rejected_list);
-	 list_items(submitted_list);
-	 list_items(granting_approved_list);
-	 list_items(granting_rejected_list);
+	 list_items(lists.pending);
+	 list_items(lists.locally_rejected);
+	 list_items(lists.submitted);
+	 list_items(lists.granting_approved);
+	 list_items(lists.granting_rejected);
 	});
 
 	io.socket.on('solar_device', function(event){
-
-		console.log('yoooooo there was something here i think you should be yo yo yo yo oy')
-		console.log(event);
 
 		switch(event.verb){
 			case 'created':
@@ -50,6 +52,7 @@ function set_socket_solars(){
 function filter_list(the_list){
 	$('.solar_list_item').remove();
 	list_items(the_list);
+	current_list = the_list;
 };
 
 function list_items(the_list){
@@ -61,6 +64,34 @@ function list_items(the_list){
 	 }
 };
 
+function arrange_table(col){
+	$('.solar_list_item').remove();
+	for (var key in lists){
+		if (!lists.hasOwnProperty(key)) continue;
+		lists[key].sort(function(a,b){return a[col]-b[col]});
+	}
+	list_items(lists[current_list]);
+};
+
+function arrange_by_key(){
+	$('.solar_list_item').remove();
+	for (var key in lists){
+		if (!lists.hasOwnProperty(key)) continue;
+		lists[key].sort(function(a,b){return a.public_key.key-b.public_key.key});
+	}
+	list_items(lists[current_list]);
+};
+
+
+function arrange_by_user(){
+	$('.solar_list_item').remove();
+	for (var key in lists){
+		if (!lists.hasOwnProperty(key)) continue;
+		lists[key].sort(function(a,b){return a.user.lastName-b.user.lastName});
+	}
+	list_items(lists[current_list]);
+};
+
 function get_status(device){
 	return device.approval_history[device.approval_history.length-1].event;
 };
@@ -68,6 +99,13 @@ function get_status(device){
 function approveNsubmit(button){
 	console.log('CLICK');
 	io.socket.post( '/admin/approve_solar',{solar_device_id:$(button).attr('data-id')}, function(resData, jwers){
+		granting_reaction(resData,jwers,$(button).attr('data-id'));
+	});
+};
+
+function reject(button){
+	console.log('CLICK');
+	io.socket.post( '/admin/reject',{solar_device_id:$(button).attr('data-id')}, function(resData, jwers){
 		granting_reaction(resData,jwers,$(button).attr('data-id'));
 	});
 };
@@ -88,17 +126,15 @@ function rejectLocally(button){
 };
 
 function approveAll(){
-	for(var i=0; i<pending_list.length; i++)
+	for(var i=0; i<lists.pending.length; i++)
 	{
-		io.socket.post('/admin/approve_solar',{solar_device_id:pending_list[i].id},function(resData,jwers){
-			granting_reaction(resData,jwers,pending_list[i].id);
+		io.socket.post('/admin/approve_solar',{solar_device_id:lists.pending[i].id},function(resData,jwers){
+			granting_reaction(resData,jwers,lists.pending[i].id);
 		});
 	}
 };
 
 function granting_reaction(resData,jwers,solar_id){
-	console.log('hahahahahahahahahahhahahsahahahah - zongo')
-	console.log(resData[0]);
 	update_solar_device(resData[0])
 }
 
@@ -145,7 +181,7 @@ switch(device.status){
 		break;
 }
 
-var location = device.file_info.location.split('/assets')[1];
+var location = '../granting/installation_file'+device.file_info.location.split('/proofFiles')[1];
 	
 	var the_key = '';
 	if (device.public_key) the_key = device.public_key.key;
@@ -159,6 +195,7 @@ var solar_device = '<tr class="solar_list_item" id="solar-'+device.id+'">'+
 '<td class="entry-info state">'+device.state+'</td>'+
 '<td class="entry-info country">'+device.country+'</td>'+
 '<td class="entry-info nameplate">'+device.nameplate+'</td>'+
+'<td class="entry-info nameplate">'+device.solar_angel_code+'</td>'+
 '<td class="entry-info public_key">'+the_key+'</td>'+
 //'+device.file_info.location+'
 '<td class="entry-info file_location"><strong> <a href="'+location+'">Installation File</a> </strong></td>'+
@@ -174,6 +211,11 @@ reject_button_disable+'>Reject</button></td>'+
 	$('#approve'+device.id).click(function(){
 		approveNsubmit(this);
 	});
+
+	$('#reject'+device.id).click(function(){
+		reject(this);
+	});
+
 
 	$('#reject'+device.id).click(function(){
 		rejectLocally(this);
@@ -204,36 +246,44 @@ $(document).ready(function(){
 			approveNsubmit(this);
 		});
 
+		$('.reject').click(function(){
+			reject(this);
+		});
+
 		$('#pending-filter').click(function(){
-			filter_list(pending_list);
+			filter_list(lists.pending);
 		});
 
 		$('#locally-rejected-filter').click(function(){
-			filter_list(locally_rejected_list);
+			filter_list(lists.locally_rejected);
 		});
 
+		$('.normal-arrange').click(function(){
+			arrange_table($(this).attr('data-arrange'));
+		});
 
 		$('#submitted-filter').click(function(){
-			filter_list(submitted_list);
+			filter_list(lists.submitted);
 		});
 
 
 		$('#granting-approved-filter').click(function(){
-			filter_list(granting_approved_list);
+			filter_list(lists.granting_approved);
 		});
 
 
 		$('#granting-rejected-filter').click(function(){
-			filter_list(granting_rejected_list);
+			filter_list(lists.granting_rejected);
 		});
 
 		$('#all-filter').click(function(){
 			$('.solar_list_item').remove();
-			list_items(pending_list);
-			list_items(locally_rejected_list);
-	 		list_items(submitted_list);
-			list_items(granting_approved_list);
-			list_items(granting_rejected_list);
+			list_items(lists.non_filtered);
+			//list_items(lists.pending);
+			//list_items(lists.locally_rejected);
+	 		//list_items(lists.submitted);
+			//list_items(lists.granting_approved);
+			//list_items(lists.granting_rejected);
 		});
 	}
 });

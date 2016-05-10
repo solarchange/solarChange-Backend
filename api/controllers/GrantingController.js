@@ -19,9 +19,7 @@ module.exports = {
 		//if (req.body.sender) req.headers.sender = req.body.sender;
 
 		new_device_data.user = req.headers.sender;
-
-		console.log('and now the device is ')
-		console.log(new_device_data)
+		
 		var key = new_device_data.public_key;
 		//new_device_data.public_key=null;
 

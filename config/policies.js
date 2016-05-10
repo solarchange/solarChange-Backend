@@ -51,6 +51,10 @@ module.exports.policies = {
   },
 
   
+  file_handler:{
+    '*':'isAuthenticated'
+  },
+
   'admin':{
     '*': 'isAuthenticated'
   },

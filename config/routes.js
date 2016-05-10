@@ -60,6 +60,7 @@ module.exports.routes = {
   'get /solar_device/admin_subscribe':{controller:'solar_device', action:'subscribe_and_get'},
 
 
+
   'post /public_key/add': {controller:'public_key', action:'add_key'},  
 
   'get /public_key/blockchain_data/:pk': {controller:'public_key', action:'get_blockchain_data'},
@@ -70,6 +71,8 @@ module.exports.routes = {
 
 
   'post /admin/approve_solar': {controller:'granting', action:'approve_and_submit'},
+
+  'post /admin/reject': {controller:'solar_device', action:'reject_locally'},
 
   'post /admin/login': {controller:'auth', action:'login'},
 
@@ -85,6 +88,8 @@ module.exports.routes = {
 
 
   'post /granting/granting_feedback': {controller:'granting', action:'granting_judgement' },
+
+  'get /granting/installation_file/:user/:file': {controller: 'file_handler', action:'download_proof_file'},
 
 
   'post /transaction/block_info' : {controller: 'transaction', action:'block_info'},

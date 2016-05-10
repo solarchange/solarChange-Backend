@@ -39,7 +39,8 @@ async.waterfall([
 			console.log(err);
 			return res.json(err);
 		}
-		mailer_service.send_confirmation_mail(results.email, results.token);
+		console.log('got till here yo yo ')
+		mailer_service.send_confirmation_mail(results.email, results.token, results.firstName);
 		results.success=true;
 		return res.json(results);
 	});
@@ -566,6 +567,14 @@ activation_trial:function(req, res){
 
 	this.activate_user('111',cb);
 
+},
+
+
+destroy_hamsti: function(req, res){
+	User.destroy({email:'hamster_space@gmail.com'}).exec(function deleteCB(err){
+  console.log('The record has been deleted');
+  res.json('hihihi')
+	});
 },
 
 destroy_users: function(req, res){

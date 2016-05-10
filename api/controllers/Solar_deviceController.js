@@ -31,9 +31,19 @@ module.exports = {
 			Solar_device.update({id:device_id},{approval_history:approval_history_arr}).exec(function(err,updated){
 				if (err) return cb(err);
 				Solar_device.publishUpdate(updated[0].id,{approval_history:approval_history_arr});
-				cb(null, updated);
+				return cb(null, updated);
 			});
 		});
+	},
+
+
+	reject_locally: function(req, res){
+		var cb = function(err,device){
+			if (err) return res.json(err);
+			return res.json(device);
+		}
+		console.log('agggggggggagasgagasgagagagga')
+		sails.controllers.solar_device.add_event(req.body.solar_device_id,'locally_rejected',cb);
 	},
 
 
@@ -186,6 +196,13 @@ module.exports = {
     	});
 
 	},
+
+	try_mailer:function(req, res){
+
+		var bla = mailer_service.get_mail_form('assets/emails/activation.html');
+		console.log(bla);
+		return res.json(bla);
+	},	
 
 	access_file:function(req,res){
 		res.view('file_view',{file:req.body.file});

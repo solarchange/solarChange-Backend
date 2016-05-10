@@ -1,5 +1,6 @@
 var nodemailer = require('nodemailer');
 var sgTransport = require('nodemailer-sendgrid-transport');
+var fs = require("fs");
 
 // username + password
 var options = {
@@ -13,21 +14,33 @@ var mailer = nodemailer.createTransport(sgTransport(options));
 
 module.exports = {
 
+get_mail_form: function(fileName){
+return fs.readFileSync(fileName,'utf8');
+},
 
-send_confirmation_mail:function(to,token){
 
-var email_body = 'Thank you for signing up to SolarChange. <br /> By Joining SolarChange, you are promoting the world towards a more sustainable future! <br/><br/> '+
-'<b> To activate your account, please click on the link below:</b> <br/> http://staging.solarchange.co/#/activate/'+token;+'<br/><br/>'+
-'Thank you for being part of the solar revolution,<br/>'+
-'The SolarChange team<br/>----<br/>Please do not reply to this email, we will be happy to hear from you here: www.solarchange.co';
+send_confirmation_mail:function(to,token,firstName){
+
+var act_link = 'http://staging.solarchange.co/#/activate/'+token;
+
+/*
+    in the activatsion mail: $_USER_PRIVATE_NAME_$ , $_ACTIVASION_LINK_$
+*/
+
+var email_body = mailer_service.get_mail_form('assets/emails/activation.html');
+
+email_body.replace('$_USER_PRIVATE_NAME_$', firstName);
+email_body.replace('$_ACTIVASION_LINK_$', act_link);
 
 var email = {
     to: to,
     from: 'do-not-reply@solarchange.co',
-    subject: 'SolarChange: Verify your email address',
-    text: 'Confirm your account at SolarChange',
+    subject: 'Activate your SolarChange account!',
+    text: 'Activate your SolarChange account!',
     html: email_body,
 };
+
+console.log('i am sending an email yo yo yo yoyyo')
 
 mailer.sendMail(email, function(err, res) {
     if (err) { 
