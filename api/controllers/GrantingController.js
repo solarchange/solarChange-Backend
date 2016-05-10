@@ -64,15 +64,24 @@ module.exports = {
 				}
 
 				sails.controllers.public_key.add_from_solar_device(key,device.id,device.user,callback);
+			},
+
+			function(device,wallet,cb){
+				var callback = function(err,user){
+					if (err) return cb(err);
+					return cb(null, device,wallet, user);
+				}
+				sails.controllers.user.get_user(req.headers.sender,callback);
 			}
 
+
 			],
-			function(err, results, wallet){
+			function(err, results, wallet,user){
 
 				if (err) return res.json(err);
 				results.status = 'pending';
 				results.success = true;
-				mailer_service.solar_device_registration(results.user.email,results);
+				mailer_service.solar_device_registration(user.email,results, wallet, user);
 				return res.json(results);
 			});
 	},

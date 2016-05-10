@@ -473,8 +473,11 @@ User.findOne({id:user_id}).populate('solar_devices').exec(function(err,the_user)
 },
 
 
-add_public_key:function(){
-	
+get_user:function(eyed, cb){
+	User.findOne({id:eyed}).exec(function(err,found){
+		if (err) return cb(err);
+		return cb(null,found);
+	});
 },
 
 
