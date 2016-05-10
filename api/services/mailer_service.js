@@ -29,8 +29,8 @@ var act_link = 'http://staging.solarchange.co/#/activate/'+token;
 
 var email_body = mailer_service.get_mail_form('assets/emails/activation.html');
 
-email_body.replace('$_USER_PRIVATE_NAME_$', firstName);
-email_body.replace('$_ACTIVASION_LINK_$', act_link);
+email_body = email_body.replace('_USER_PRIVATE_NAME_', firstName);
+email_body = email_body.replace('_ACTIVASION_LINK_', act_link);
 
 var email = {
     to: to,
@@ -40,7 +40,7 @@ var email = {
     html: email_body,
 };
 
-console.log('i am sending an email yo yo yo yoyyo')
+console.log('i am sending an email yo yo yo yoyyo '+to)
 
 mailer.sendMail(email, function(err, res) {
     if (err) { 

@@ -571,7 +571,7 @@ activation_trial:function(req, res){
 
 
 destroy_hamsti: function(req, res){
-	User.destroy({email:'hamster_space@gmail.com'}).exec(function deleteCB(err){
+	User.destroy({email:'hamster.space@gmail.com'}).exec(function deleteCB(err){
   console.log('The record has been deleted');
   res.json('hihihi')
 	});
