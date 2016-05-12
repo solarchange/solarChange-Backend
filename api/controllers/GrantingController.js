@@ -181,7 +181,14 @@ module.exports = {
 	},
 
 	send_granting_mail: function(device){
-		
+		async.waterfall([
+			function(cb){
+				
+			},
+			], 
+			function(err,results){
+
+		});
 	},
 
 

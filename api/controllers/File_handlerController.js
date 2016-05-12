@@ -11,8 +11,6 @@ module.exports = {
 
     download_proof_file: function(req, res) {
 
-    	console.log('yoyyyyyyyyo sadgfliagsdfliahsdlig')
-
         // Get the URL of the file to download
         var file = req.param('file');
 
@@ -21,7 +19,9 @@ module.exports = {
 
         // Should check that it exists here, but for demo purposes, assume it does
         // and just pipe a read stream to the response.
-        fs.createReadStream(filePath).pipe(res);
+        fs.exists(file,function(exists){
+            if (exists) fs.createReadStream(filePath).pipe(res);
+        });
     }
 
 

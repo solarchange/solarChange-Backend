@@ -201,6 +201,8 @@ var solar_device = '<tr class="solar_list_item" id="solar-'+device.id+'">'+
 '<td class="entry-info file_location"><strong> <a href="'+location+'">Installation File</a> </strong></td>'+
 //'<td><button class="solar_device_info file_button data-id="'+device.file_info.location+'" id="file-"'+device.id+'>Installation File"</button>'+
 '<td class="entry-info device-status"><strong>'+device.status+'</strong></td>'+
+'<td class="entry-info device-status"><strong>'+Date(device.approval_history[0].date)+'</strong></td>'+
+'<td class="entry-info device-status"><strong>'+Date(device.approval_history[device.approval_history.length-1].date)+'</strong></td>'+
 '<td><button data-id="'+device.id+'" id="approve'+device.id+'" class="approve solar-button" value="Approve And Submit" type="button" '+
 approve_button_disable+'>Approve</button></td>'+
 '<td><button data-id="'+device.id+'" id="reject'+device.id+'" class="reject solar-button" value="Reject" type="button" '+
