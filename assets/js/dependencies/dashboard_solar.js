@@ -105,7 +105,7 @@ function approveNsubmit(button){
 
 function reject(button){
 	console.log('CLICK');
-	io.socket.post( '/admin/reject',{solar_device_id:$(button).attr('data-id')}, function(resData, jwers){
+	io.socket.post( '/admin/reject',{solar_device_id:$(button).attr('data-id'), detail:$('#detail-'+$(button).attr('data-id')).val()}, function(resData, jwers){
 		granting_reaction(resData,jwers,$(button).attr('data-id'));
 	});
 };
@@ -205,6 +205,7 @@ var solar_device = '<tr class="solar_list_item" id="solar-'+device.id+'">'+
 approve_button_disable+'>Approve</button></td>'+
 '<td><button data-id="'+device.id+'" id="reject'+device.id+'" class="reject solar-button" value="Reject" type="button" '+
 reject_button_disable+'>Reject</button></td>'+
+'<td><input data-id="'+device.id+'" id="detail-'+device.id+'" class="detail solar-button" value="" type="text" /></td>'+
 	'</tr>';
 	$(container).append(solar_device);
 

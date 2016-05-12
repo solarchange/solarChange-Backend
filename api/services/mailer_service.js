@@ -62,7 +62,7 @@ email_body = email_body.replace('_SOLAR_OWNER_LAST_NAME_', device.lastName);
 email_body = email_body.replace('_ADDRESS_',device.address);
 email_body = email_body.replace('_CAPACITY_', device.nameplate);
 email_body = email_body.replace('_INSTALLATION_DATE_', device.date_of_installation);
-email_body = email_body.replace('_PUBLICKEY_',wallet.key);
+email_body = email_body.replace('_PUBLICKEY_', wallet.key);
 
 var email = {
     to: to,
@@ -72,7 +72,6 @@ var email = {
     html: email_body,
 };
 
-console.log(to)
 mailer.sendMail(email, function(err, res) {
     if (err) { 
         console.log(err) 
@@ -81,6 +80,34 @@ mailer.sendMail(email, function(err, res) {
 });
 
 },
+
+
+rejection: function(to,userFirstName,reason){
+
+    var email_body = mailer_service.get_mail_form('assets/emails/Solar_System_Declined.html');
+
+    email_body = email_body.replace('_USER_PRIVATE_NAME_',userFirstName);
+    email_body = email_body.replace('_REJECTION_REASON_',reason);
+
+
+    var email = {
+        to: to,
+        from: 'do-not-reply@solarchange.co',
+        subject: 'News from SolarChange',
+        text: 'News from SolarChange',
+        html: email_body,
+    };
+
+    mailer.sendMail(email, function(err, res) {
+        if (err) { 
+            console.log(err) 
+        }
+        console.log(res);
+    });
+},
+
+
+
 
 
 system_approved: function(to, user, device){

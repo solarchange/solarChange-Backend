@@ -24,7 +24,7 @@ module.exports = {
 	},
 
 	add_event: function(device_id,event_to_add,cb){
-		Solar_device.findOne({id:device_id}).exec(function(err,found){
+		Solar_device.findOne({id:device_id}).populate('user').exec(function(err,found){
 			if (err) return cb(err);
 			var approval_history_arr = found.approval_history;
 			approval_history_arr.push({event:event_to_add,date:Date.now()});
@@ -37,13 +37,29 @@ module.exports = {
 	},
 
 
+	add_event_with_detail: function(device_id,event_to_add,detail_to_add,cb){
+		Solar_device.findOne({id:device_id}).populate('user').exec(function(err,found){
+			if (err) return cb(err);
+			var approval_history_arr = found.approval_history;
+			approval_history_arr.push({event:event_to_add,detail:detail_to_add, date:Date.now()});
+			Solar_device.update({id:device_id},{approval_history:approval_history_arr}).exec(function(err,updated){
+				if (err) return cb(err);
+				Solar_device.publishUpdate(updated[0].id,{approval_history:approval_history_arr});
+				updated[0].user = found.user;
+				return cb(null, updated);
+			});
+		});
+	},
+
+
+
 	reject_locally: function(req, res){
-		var cb = function(err,device){
+		var cb = function(err,devices){
 			if (err) return res.json(err);
-			return res.json(device);
+			mailer_service.rejection(devices[0].user.email, devices[0].user.firstName, req.body.detail);
+			return res.json(devices);
 		}
-		console.log('agggggggggagasgagasgagagagga')
-		sails.controllers.solar_device.add_event(req.body.solar_device_id,'locally_rejected',cb);
+		sails.controllers.solar_device.add_event_with_detail(req.body.solar_device_id,'locally_rejected',req.body.detail,cb);
 	},
 
 
@@ -102,7 +118,9 @@ module.exports = {
 			var event_to_add = sails.controllers.solar_device.parse_granting_event(granting.event);
 			if (event_to_add){
 				to_update.approval_history = device.approval_history;
-				to_update.approval_history.push({event:event_to_add, date:granting.timestamp});
+				var the_detail = null;
+				if (granting.event.detail) the_detail = granting.event.detail; 
+				to_update.approval_history.push({event:event_to_add, detail:the_detail, date:granting.timestamp});
 			}
 
 		}
@@ -184,6 +202,12 @@ module.exports = {
 		});
 	},
 
+	get_populated_device: function(solar_device_id,cb){
+		Solar_device.findOne({id:solar_device_id}).populate('user').exec(function(err,found){
+			if (err) return cb(err);
+			return cb(null,found);
+		});
+	},
 	subscribe_and_get:function(req, res){
 		if (!req.isSocket) {
       		return res.badRequest('Only a client socket can subscribe to Louies.  You, sir or madame, appear to be an HTTP request.');

@@ -445,7 +445,7 @@ User.update({token:req.body.token, status:'registered'},{status:'active'}, funct
 	if (changed.length===0) return res.json({error:'No Such User'});
 
 	changed[0].success=true;
-	mailer_service.send_activation_mail(changed[0].email, changed[0].firstName);
+	//mailer_service.send_activation_mail(changed[0].email, changed[0].firstName);
 	return res.json({success:true});
 		
 	});

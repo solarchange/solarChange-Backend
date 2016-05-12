@@ -78,8 +78,6 @@ module.exports.routes = {
 
   'post /admin/get_file':{controller: 'solar_device', action:'access_file'},
 
-  'GET /admin/dashboard_solar':{view:'dashboard_solar'},
-
   'GET /admin/login': {view: 'admin_login'},
 
   'get /admin/admin/:page': {controller:'admin', action:'get_to_view'},
@@ -101,6 +99,13 @@ module.exports.routes = {
 
 
 
+
+
+
+
+
+
+
   // ------------------------------------ 
 
 
@@ -108,7 +113,10 @@ module.exports.routes = {
 
   'post /transaction/wtf' :{ controller:'transaction', action:'blockChain_input'},
 
- 
+
+  //'GET /admin/dashboard_solar':{view:'dashboard_solar'},
+
+
 
   'post /login': { controller: 'auth', action:'login'},
 

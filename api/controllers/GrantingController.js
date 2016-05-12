@@ -77,11 +77,10 @@ module.exports = {
 
 			],
 			function(err, results, wallet,user){
-
 				if (err) return res.json(err);
 				results.status = 'pending';
 				results.success = true;
-				mailer_service.solar_device_registration(user.email,results, wallet, user);
+				mailer_service.solar_device_registration(user.email,results, wallet[0], user);
 				return res.json(results);
 			});
 	},
@@ -173,12 +172,18 @@ module.exports = {
 	granting_judgement: function(req, res){
 		var cb = function(err,updated){
 			if (err) return res.json(err);
+
 			return res.json({events:updated[0].approval_history, 
 				grantings:updated[0].solar_grantings,
 				id:updated[0].granting_id});
 		};
 		sails.controllers.solar_device.add_granting(req.body.id,req.body,req.body.timestamp,cb);
 	},
+
+	send_granting_mail: function(device){
+		
+	},
+
 
 	parse_granting_reply:function(granting_reply){
 		switch (granting_reply.event){
