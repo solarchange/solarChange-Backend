@@ -20,8 +20,9 @@ module.exports = {
         // Should check that it exists here, but for demo purposes, assume it does
         // and just pipe a read stream to the response.
         fs.exists(file,function(exists){
-            if (exists) fs.createReadStream(filePath).pipe(res);
-        });
+            if (exists) return fs.createReadStream(filePath).pipe(res);
+            return res.json('File does not exist');
+        }); 
     }
 
 

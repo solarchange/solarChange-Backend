@@ -14,7 +14,7 @@ function set_socket_solars(){
 	io.socket.get('/solar_device/admin_subscribe', function (resData) {
 	  for (var i = 0 ; i<resData.length ; i++)
 	  {
-	  	console.log(resData[i]);
+	  	// console.log(resData[i]);
 	  	resData[i].status = get_status(resData[i]);
 	  }
 
@@ -49,10 +49,10 @@ function set_socket_solars(){
 */
 };
 
-function filter_list(the_list){
+function filter_list(the_list, list_name){
 	$('.solar_list_item').remove();
 	list_items(the_list);
-	current_list = the_list;
+	current_list = list_name;
 };
 
 function list_items(the_list){
@@ -66,10 +66,23 @@ function list_items(the_list){
 
 function arrange_table(col){
 	$('.solar_list_item').remove();
+	console.log(col);
 	for (var key in lists){
 		if (!lists.hasOwnProperty(key)) continue;
-		lists[key].sort(function(a,b){return a[col]-b[col]});
+		lists[key].sort(function(a,b){
+			 // return a[col]-b[col]
+			 var val1 = a[col];
+			 var val2 = b[col];
+			   //if (val1 == val2)
+			   //    return 0;
+			   if (val1 >= val2)
+			       return 1;
+			   if (val1 < val2)
+			       return -1;
+		});
 	}
+	console.log(lists[current_list][0])
+	console.log(_.pluck(lists[current_list], col))
 	list_items(lists[current_list]);
 };
 
@@ -135,8 +148,22 @@ function approveAll(){
 };
 
 function granting_reaction(resData,jwers,solar_id){
-	update_solar_device(resData[0])
-}
+	for (var key in lists){
+		if (!lists.hasOwnProperty(key)) continue;
+		change_entry_in_list(lists[key],resData[0],solar_id);
+	}
+	update_solar_device(resData[0]);
+};
+
+function change_entry_in_list(list,entry,id){
+	for (var i=0 ; i<list.length ; i++){
+		if (list[i].id==id){
+			list[i]=entry;
+			return list;
+		}
+	}
+};
+
 
 function update_solar_device(device){
 	device.status = device.approval_history[device.approval_history.length-1].event;
@@ -254,11 +281,11 @@ $(document).ready(function(){
 		});
 
 		$('#pending-filter').click(function(){
-			filter_list(lists.pending);
+			filter_list(lists.pending, 'pending');
 		});
 
 		$('#locally-rejected-filter').click(function(){
-			filter_list(lists.locally_rejected);
+			filter_list(lists.locally_rejected, 'locally_rejected');
 		});
 
 		$('.normal-arrange').click(function(){
@@ -266,27 +293,29 @@ $(document).ready(function(){
 		});
 
 		$('#submitted-filter').click(function(){
-			filter_list(lists.submitted);
+			filter_list(lists.submitted, 'submitted');
 		});
 
 
 		$('#granting-approved-filter').click(function(){
-			filter_list(lists.granting_approved);
+			filter_list(lists.granting_approved, 'granting_approved');
 		});
 
 
 		$('#granting-rejected-filter').click(function(){
-			filter_list(lists.granting_rejected);
+			filter_list(lists.granting_rejected, 'granting_rejected');
 		});
 
 		$('#all-filter').click(function(){
-			$('.solar_list_item').remove();
-			list_items(lists.non_filtered);
-			//list_items(lists.pending);
-			//list_items(lists.locally_rejected);
-	 		//list_items(lists.submitted);
-			//list_items(lists.granting_approved);
-			//list_items(lists.granting_rejected);
+			
+			filter_list(lists.non_filtered, 'non_filtered');
+			// $('.solar_list_item').remove();
+			// list_items(lists.non_filtered);
+			// current_list = 'non_filtered';
+		});
+
+		$('#approve_all').click(function(){
+			approveAll();
 		});
 	}
 });
