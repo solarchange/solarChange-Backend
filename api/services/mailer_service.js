@@ -21,7 +21,7 @@ return fs.readFileSync(fileName,'utf8');
 
 send_confirmation_mail:function(to,token,firstName){
 
-var act_link = 'http://staging.solarchange.co/#/activate/'+token;
+var act_link = email_details.base_url+'/activate/'+token;
 
 /*
     in the activatsion mail: $_USER_PRIVATE_NAME_$ , $_ACTIVASION_LINK_$
@@ -160,6 +160,9 @@ mailer.sendMail(email, function(err, res) {
 
 },
 
+send_recovery_mail: function(to,name, token){
+
+},
 
 
 solar_device_submitted:function(to,device){

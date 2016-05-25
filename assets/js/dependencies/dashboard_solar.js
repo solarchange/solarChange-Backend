@@ -314,7 +314,7 @@ $(document).ready(function(){
 			// current_list = 'non_filtered';
 		});
 
-		$('#approve_all').click(function(){
+		$('#approveprove_all').click(function(){
 			approveAll();
 		});
 	}

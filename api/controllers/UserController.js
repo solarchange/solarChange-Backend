@@ -5,6 +5,9 @@
  * @help        :: See http://sailsjs.org/#!/documentation/concepts/Controllers
  */
 
+
+var bcrypt = require('bcrypt');
+
 module.exports = {
 	
 
@@ -403,6 +406,73 @@ async.waterfall([
 			cb(null, found);
 		});
 	},
+
+
+initiate_pass_reset: function(req, res){
+	
+		console.log('yo this isi what i am here yo yo')
+		async.waterfall([
+
+			function(cb){
+				User.findOne({email:req.body.email}).exec(function(err, found){
+					if (err) return cb(err);
+					if (!found) return cb({error:'This email is not in the database'});
+					console.log('heyayyayayay')
+					return cb(null, found);
+				});
+			},
+
+			function(user, cb){
+				User.update({email:req.body.email}, {recovery_token:req.body.token, recovery_mail_send_date:Date.now()}).exec(function(err,updated){
+					if (err) return cb(err);
+					return cb(null,updated);
+				});
+			}
+
+			],
+			function(err,user){
+				if (err) return res.json(err);
+				mailer_service.send_recovery_mail(user.email, user.firstName, req.body.token);
+				return res.send(200, 'Recovery email sent');
+			});
+
+},
+
+ password_reset: function(req, res){
+ 	if (!req.body.token) return res.send(500, {error:'Illegal Token'});
+
+ 	async.waterfall([
+ 		
+ 		function(cb){
+ 			User.findOne({recovery_token:req.body.token}).exec(function(err, found){
+ 				if (err) return cb(err);
+ 				if (!found) return cb({error:'This token does not exist in the database'});
+ 				if ((found.recovery_mail_send_date-Date.now())>259200000) return cb({error:'Recovery token expired'});
+ 				if (found.email != req.body.email) return cb({error:'Token and email do not match'});
+ 				return cb(null,found);
+ 				});
+ 		},
+
+ 		function(user, cb){
+ 			bcrypt.hash(req.body.password, 10, function(err, hash) {
+ 				if (err) return cb({error:'Error Encrypting'});
+ 				return cb(null, user, hash);
+ 			});
+ 		},
+
+ 		function(user, hash, cb){
+ 			User.update({id:user.id},{password:hash, recovery_token:null, recovery_mail_send_date:null}).exec(function(err,updated){
+ 				if (err) return cb(err);
+ 				return cb(null, updated);
+ 			});
+ 		}
+
+ 		], 
+ 		function(err, results){
+ 			if (err) return res.send(500, err);
+ 			return res.send(200, results);
+ 	});
+ },
 
 
 newUser: function(nu_user, initialSessionData, cb){

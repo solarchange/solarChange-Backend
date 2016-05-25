@@ -65,7 +65,10 @@ module.exports = {
 
     token: {type : 'string'},
 
-    
+    recovery_token: {type:'string', defaultsTo:null},
+
+    recovery_mail_send_date: {type: 'integer', defaultsTo:null},
+
      toJSON: function() {
             var obj = this.toObject();
             delete obj.password;

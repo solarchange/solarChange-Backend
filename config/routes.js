@@ -36,6 +36,11 @@ module.exports.routes = {
     view: 'homepage'
   },
 
+
+  'post /user/initiate_pass_reset': {controller:'user', action:'initiate_pass_reset'},
+
+  'post /user/password_reset':{controller:'user', action:'password_reset'},
+
   'post /user/add':{controller:'user', action:'add_new_user'},
 
   'post /user/activate':{controller:'user', action:'activate_user'},
@@ -49,6 +54,7 @@ module.exports.routes = {
   'get /user/admin_subscribe': {controller:'user', action:'subscribe_and_get'},
 
   'get /user/social_share': {controller:'user', action:'get_social_shares'},
+
 
 
   'post /solar_device/add': {controller:'granting', action:'register_new_solar_device'},
