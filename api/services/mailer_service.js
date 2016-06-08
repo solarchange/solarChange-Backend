@@ -162,6 +162,28 @@ mailer.sendMail(email, function(err, res) {
 
 send_recovery_mail: function(to,name, token){
 
+ var email_body = mailer_service.get_mail_form('assets/emails/Recovery.html');
+ var the_url = email_detail.base_url+'reset_password?token='+token+'&email='+to;
+
+email_body = email_body.replace('_USER_PRIVATE_NAME_',name);
+email_body = email_body.replace('_URL_',the_url);
+
+var email = {
+    to: to,
+    from: 'do-not-reply@solarchange.co',
+    subject: 'Reset password',
+    text: 'Reset your password',
+    html: email_body,
+};
+
+console.log(to)
+mailer.sendMail(email, function(err, res) {
+    if (err) { 
+        console.log(err) 
+    }
+    console.log(res);
+});
+
 },
 
 

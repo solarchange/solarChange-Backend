@@ -78,7 +78,6 @@ sails.controllers.public_key.get_pks_blockchain_info(pk_arr,cb);
 
       function(block_res,callback){
 
-      console.log('wanna get the current balance of the key')
         var bla = sails.controllers.public_key.get_current_balanace(block_res.txs, pks[0])
     
       console.log('now, adding TXS. the number is: : : : : : : : : : : :')
@@ -142,7 +141,7 @@ sails.controllers.public_key.get_pks_blockchain_info(pk_arr,cb);
       }
     }
 
-    if (!inside_it) console.log('WIIIIIIIWOOOOOOO NOT INSIDE THE TRANSACTioN YO YO YO YO YO YO YO YO OY YOY OY OYO YO YOY ')
+   //  if (!inside_it) console.log('WIIIIIIIWOOOOOOO NOT INSIDE THE TRANSACTioN YO YO YO YO YO YO YO YO OY YOY OY OYO YO YOY ')
   }
 
   return amount;
@@ -151,8 +150,6 @@ sails.controllers.public_key.get_pks_blockchain_info(pk_arr,cb);
 
 
   add_key: function(req, res){
-
-    console.log('yo this is whats going on now. i am acting yet again. this is called')
 
     async.waterfall([
 
@@ -167,11 +164,9 @@ sails.controllers.public_key.get_pks_blockchain_info(pk_arr,cb);
 
         if (found){
           if (found.user.id){
-            console.log('theres a user already to this key -----')
             return cb({error:'This Key Belongs to another user'});
           }
 
-          console.log('this key already exists------')
           Public_key.update({key:req.body.key},{user:req.headers.sender}).exec(function(err,updated){
             if (err) return cb(err);
             return cb(null,updated);
@@ -181,7 +176,6 @@ sails.controllers.public_key.get_pks_blockchain_info(pk_arr,cb);
           var to_create={};
           to_create.key = req.body.key;
           to_create.user = req.headers.sender;
-          console.log('Creating a new key from scratch <---')
           Public_key.create(to_create).exec(function(err, created){
              if (err) return cb(err);
              console.log(created)

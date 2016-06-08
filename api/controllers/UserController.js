@@ -25,7 +25,7 @@ async.waterfall([
 		  	cb(null, key, createdUser);
 		  	};
 
-		(req.pk) ? sails.controllers.public_key.newPK(req.pk,createdUser.id,callback) : callback(null, null);
+		(req.body.pk) ? sails.controllers.public_key.newPK(req.pk,createdUser.id,callback) : callback(null, null);
 			
 	},
 
@@ -410,14 +410,12 @@ async.waterfall([
 
 initiate_pass_reset: function(req, res){
 	
-		console.log('yo this isi what i am here yo yo')
 		async.waterfall([
 
 			function(cb){
 				User.findOne({email:req.body.email}).exec(function(err, found){
 					if (err) return cb(err);
 					if (!found) return cb({error:'This email is not in the database'});
-					console.log('heyayyayayay')
 					return cb(null, found);
 				});
 			},
@@ -589,7 +587,6 @@ get_social_shares: function(req, res){
 },
 
 subscribe_and_get:function(req, res){
-	console.log('zaga zagza zaga zaga')
 		if (!req.isSocket) {
       		return res.badRequest('Only a client socket can subscribe to Louies.  You, sir or madame, appear to be an HTTP request.');
     	}
