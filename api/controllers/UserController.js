@@ -59,6 +59,7 @@ async.waterfall([
 		User.findOne({email:userEmail}).populate('solar_devices').populate('publicKeys').exec(function(err,found){
 			if (err) return res.json(err);
 			if (!found) return res.json({error:'email and password do not match'});
+			if (found.status!='active') return res.json({error:'User is not active'});
 			found.success=true;
 			return res.json(found);
 		});
