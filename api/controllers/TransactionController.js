@@ -44,7 +44,7 @@ module.exports = {
   
   
   make_sure_pks_are_there:function(txs,cb){
-    console.log('making sure things are there')
+   // console.log('making sure things are there')
     var pks = [];
 
     for (var i =0 ; i<txs.length ; i++){
@@ -56,10 +56,6 @@ module.exports = {
       }
     }
 
-    //console.log('----------------==========================')
-    //console.log('number of transactions is '+i)
-    //console.log(pks)
-    //console.log('//////////////////////////////////////////')
     sails.controllers.public_key.make_sure_created(pks,cb);
 
   },
@@ -75,7 +71,7 @@ module.exports = {
 
       function(cb){
 
-        console.log('Looking for a single Transaction ////////////////////////////////')
+       // console.log('Looking for a single Transaction ////////////////////////////////')
         Transaction.findOne({hash:hash}).exec(function(err, found){
           if (err) return cb(err);
           return cb(null, found);
@@ -148,7 +144,7 @@ module.exports = {
         // console.log(nu_from)
         // console.log(',,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,')
 
-        console.log('And now gonna add the transaction or change it for the db ,,,,,,,,,,,,,,,,,,,')
+      //  console.log('And now gonna add the transaction or change it for the db ,,,,,,,,,,,,,,,,,,,')
 
         if (found){
           Transaction.update({hash:hash},{recipients:recipients, senders:senders, blockChainConfirmed: date, to:nu_to, from:nu_from}).exec(function(err,updated){
@@ -190,7 +186,7 @@ module.exports = {
       ],
       function(err, transi){
 
-        console.log('ok, done with a transaction here !!!!!!!!!!!!!!!!!!!!!!!!!!!!!')
+      //  console.log('ok, done with a transaction here !!!!!!!!!!!!!!!!!!!!!!!!!!!!!')
 
         if (err) return callback(err);
         return callback(null, transi);

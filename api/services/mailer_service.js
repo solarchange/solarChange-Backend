@@ -212,5 +212,6 @@ mailer.sendMail(email, function(err, res) {
 
 },
 
+// http://staging.solarchange.co/activate?token=q5BD0jAyATgelBbApwu5tCyEwffNK77a
 
 }
