@@ -7,7 +7,7 @@
 
 var request = require('request');
 var http = require('http');
-fs = require('fs');
+var fs = require('fs');
 var path = require('path');
 
 

@@ -29,11 +29,6 @@ module.exports = {
 
     nameplate: { type: 'float', required: true },
 
-    /*
-			public_key here is NOT a model since it is possible that a user will input a public key which is not
-			listed in the system.
-    */
-
     public_key: { model: 'public_key', required: true},
 
     file_info: {type: 'json', required: true},
