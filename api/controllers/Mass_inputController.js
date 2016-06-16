@@ -12,7 +12,6 @@ var randomstring = require('just.randomstring');
 var crypto = require('crypto');
 var base64url = require('base64url');
 var json2csv = require('json2csv');
-var writer = csvWriter({headers:['firstName','lastName','email','password','token','ok','error']});
 
 module.exports = {
 
