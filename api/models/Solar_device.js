@@ -5,6 +5,8 @@
 * @docs        :: http://sailsjs.org/#!documentation/models
 */
 
+var bcrypt = require('bcrypt');
+
 module.exports = {
 
   attributes: {
@@ -64,6 +66,12 @@ module.exports = {
 
     solar_grantings: {type:'array',defaultsTo:[]},
 
+    monitoring_portal: {type: 'string', defaultsTo:null},
+
+    monitoring_portal_username: {type:'string', defaultsTo:null},
+
+    monitoring_portal_password: {type: 'string', defaultsTo:null},
+
     status: function(){
     	return (this.approval_history[approval_history.length-1].event);
     	/*
@@ -77,6 +85,19 @@ module.exports = {
 
   },
 
+  beforeCreate: function (values, cb) {
+    /*
+    if (values.monitoring_portal_password)
+    {
+        bcrypt.hash(values.monitoring_portal_password, 10, function(err, hash) {
+          if(err) return cb(err);
+          values.password = hash;
+          return cb();
+        });
+    }
+    */
+    return cb();
+  }
 
 };
 

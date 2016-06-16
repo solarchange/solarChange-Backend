@@ -42,7 +42,7 @@ async.waterfall([
 			console.log(err);
 			return res.json(err);
 		}
-		console.log('got till here yo yo ')
+
 		mailer_service.send_confirmation_mail(results.email, results.token, results.firstName);
 		results.success=true;
 		return res.json(results);
@@ -233,8 +233,7 @@ async.waterfall([
 
 	get_current_balanace:function(debits,credits, key){
 	var amount = 0;
-	console.log(key)
-	console.log(',,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,')
+
 	for (var i=0; i<credits.length; i++){
 		
 		for (var j=0; j<credits[i].recipients.length ; j++)
@@ -506,19 +505,29 @@ newUser: function(nu_user, initialSessionData, cb){
 
 activate_user: function(req, res){
 
-// var authi = req.headers['authorization'].split(' ')[1];
-// var userEmail = new Buffer(authi, 'base64').toString().split(':')[0];
-
 User.update({token:req.body.token, status:'registered'},{status:'active'}, function(err, changed){
 	if (err) return res.json(err);
 	if (changed.length===0) return res.json({error:'No Such User'});
 
 	changed[0].success=true;
-	//mailer_service.send_activation_mail(changed[0].email, changed[0].firstName);
 	return res.json({success:true});
 		
 	});
 },
+
+activate_bulk_user: function(req, res){
+
+User.update({token:req.body.token, status:'bulk_registered'},{status:'active'}, function(err, changed){
+	if (err) return res.json(err);
+	if (changed.length===0) return res.json({error:'No Such User'});
+
+	changed[0].success=true;
+	return res.json({success:true});
+		
+	});
+},
+
+
 
 updatePrime: function(userID,key,cb){
 	User.update({id:userID},{primaryPK:key}).exec(function afterUpdate(err,updated){

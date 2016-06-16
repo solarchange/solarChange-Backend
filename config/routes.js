@@ -104,7 +104,7 @@ module.exports.routes = {
   'get /organization/get_orgs' : {controller: 'organization', action:'get_and_subscribe'},
 
 
-  'post /mass_input/read_file' : {controller:'mass_input' , action:'read_mass_file'},
+  'post /mass_input/read_file' : {controller:'mass_input' , action:'read_bulk_from_file'},
 
 
 

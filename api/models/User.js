@@ -37,7 +37,7 @@ module.exports = {
     'registered':
     */
 
-    status : { type: 'string', enum: ['active','incomplete','inactive', 'registered'], defaultsTo: 'incomplete' },
+    status : { type: 'string', enum: ['active','incomplete','inactive', 'registered', 'bulk_registered'], defaultsTo: 'incomplete' },
 
     publicKeys : { collection: 'public_key', via: 'user' },
 
@@ -69,6 +69,7 @@ module.exports = {
 
     recovery_mail_send_date: {type: 'integer', defaultsTo:null},
 
+
      toJSON: function() {
             var obj = this.toObject();
             delete obj.password;
@@ -78,12 +79,9 @@ module.exports = {
   },
 
   beforeCreate: function (values, cb) {
-
-    // Encrypt password
     bcrypt.hash(values.password, 10, function(err, hash) {
       if(err) return cb(err);
       values.password = hash;
-      //calling cb() with an argument returns an error. Useful for canceling the entire operation if some criteria fails.
       cb();
     });
   }

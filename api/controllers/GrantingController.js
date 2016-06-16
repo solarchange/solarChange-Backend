@@ -44,7 +44,7 @@ module.exports = {
 				var bitmap = new Buffer(req.body.proof, 'base64');
 				fs.writeFile(pathName, bitmap, function(err){
 					if (err) return cb(err);
-					var file_info = {location:pathName,type:req.body.file_type};
+					var file_info = {location:pathName,type:req.body.file_type, external:false};
 					return cb (null,file_info);
 				});	
 			},

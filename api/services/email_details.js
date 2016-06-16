@@ -2,7 +2,7 @@
 
 module.exports = {
 
-	base_url:'http://staging.solarchange.co/',
+	base_url:'http://staging.solarchange.co/#/',
 
 	
 

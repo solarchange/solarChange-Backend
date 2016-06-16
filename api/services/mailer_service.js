@@ -51,6 +51,10 @@ mailer.sendMail(email, function(err, res) {
 
 },
 
+send_bulk_confirmation_mail: function(to, token, firstName){
+
+},
+
 
 solar_device_registration:function(to, device, wallet, user){
 
