@@ -128,7 +128,7 @@ module.exports = {
 				
 				var options = {
 				      //url:'http://ec2-52-34-149-46.us-west-2.compute.amazonaws.com:8080/claim',
-				      url:sails.config.granting_url+'/claim';,
+				      url:sails.config.granting_url+'/claim',
 				      headers: {Authorization: 'Basic '+token},
 				      method: "POST",
 				      json:true,
