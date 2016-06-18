@@ -145,6 +145,8 @@ module.exports = {
 				    console.log(options.url)
 				    console.log('----------------------------')
 				request(options,function(err,httRes,body){
+					console.log('yo did it')
+					console.log(err);
 				 	if (err) return cb(err);
 				 	console.log('this is the body --------------------')
 				 	console.log(body)
