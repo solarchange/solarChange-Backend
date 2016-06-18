@@ -56,6 +56,7 @@ function filter_list(the_list, list_name){
 };
 
 function list_items(the_list){
+	console.log(the_list)
 	for(i =0 ; i<the_list.length; i++)
 	 {	
 	 	insert_solar_device_into_table('#solar_device_table',the_list[i]);
@@ -207,6 +208,10 @@ switch(device.status){
 		approve_button_disable='';
 		break;
 }
+
+console.log('hasdfghfgskhbsfbkzdfbkdzfkbhdfgzkhbdvzbhk')
+
+if (!device.user) return();
 
 var location = '../granting/installation_file'+device.file_info.location.split('/proofFiles')[1];
 	
