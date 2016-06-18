@@ -65,6 +65,11 @@ module.exports = {
 
 	add_granting: function(granting_id,granting_detail,time ,cb){
 		
+		console.log('adding granting')
+		console.log(granting_detail)
+		console.log(granting_id)
+		console.log('-----------------------------------')
+
 		async.waterfall([
 			function(callback){
 				Solar_device.findOne({granting_id:granting_id}).exec(function(err,found){
