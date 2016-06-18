@@ -257,9 +257,6 @@ reject_button_disable+'>Reject</button></td>'+
 
 };
 
-
-
-
 $(document).ready(function(){
 	console.log('whats gfoin on');
 

@@ -88,6 +88,8 @@ module.exports = {
 
 	approve_and_submit:function(req, res){
 
+		console.log('submitting and doing all of that ')
+
 		async.waterfall([
 
 			function(cb){
@@ -139,8 +141,13 @@ module.exports = {
 				    	cb(err,res,body,solar);
 				    }
 
+				    console.log('this is the request going on. sending it ')
+				    console.log(options.url)
+				    console.log('----------------------------')
 				request(options,function(err,httRes,body){
 				 	if (err) return cb(err);
+				 	console.log('this is the body --------------------')
+				 	console.log(body)
 				 	callback(null, httRes, body, solar_device);
 				 });
 
