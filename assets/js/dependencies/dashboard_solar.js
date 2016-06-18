@@ -60,8 +60,7 @@ function list_items(the_list){
 	for(i =0 ; i<the_list.length; i++)
 	 {	
 	 	insert_solar_device_into_table('#solar_device_table',the_list[i]);
-	 	//
-	 	insert_solar_device('#solar_device_list',the_list[i]);
+	 	//insert_solar_device('#solar_device_list',the_list[i]);
 	 }
 };
 
@@ -334,7 +333,7 @@ $(document).ready(function(){
 
 
 function insert_solar_device(container,device){
-
+return;
 var solar_device = '<li class="solar_list_item" id="solar-'+device.id+'"><div>'+
 '<span class="solar_device_info"> <strong>User: </strong>'+device.user.firstName+' '+device.user.lastName+'</span> '+
 '<span class="solar_device_info"><strong> Owner: </strong>'+device.firstName+' '+device.lastName+'</span> <br />'+
