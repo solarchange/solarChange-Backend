@@ -211,7 +211,9 @@ switch(device.status){
 
 console.log('hasdfghfgskhbsfbkzdfbkdzfkbhdfgzkhbdvzbhk	')
 
-if (!device.user) return;
+if (!device.user){
+	return ; 
+}
 
 var location = '../granting/installation_file'+device.file_info.location.split('/proofFiles')[1];
 	
