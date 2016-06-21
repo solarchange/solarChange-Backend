@@ -157,12 +157,18 @@ sails.controllers.public_key.get_pks_blockchain_info(pk_arr,cb);
 
   add_key: function(req, res){
 
+    req.setTimeout(1000000,function () {
+      req.abort();
+      console.log("timeout");
+      self.emit('pass',message);
+    });
+
     async.waterfall([
 
       function(cb){
         Public_key.findOne({key:req.body.key}).populate('user').exec(function(err,found){
           if (err) return cb(err);
-          console.log('done the 1 '+req.body.key)
+          console.logic('done the 1 '+req.body.key)
           return cb(null,found);
         });
       },
