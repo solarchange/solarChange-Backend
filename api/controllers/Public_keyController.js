@@ -162,6 +162,7 @@ sails.controllers.public_key.get_pks_blockchain_info(pk_arr,cb);
       function(cb){
         Public_key.findOne({key:req.body.key}).populate('user').exec(function(err,found){
           if (err) return cb(err);
+          console('done the 1 '+req.body.key)
           return cb(null,found);
         });
       },
@@ -184,7 +185,7 @@ sails.controllers.public_key.get_pks_blockchain_info(pk_arr,cb);
           to_create.user = req.headers.sender;
           Public_key.create(to_create).exec(function(err, created){
              if (err) return cb(err);
-             console.log(created)
+             console.log('created the key '+req.body.key)
              return cb(null,created);
           });
         }
@@ -201,7 +202,7 @@ sails.controllers.public_key.get_pks_blockchain_info(pk_arr,cb);
       },
 
       function(created, success, cb){
-        console.log('Gonna change the key to blockchained confirmed <-<--<---')
+        console.log('Gonna change the key to blockchained confirmed <--- '+req.body.key)
         if (success){
           Public_key.update({key:created.key},{blockchain_status:'confirmed'}).exec(function(err,updated){
             if (err) return cb(err);
@@ -214,7 +215,7 @@ sails.controllers.public_key.get_pks_blockchain_info(pk_arr,cb);
       ],
 
       function(err,created){
-        console.log('got to the last thing and gonna end it')
+        console.log('got to the last thing and gonna end it -- '+req.body.key)
         if (err) return sails.controllers.public_key.make_sure_for_twice(req, res, err);
           ///res.json(err);
         return res.json(created);
