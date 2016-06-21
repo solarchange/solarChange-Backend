@@ -168,7 +168,7 @@ sails.controllers.public_key.get_pks_blockchain_info(pk_arr,cb);
       function(cb){
         Public_key.findOne({key:req.body.key}).populate('user').exec(function(err,found){
           if (err) return cb(err);
-          console.logic('done the 1 '+req.body.key)
+          console.log('done the 1 '+req.body.key)
           return cb(null,found);
         });
       },
