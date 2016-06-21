@@ -64,11 +64,6 @@ module.exports = {
 
 
 	add_granting: function(granting_id,granting_detail,time ,cb){
-		
-		console.log('adding granting')
-		console.log(granting_detail)
-		console.log(granting_id)
-		console.log('-----------------------------------')
 
 		async.waterfall([
 			function(callback){
@@ -85,6 +80,10 @@ module.exports = {
 
 				Solar_device.update({granting_id:granting_id},update_variables).exec(function(err,updated){
 					if (err) return callback(err);
+
+					console.log('Added granting - ')
+					if (updated) console.log('Solar Device by '+updated.firstName + ' '+updated.lastName);
+
 					return callback(null, updated);
 				});
 			}

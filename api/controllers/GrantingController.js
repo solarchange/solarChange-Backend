@@ -116,9 +116,11 @@ module.exports = {
 					"address":solar_device.address,
 					"city": solar_device.city,
 					"zipCode": solar_device.zipcode,
+					"state": solar_device.state,
 					"country": solar_device.country,
 					"nameplate": solar_device.nameplate,
-					"walletAddress": solar_device.public_key
+					"walletAddress": solar_device.public_key,
+					"documentation":"http://internalvalidation.solatchange.co/",
 				};
 
 				var data = {
@@ -141,15 +143,11 @@ module.exports = {
 				    	cb(err,res,body,solar);
 				    }
 
-				    console.log('this is the request going on. sending it ')
-				    console.log(options.url)
-				    console.log('----------------------------')
 				request(options,function(err,httRes,body){
-					console.log('yo did it')
-					console.log(err);
+					console.log('submitted Solar device to Granting Machine for '+solar_device.firstName+' '+solar_device.lastName);
+					if (err) console.log(err);
 				 	if (err) return cb(err);
-				 	console.log('this is the body --------------------')
-				 	console.log(body)
+				 	console.log('Successful in registering the Solar Device');
 				 	callback(null, httRes, body, solar_device);
 				 });
 

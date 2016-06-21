@@ -20,6 +20,12 @@ module.exports = {
 
 get_blockchain_data:function(req,res){
 
+  req.setTimeout(1000000,function () {
+    req.abort();
+    console.log("timeout");
+    self.emit('pass',message);
+  });
+
   var pk_arr = [req.params.pk];
   var cb = function(err, success){
     if (err) return res.json(err);
