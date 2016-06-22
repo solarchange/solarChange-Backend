@@ -130,6 +130,7 @@ sails.controllers.public_key.get_pks_blockchain_info(pk_arr,cb);
 
       ],function(err,success,the_pks){
         
+        console.log('-------- WHAT HERE I AM WHAT WHAT WHAT ')
         
         if (err) return cb(err);
 
@@ -140,9 +141,9 @@ sails.controllers.public_key.get_pks_blockchain_info(pk_arr,cb);
                   json:true,
                   body:the_pks
                 };
-                options.headers['Content-Type']='application/json';
+          options.headers['Content-Type']='application/json';
 
-                console.log('now sent it all' );
+          console.log('now sent it all' );
 
         request(options,function(err,httRes,body){
               if (err) return cb(err);
