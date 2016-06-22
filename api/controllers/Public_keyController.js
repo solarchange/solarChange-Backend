@@ -117,8 +117,8 @@ sails.controllers.public_key.get_pks_blockchain_info(pk_arr,cb);
 
         var  cally = function(err,the_pks){
           if (err) return callback(err);
-          return (null, success, the_pks);
-        }
+          return callback(null, success, the_pks);
+        };
 
         Public_key.find({}).exec(function(err, found){
             if (err) return cally(err);
