@@ -65,7 +65,7 @@ sails.controllers.public_key.get_pks_blockchain_info(pk_arr,cb);
         request(options,function(err,httRes,body){
 
         console.log('got the answer from bcapi <---------------')
-        console.log(body);
+        // console.log(body);
 
               if (err) return callback(err);
               return callback(null,body);
@@ -103,9 +103,24 @@ sails.controllers.public_key.get_pks_blockchain_info(pk_arr,cb);
             if (err) return callback(err);
             return callback(null,{success:true});
               });             
-      }
+      },
 
-      ],function(err,success){
+      function(success, callback){
+
+        var  cally = function(err,the_pks){
+          if (err) return callback(err);
+          return (null, success, the_pks);
+        }
+
+        Public_key.find({}).exec(function(err, found){
+            if (err) return cally(err);
+           var the_pks =  _.pluck(found,'key');
+           return cally(null,the_pks);
+        });        
+
+      },
+
+      ],function(err,success,the_pks){
         
         
         if (err) return cb(err);
@@ -115,8 +130,10 @@ sails.controllers.public_key.get_pks_blockchain_info(pk_arr,cb);
                   headers: {Authorization: 'Basic '+authHeader},
                   method: "POST",
                   json:true,
-                  body:pks
+                  body:the_pks
                 };
+
+                console.log('now sent it all');
 
         request(options,function(err,httRes,body){
               if (err) return cb(err);
