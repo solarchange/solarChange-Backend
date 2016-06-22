@@ -88,8 +88,6 @@ module.exports = {
 
 	approve_and_submit:function(req, res){
 
-		console.log('submitting and doing all of that ')
-
 		async.waterfall([
 
 			function(cb){
@@ -160,7 +158,12 @@ module.exports = {
 		],
 
 			function(err, final_device){
-				if (err) return res.json(err);
+				if (err){ 
+					console.log(err);
+					return res.json(err);
+				}
+				console.log('Have submitted a Solar Device to the granting Machine');
+				console.log(final_device);
 				return res.json(final_device);
 			});
 	},
@@ -179,7 +182,12 @@ module.exports = {
 
 	granting_judgement: function(req, res){
 		var cb = function(err,updated){
-			if (err) return res.json(err);
+			if (err){ 
+				console.log(err);
+				return res.json(err);
+			}
+
+			sails.controllers.granting.send_granting_mail(updated[0],req.body.event, req.body.detail);
 
 			return res.json({events:updated[0].approval_history, 
 				grantings:updated[0].solar_grantings,
@@ -188,14 +196,35 @@ module.exports = {
 		sails.controllers.solar_device.add_granting(req.body.id,req.body,req.body.timestamp,cb);
 	},
 
-	send_granting_mail: function(device){
+	send_granting_mail: function(device, event, detail){
 		async.waterfall([
 			function(cb){
-				
+				sails.controllers.solar_device.get_populated_device(device.id,cb);
+			},
+
+			function(device_with_user, cb){
+				if (!device_with_user.user) return cb({error:'Solar Device does not have user'});
+				switch(event){
+					case 'approved':
+						mailer_service.system_approved(device_with_user.user.email,device_with_user.user.firstName, device_with_user);
+						cb(null, device_with_user);
+						break;
+					case 'rejected':
+						var err = null;
+						var reason = detail;
+						if (!detail) {
+							reason = 'Unknown';
+							err = {error:'No reason for rejection'};
+						}
+						mailer_service.rejection(device_with_user.user.email, device_with_user.user.firstName,reason);
+						return cb(err, device_with_user);
+						break;
+				}
 			},
 			], 
 			function(err,results){
-
+				if (err) return console.log(err);
+				return console.log('Sent mail to '+results.user.email);
 		});
 	},
 

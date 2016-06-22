@@ -110,14 +110,12 @@ function get_status(device){
 };
 
 function approveNsubmit(button){
-	console.log('CLICK');
 	io.socket.post( '/admin/approve_solar',{solar_device_id:$(button).attr('data-id')}, function(resData, jwers){
 		granting_reaction(resData,jwers,$(button).attr('data-id'));
 	});
 };
 
 function reject(button){
-	console.log('CLICK');
 	io.socket.post( '/admin/reject',{solar_device_id:$(button).attr('data-id'), detail:$('#detail-'+$(button).attr('data-id')).val()}, function(resData, jwers){
 		granting_reaction(resData,jwers,$(button).attr('data-id'));
 	});
@@ -207,8 +205,6 @@ switch(device.status){
 		approve_button_disable='';
 		break;
 }
-
-console.log('hasdfghfgskhbsfbkzdfbkdzfkbhdfgzkhbdvzbhk	')
 
 if (!device.user){
 	return ; 
