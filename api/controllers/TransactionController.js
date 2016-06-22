@@ -71,55 +71,11 @@ module.exports = {
 
       function(cb){
 
-       // console.log('Looking for a single Transaction ////////////////////////////////')
         Transaction.findOne({hash:hash}).exec(function(err, found){
           if (err) return cb(err);
           return cb(null, found);
         });
       },
-
-      /*
-      function(found, cb){
-        if (found!==undefined) return cb(null, found);
-
-        console.log('AM HERE WHAT DA FUKN------------------------')
-        Transaction.create({recipients:recipients, senders:senders, hash:hash, blockChainConfirmed:date}).exec(function(err,created){
-          if (err) return cb(err);
-          return cb(null,created);
-        });
-      },
-
-      function(found, cb){
-        var nu_to=[];
-        for (var i=0; i<recipients.length ; i++)
-        {
-          nu_to.push(recipients[i].publicKey);
-        }
-
-
-        var cally=function(err){
-          if (err) return cb(err);
-          return cb(null,found,nu_to);
-        }; 
-        sails.controllers.public_key.make_sure_created(nu_to,cally);
-
-      },
-
-      function(found, nu_to, cb){
-        var nu_from=[];
-
-        for (var i=0; i<senders.length ; i++)
-        {
-          nu_from.push(senders[i].publicKey);
-        }
-        var cally=function(err){
-          if (err) return cb(err);
-          return cb(null,found,nu_to, nu_from);
-        }; 
-        sails.controllers.public_key.make_sure_created(nu_from,cally);
-      },
-      //function(found,nu_to,nu_from,cb){
-        */
 
       function(found,cb){
 
@@ -139,13 +95,6 @@ module.exports = {
         nu_to=_.uniq(nu_to);
         nu_from=_.uniq(nu_from);
 
-        // console.log('...................................................')
-        // console.log(nu_to)
-        // console.log(nu_from)
-        // console.log(',,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,')
-
-      //  console.log('And now gonna add the transaction or change it for the db ,,,,,,,,,,,,,,,,,,,')
-
         if (found){
           Transaction.update({hash:hash},{recipients:recipients, senders:senders, blockChainConfirmed: date, to:nu_to, from:nu_from}).exec(function(err,updated){
             if (err) return cb(err);
@@ -155,7 +104,6 @@ module.exports = {
         else{
           Transaction.create({hash:hash,recipients:recipients, senders:senders, blockChainConfirmed: date, to:nu_to, from:nu_from}).exec(function(err, created){
            if (err) {
-            console.log('hmmmmmmmmmmm----------------------------------------------')
             console.log(err)
           }
             if (err) return cb(err);
@@ -163,26 +111,6 @@ module.exports = {
           });
         }
       },
-
-
-      /*
-      function(tx,nu_to,nu_from,cb){
-        async.parallel({
-          to:function(callback){
-            sails.controllers.public_key.add_txs(tx.id,nu_to,'to',callback);
-          },
-          from:function(callback){
-            sails.controllers.public_key.add_txs(tx.id,nu_from,'from',callback);
-          }
-        },
-
-        
-          function(err, results){
-            if (err) return cb(err);
-            return cb(null, tx);
-          });
-      },
-      */
       ],
       function(err, transi){
 

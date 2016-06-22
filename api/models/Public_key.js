@@ -23,6 +23,8 @@ module.exports = {
 
     currentValue : { type: 'float', defaultsTo: 0 },
 
+    big :{type:'boolean', defaultsTo:false},
+
     known: {type: 'boolean', defaultsTo:false},
 
     organization: {model: 'organization'},

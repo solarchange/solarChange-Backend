@@ -96,16 +96,21 @@ sails.controllers.public_key.get_pks_blockchain_info(pk_arr,cb);
 
       console.log(': : : : : : : : : : : : : : : : : : : : : : : : :: : : : : :')
 
-        async.each(block_res.txs, function(a_transaction,callcall){
+      
+      async.each(block_res.txs, function(a_transaction,callcall){
           sails.controllers.transaction.add_from_blockChain(a_transaction,callcall);
           },
           function(err){
             if (err) return callback(err);
             return callback(null,{success:true});
-              });             
+              });    
+
+
       },
 
       function(success, callback){
+
+        console.log('Thi SI -----0-------------------------------------')
 
         var  cally = function(err,the_pks){
           if (err) return callback(err);
