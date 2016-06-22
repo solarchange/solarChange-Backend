@@ -96,7 +96,10 @@ sails.controllers.public_key.get_pks_blockchain_info(pk_arr,cb);
 
       console.log(': : : : : : : : : : : : : : : : : : : : : : : : :: : : : : :')
 
-      
+      // REMOVE THIS AFTER
+      return callback(null,{success:true});
+
+
       async.each(block_res.txs, function(a_transaction,callcall){
           sails.controllers.transaction.add_from_blockChain(a_transaction,callcall);
           },
