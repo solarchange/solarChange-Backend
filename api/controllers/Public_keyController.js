@@ -127,11 +127,12 @@ sails.controllers.public_key.get_pks_blockchain_info(pk_arr,cb);
 
         var options = {
                   url:sails.config.blockChainUnit.url+'set-public-keys',
-                  headers: {Authorization: 'Basic '+authHeader,Content-Type:'application/json'},
+                  headers: {Authorization: 'Basic '+authHeader},
                   method: "POST",
                   json:true,
                   body:the_pks
                 };
+                options.headers['Content-Type']='application/json';
 
                 console.log('now sent it all' );
 
