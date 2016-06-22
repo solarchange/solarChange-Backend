@@ -301,7 +301,7 @@ sails.controllers.public_key.get_pks_blockchain_info(pk_arr,cb);
     async.each(pk_ar,function(pk,callback){
       Public_key.findOrCreate({key:pk},{key:pk, user:null, currentValue:null, blockchain_status:'external'}).exec(function(err, created){
 
-        console.log('looking at a key now >>>>>>>>>>-----------+++++++++')
+       // console.log('looking at a key now >>>>>>>>>>-----------+++++++++')
 
         if (err) return callback(err);
         return callback(null,created);
