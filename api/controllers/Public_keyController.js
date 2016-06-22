@@ -96,24 +96,25 @@ sails.controllers.public_key.get_pks_blockchain_info(pk_arr,cb);
 
       console.log(': : : : : : : : : : : : : : : : : : : : : : : : :: : : : : :')
 
-      // REMOVE THIS AFTER
-      return callback(null,{success:true});
 
-
-      async.each(block_res.txs, function(a_transaction,callcall){
-          sails.controllers.transaction.add_from_blockChain(a_transaction,callcall);
-          },
-          function(err){
-            if (err) return callback(err);
-            return callback(null,{success:true});
-              });    
-
+      if (block_res.txs.length>2000){
+        console.log('Big Address registered');
+        if (pks.length>1) return callback({error:'Trying to input more than a single "big" address'});
+        sails.controllers.block_txs.create_txs(block_res.txs,pks[0],callback);
+      }
+      else{
+        async.each(block_res.txs, function(a_transaction,callcall){
+            sails.controllers.transaction.add_from_blockChain(a_transaction,callcall);
+            },
+            function(err){
+              if (err) return callback(err);
+              return callback(null,{success:true});
+                });    
+      }
 
       },
 
       function(success, callback){
-
-        console.log('Thi SI -----0-------------------------------------')
 
         var  cally = function(err,the_pks){
           if (err) return callback(err);
@@ -130,8 +131,7 @@ sails.controllers.public_key.get_pks_blockchain_info(pk_arr,cb);
 
       ],function(err,success,the_pks){
         
-        console.log('-------- WHAT HERE I AM WHAT WHAT WHAT ')
-        
+
         if (err) return cb(err);
 
         var options = {
@@ -447,6 +447,13 @@ sails.controllers.public_key.get_pks_blockchain_info(pk_arr,cb);
           if (err) return res.json(err);
           return res.json(result);
       })
+  },
+
+  make_big: function(key,cb){
+    Public_key.update({key:key},{big:true}).exec(function(err,updated){
+      if (err) return cb(err);
+      return cb(null,updated);
+    });
   },
 
 
