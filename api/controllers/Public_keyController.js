@@ -127,13 +127,13 @@ sails.controllers.public_key.get_pks_blockchain_info(pk_arr,cb);
 
         var options = {
                   url:sails.config.blockChainUnit.url+'set-public-keys',
-                  headers: {Authorization: 'Basic '+authHeader},
+                  headers: {Authorization: 'Basic '+authHeader,Content-Type:'application/json'},
                   method: "POST",
                   json:true,
                   body:the_pks
                 };
 
-                console.log('now sent it all');
+                console.log('now sent it all' );
 
         request(options,function(err,httRes,body){
               if (err) return cb(err);
@@ -313,7 +313,8 @@ sails.controllers.public_key.get_pks_blockchain_info(pk_arr,cb);
 
     //console.log(pk_ar);
 
-    console.log('i am now making sure that the keys are actually there')
+    console.log('i am now making sure that the keys are actually there ')
+    console.log(pk_ar)
 
     async.each(pk_ar,function(pk,callback){
       Public_key.findOrCreate({key:pk},{key:pk, user:null, currentValue:null, blockchain_status:'external'}).exec(function(err, created){
