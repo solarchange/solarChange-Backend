@@ -470,6 +470,7 @@ sails.controllers.public_key.get_pks_blockchain_info(pk_arr,cb);
   	});
   },
 
+/*
 destroy_keys:function(req,res){
   Public_key.destroy({}).exec(function(err){
     res.json('YEAAAAH')
@@ -482,6 +483,7 @@ destroy_known: function(req, res) {
     res.json('known dead ')
   })
 }
+*/
 
 };
 

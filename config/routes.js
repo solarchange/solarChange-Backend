@@ -115,9 +115,9 @@ module.exports.routes = {
   // ------------------------------------ 
 
 
-  'post /trequest/new': { controller: 'trequest', action:'initNew'},
+  // 'post /trequest/new': { controller: 'trequest', action:'initNew'},
 
-  'post /transaction/wtf' :{ controller:'transaction', action:'blockChain_input'},
+  // 'post /transaction/wtf' :{ controller:'transaction', action:'blockChain_input'},
 
 
   //'GET /admin/dashboard_solar':{view:'dashboard_solar'},

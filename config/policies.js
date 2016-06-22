@@ -33,7 +33,7 @@ module.exports.policies = {
   'User': {
 
     // in production ALL besides user addition will be protected by 'authenticate' !!!
-    //'*': 'authenticate',
+    '*': 'authenticate',
     'add_new_user':[],
     'tryNewUser':[],
     'activate_user':[],
@@ -47,17 +47,25 @@ module.exports.policies = {
   },
 
   'Solar_device':{
-    //'*':'authenticate'
+    '*':'authenticate'
+  },
+
+  'Public_key':{
+    '*':'authenticate'
   },
 
   
-  file_handler:{
+  'file_handler':{
     '*':'isAuthenticated'
   },
 
   'admin':{
     '*': 'isAuthenticated'
   },
+
+  'Organization':{
+    '*':'isAuthenticated'
+  }
 
   /*
   'TrequestController': {
