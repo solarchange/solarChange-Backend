@@ -190,12 +190,14 @@ sails.controllers.public_key.get_pks_blockchain_info(pk_arr,cb);
       function(cb){
         Public_key.findOne({key:req.body.key}).populate('user').exec(function(err,found){
           if (err) return cb(err);
-          console.log('done the 1 '+req.body.key)
+          console.log('done the 1 1 1 '+req.body.key)
           return cb(null,found);
         });
       },
 
       function(found,cb){
+
+        console.log('done the 2 2 2 '+ req.body.key);
 
         if (found){
           if (found.user.id){
@@ -220,6 +222,9 @@ sails.controllers.public_key.get_pks_blockchain_info(pk_arr,cb);
       },
 
       function(created, cb){
+
+        console.log('done the 3 3 3 '+req.body.key);
+
           var callback = function(err, success){
             if (err) return cb(err);
             return cb(null,created,success);
@@ -230,7 +235,8 @@ sails.controllers.public_key.get_pks_blockchain_info(pk_arr,cb);
       },
 
       function(created, success, cb){
-        console.log('Gonna change the key to blockchained confirmed <--- '+req.body.key)
+
+        console.log('done the 4 4 4 '+req.body.key)
         if (success){
           Public_key.update({key:created.key},{blockchain_status:'confirmed'}).exec(function(err,updated){
             if (err) return cb(err);
@@ -315,7 +321,7 @@ sails.controllers.public_key.get_pks_blockchain_info(pk_arr,cb);
     //console.log(pk_ar);
 
     console.log('i am now making sure that the keys are actually there ')
-    console.log(pk_ar)
+    console.log(pk_ar.length)
 
     async.each(pk_ar,function(pk,callback){
       Public_key.findOrCreate({key:pk},{key:pk, user:null, currentValue:null, blockchain_status:'external'}).exec(function(err, created){
@@ -328,7 +334,7 @@ sails.controllers.public_key.get_pks_blockchain_info(pk_arr,cb);
     },function(err){
       if (err) console.log(err)
       if (err) return cb(err);
-
+      console.log('THis is finally OVER')
       return cb(null);
     });
   },
