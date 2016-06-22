@@ -9,7 +9,7 @@ module.exports = {
 
 
 	create_txs: function (block_res_txs,pk,cb) {
-		aysnc.waterfall([
+		async.waterfall([
 		function(callback){
 				Block_txs.create({key:pk, txs:block_res_txs, done:false}).exec(function(err, created){
 					if (err) return callback(err);
