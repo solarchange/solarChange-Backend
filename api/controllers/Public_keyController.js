@@ -51,6 +51,8 @@ sails.controllers.public_key.get_pks_blockchain_info(pk_arr,cb);
           way = way+pks[i];
         }
 
+        console.log(way);
+
         var options = {
                   url:sails.config.blockChainUnit.url+way,
                   headers: {Authorization: 'Basic '+authHeader},
@@ -58,11 +60,13 @@ sails.controllers.public_key.get_pks_blockchain_info(pk_arr,cb);
                   json:true,
                 };
 
-        console.log('gonna send the request to ukraine >>>><<<<...........')
+        console.log('gonna send the request to bcapi')
 
         request(options,function(err,httRes,body){
 
-        console.log('got the answer from ukraine <---------------')
+        console.log('got the answer from bcapi <---------------')
+        console.log(body);
+
               if (err) return callback(err);
               return callback(null,body);
 
