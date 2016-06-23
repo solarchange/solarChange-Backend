@@ -246,6 +246,7 @@ sails.controllers.public_key.get_pks_blockchain_info(pk_arr,cb);
       function(created, success, cb){
 
         console.log('done the 4 4 4 '+req.body.key)
+        if created.big(return cb(null,created));
         if (success){
           Public_key.update({key:created.key},{blockchain_status:'confirmed'}).exec(function(err,updated){
             if (err) return cb(err);
