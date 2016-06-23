@@ -139,7 +139,8 @@ sails.controllers.public_key.get_pks_blockchain_info(pk_arr,cb);
         
         console.log('0000--------------- Shor shor shor shor ')
         if (err) return cb(err);
-
+        return cb(null,{success:the_success});
+        /*
         var options = {
                   url:sails.config.blockChainUnit.url+'set-public-keys',
                   headers: {Authorization: 'Basic '+authHeader},
@@ -156,6 +157,7 @@ sails.controllers.public_key.get_pks_blockchain_info(pk_arr,cb);
               console.log('THIS IS OVEejjjjjjjj----0-0-0-0-0-0-0-0-0-0-0')
               return cb(null,{success:the_success});
              });
+        */
     });
   },
 
