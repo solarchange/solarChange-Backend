@@ -8,6 +8,7 @@
 module.exports = {
 	
 	new_device: function(new_device_data,cb){
+		console.log('adding a new device huhhhh');
 		new_device_data.approval_history = [{event:'pending',date:Date.now()}];
 		Solar_device.create(new_device_data).exec(function(err,created){
 			if (err) return cb(err);

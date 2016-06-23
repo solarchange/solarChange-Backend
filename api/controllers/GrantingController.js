@@ -16,7 +16,7 @@ module.exports = {
 	register_new_solar_device: function(req, res){
 		var new_device_data = req.body;
 
-		//if (req.body.sender) req.headers.sender = req.body.sender;
+		if (!req.headers.sender) return res.send(500,{error:'User not logged in'});
 
 		new_device_data.user = req.headers.sender;
 		
@@ -24,6 +24,15 @@ module.exports = {
 		//new_device_data.public_key=null;
 
 		async.waterfall([	
+
+			function(cb){
+				var callback = function(err, user){
+					if (err) return cb(err);
+					if (!user) return cb({error:'User does not exist'});
+					return cb(null);
+				};
+				sails.controllers.user.get_user(req.headers.sender);
+			},
 
 			// upload the proof of installation file
 
