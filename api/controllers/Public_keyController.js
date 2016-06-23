@@ -247,7 +247,9 @@ sails.controllers.public_key.get_pks_blockchain_info(pk_arr,cb);
         console.log(success);
 
         if (success.success=='big') {
+          
           created.big=true;
+
           return cb(null,created);
         }
 
