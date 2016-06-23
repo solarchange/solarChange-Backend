@@ -106,7 +106,7 @@ sails.controllers.public_key.get_pks_blockchain_info(pk_arr,cb);
             },
             function(err){
               if (err) return callback(err);
-              return callback(null,{success:true});
+              return callback(null,{success:'small'});
                 });    
       }
 
@@ -144,7 +144,6 @@ sails.controllers.public_key.get_pks_blockchain_info(pk_arr,cb);
           console.log('now sent it all' );
 
         request(options,function(err,httRes,body){
-            console.log('hmmmm what is going on here')
               if (err) return cb(err);
               return cb(null,{success:true});
              });
@@ -248,13 +247,11 @@ sails.controllers.public_key.get_pks_blockchain_info(pk_arr,cb);
         console.log(success);
 
         if (success.success=='big') {
-          
           created.big=true;
-
           return cb(null,created);
         }
 
-        if (success.success==true){
+        if (success.success=='small'){
           console.log('NOT NOT BIG BIG')
           Public_key.update({key:created.key},{blockchain_status:'confirmed'}).exec(function(err,updated){
             if (err) return cb(err);
