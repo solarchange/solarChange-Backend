@@ -306,16 +306,21 @@ sails.controllers.public_key.get_pks_blockchain_info(pk_arr,cb);
         console.log('doing the 2 2 2 2 2 2 2 2 2 2 2  '+key)
         console.log(key_object)
             if (key_object.blockchain_status!='confirmed'){
+
               console.log('The added key is unconfirmed so gonna do that now')
+              
             async.waterfall([
-              function(callcall){
-              var cally = function(err,success){
-                if (err) return callback(err);
-                return callback(null,success,key_object)
-              };
-              sails.controllers.public_key.get_blockchain_history([updated.key], cally);
+
+              function(callcall){ 
+                  var cally = function(err,success){
+                    if (err) return callback(err);
+                    return callback(null,success,key_object)
+                };
+
+               sails.controllers.public_key.get_blockchain_history([key_object.key], cally);
               }
               ],
+
               function(err,success, the_key){
 
                 if (success=='big'){
