@@ -39,6 +39,9 @@ sails.controllers.public_key.get_pks_blockchain_info(pk_arr,cb);
   get_blockchain_history:function(pks, cb){
 
     var authHeader = new Buffer(sails.config.blockChainUnit.username+':'+sails.config.blockChainUnit.password).toString('base64');
+    
+    console.log('hahahah---- and the walltes are ----')
+    console.log(pks)
 
     async.waterfall([
 
