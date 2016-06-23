@@ -251,7 +251,7 @@ sails.controllers.public_key.get_pks_blockchain_info(pk_arr,cb);
           return cb(null,created);
         }
 
-        if (success.success=='small'){
+        if (success.success==true){
           console.log('NOT NOT BIG BIG')
           Public_key.update({key:created.key},{blockchain_status:'confirmed'}).exec(function(err,updated){
             if (err) return cb(err);
