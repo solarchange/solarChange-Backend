@@ -239,7 +239,6 @@ sails.controllers.public_key.get_pks_blockchain_info(pk_arr,cb);
             return cb(null,created,success);
           };
 
-          console.log('gonna get the blockchain history ---->>>>>>>>><<<<<<<<')
          sails.controllers.public_key.get_blockchain_history([created.key],callback);
       },
 
@@ -247,6 +246,8 @@ sails.controllers.public_key.get_pks_blockchain_info(pk_arr,cb);
 
         console.log('done the 4 4 4 '+req.body.key)
         
+        console.log(created)
+
         if (created.big) return cb(null,created);
 
         if (success){
