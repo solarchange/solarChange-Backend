@@ -25,5 +25,12 @@ module.exports = {
 			if (err) return cb(err);
 			return cb(null,{success:'big'});
 		});
+	},
+
+	destroy_txs: function(req, res){
+		Block_txs.destroy({}).exec(function(err){
+			res.json('HA');
+		});
 	}
+
 }
