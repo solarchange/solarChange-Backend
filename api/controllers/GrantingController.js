@@ -31,7 +31,7 @@ module.exports = {
 					if (!user) return cb({error:'User does not exist'});
 					return cb(null);
 				};
-				sails.controllers.user.get_user(req.headers.sender);
+				sails.controllers.user.get_user(req.headers.sender, callback);
 			},
 
 			// upload the proof of installation file
