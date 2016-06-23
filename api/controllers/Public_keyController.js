@@ -304,7 +304,8 @@ sails.controllers.public_key.get_pks_blockchain_info(pk_arr,cb);
 
       function(key_object,callback){
         console.log('doing the 2 2 2 2 2 2 2 2 2 2 2  '+key)
-            if (key_object.blockchain_status=='unconfirmed'){
+        console.log(key_object)
+            if (key_object.blockchain_status!='confirmed'){
               console.log('The added key is unconfirmed so gonna do that now')
             async.waterfall([
               function(callcall){
