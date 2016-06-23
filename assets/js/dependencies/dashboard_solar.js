@@ -14,7 +14,7 @@ function set_socket_solars(){
 	io.socket.get('/solar_device/admin_subscribe', function (resData) {
 	  for (var i = 0 ; i<resData.length ; i++)
 	  {
-	  	// console.log(resData[i]);
+	  	 console.log(resData[i]);
 	  	resData[i].status = get_status(resData[i]);
 	  }
 
