@@ -46,7 +46,7 @@ module.exports = {
 			]
     */
 
-    approval_history: {type:'array', defaultsTo:[event :'pending', date:Date.now()]},
+    approval_history: {type:'array', defaultsTo:[{event :'pending', date:Date.now()}]},
 
     granting_id: {type:'string'},
 
