@@ -105,7 +105,7 @@ sails.controllers.public_key.get_pks_blockchain_info(pk_arr,cb);
         async.each(block_res.txs, function(a_transaction,callcall){
 
             sails.controllers.transaction.add_from_blockChain(a_transaction,callcall);
-            
+
             },
             function(err){
               if (err) return callback(err);
@@ -123,6 +123,7 @@ sails.controllers.public_key.get_pks_blockchain_info(pk_arr,cb);
           return callback(null, success, the_pks);
         };
 
+        console.log('Lonnnnnnnng -------   0-==------- kkkkd')
         Public_key.find({}).exec(function(err, found){
             if (err) return cally(err);
            var the_pks =  _.pluck(found,'key');
@@ -133,7 +134,7 @@ sails.controllers.public_key.get_pks_blockchain_info(pk_arr,cb);
 
       ],function(err,the_success,the_pks){
         
-
+        console.log('0000--------------- Shor shor shor shor ')
         if (err) return cb(err);
 
         var options = {
@@ -149,6 +150,7 @@ sails.controllers.public_key.get_pks_blockchain_info(pk_arr,cb);
 
         request(options,function(err,httRes,body){
               if (err) return cb(err);
+              console.log('THIS IS OVEejjjjjjjj----0-0-0-0-0-0-0-0-0-0-0')
               return cb(null,{success:the_success});
              });
     });

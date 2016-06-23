@@ -87,6 +87,7 @@ module.exports = {
 			],
 			function(err, results, wallet,user){
 				if (err) return res.json(err);
+				if (!wallet) return res.send(500, {error:'No wallet address'});
 				results.status = 'pending';
 				results.success = true;
 				mailer_service.solar_device_registration(user.email,results, wallet[0], user);
