@@ -101,11 +101,15 @@ sails.controllers.public_key.get_pks_blockchain_info(pk_arr,cb);
         sails.controllers.block_txs.create_txs(block_res.txs,pks[0],callback);
       }
       else{
+        console.log('OK what is going on on on ------------- ')
         async.each(block_res.txs, function(a_transaction,callcall){
+
             sails.controllers.transaction.add_from_blockChain(a_transaction,callcall);
+            
             },
             function(err){
               if (err) return callback(err);
+              console.log('SMA<LLLLLL<<<---------------------- ')
               return callback(null,'small');
                 });    
       }
@@ -308,7 +312,7 @@ sails.controllers.public_key.get_pks_blockchain_info(pk_arr,cb);
             if (key_object.blockchain_status!='confirmed'){
 
               console.log('The added key is unconfirmed so gonna do that now')
-              
+
             async.waterfall([
 
               function(callcall){ 
