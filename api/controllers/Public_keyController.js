@@ -291,29 +291,39 @@ sails.controllers.public_key.get_pks_blockchain_info(pk_arr,cb);
 
     async.waterfall([
       function(callback){
+        console.log('doing the 1 1 1 1 1 1 1 1 1 1 '+key)
         Public_key.findOrCreate({key:key},{key:key, user:user_id},function(err,pk){
-          if (err) return cb(err);
+          if (err) return callback(err);
 
           Public_key.update({key:key},{solar_device:device_id}).exec(function(err,updated){
-            if (err) return cb(err);
+            if (err) return callback(err);
             return callback(null, updated);
           });
         });
       },
 
       function(key_object,callback){
+        console.log('doing the 2 2 2 2 2 2 2 2 2 2 2  '+key)
             if (key_object.blockchain_status=='unconfirmed'){
+              console.log('The added key is unconfirmed so gonna do that now')
             async.waterfall([
               function(callcall){
               var cally = function(err,success){
                 if (err) return callback(err);
-                return callback(null,key_object)
+                return callback(null,success,key_object)
               };
               sails.controllers.public_key.get_blockchain_history([updated.key], cally);
               }
               ],
-              function(err,the_key){
-                Public_key.update({key:key_object.key},{blockchain_status:'confirmed'}).exec(function(err,updated){
+              function(err,success, the_key){
+
+                if (success=='big'){
+                  the_key.big=true;
+                  return callback(null,the_key)
+
+                }
+
+                Public_key.update({key:the_key.key},{blockchain_status:'confirmed'}).exec(function(err,updated){
                   if (err) return callback(err);
                   return callback(null,updated);
                 });
@@ -324,6 +334,7 @@ sails.controllers.public_key.get_pks_blockchain_info(pk_arr,cb);
 
       ],
       function(err,key_object){
+        console.log('done 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 '+key)
         if (err) return cb(err);
         return cb(null,key_object);
       });
