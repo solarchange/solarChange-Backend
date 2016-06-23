@@ -23,7 +23,7 @@ module.exports = {
 
 		],function(err, big_key){
 			if (err) return cb(err);
-			return cb(null,{success:true});
+			return cb(null,{success:'big'});
 		});
 	}
 }

@@ -90,16 +90,14 @@ sails.controllers.public_key.get_pks_blockchain_info(pk_arr,cb);
 
         var bla = sails.controllers.public_key.get_current_balanace(block_res.txs, pks[0])
     
-      console.log('now, adding TXS. the number is: : : : : : : : : : : :')
-
-      console.log(block_res.txs.length)
-
-      console.log(': : : : : : : : : : : : : : : : : : : : : : : : :: : : : : :')
-
+      console.log('Adding TXS. '+ block_res.txs.length + ' Of them - - - ');
 
       if (block_res.txs.length>2000){
+
         console.log('Big Address registered');
+
         if (pks.length>1) return callback({error:'Trying to input more than a single "big" address'});
+
         sails.controllers.block_txs.create_txs(block_res.txs,pks[0],callback);
       }
       else{
@@ -108,7 +106,7 @@ sails.controllers.public_key.get_pks_blockchain_info(pk_arr,cb);
             },
             function(err){
               if (err) return callback(err);
-              return callback(null,{success:true});
+              return callback(null,{success:'small'});
                 });    
       }
 
@@ -245,12 +243,15 @@ sails.controllers.public_key.get_pks_blockchain_info(pk_arr,cb);
       function(created, success, cb){
 
         console.log('done the 4 4 4 '+req.body.key)
-        
-        console.log(created)
 
-        if (created.big) return cb(null,created);
+        console.log(success);
 
-        if (success){
+        if (success.success=='big') {
+          created.big=true;
+          return cb(null,created);
+        }
+
+        if (success.success=='small'){
           console.log('NOT NOT BIG BIG')
           Public_key.update({key:created.key},{blockchain_status:'confirmed'}).exec(function(err,updated){
             if (err) return cb(err);
@@ -264,8 +265,9 @@ sails.controllers.public_key.get_pks_blockchain_info(pk_arr,cb);
 
       function(err,created){
         console.log('got to the last thing and gonna end it -- '+req.body.key)
+
         if (err) return sails.controllers.public_key.make_sure_for_twice(req, res, err);
-          ///res.json(err);
+
         return res.json(created);
       })
   },
