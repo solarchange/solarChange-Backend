@@ -144,6 +144,7 @@ sails.controllers.public_key.get_pks_blockchain_info(pk_arr,cb);
           console.log('now sent it all' );
 
         request(options,function(err,httRes,body){
+            console.log('hmmmm what is going on here')
               if (err) return cb(err);
               return cb(null,{success:true});
              });
