@@ -306,7 +306,7 @@ sails.controllers.public_key.get_pks_blockchain_info(pk_arr,cb);
 
           Public_key.update({key:key},{solar_device:device_id}).exec(function(err,updated){
             if (err) return callback(err);
-            return callback(null, updated);
+            return callback(null, updated[0]);
           });
         });
       },
