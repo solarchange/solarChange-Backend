@@ -11,7 +11,7 @@ module.exports = {
 
     key : { type: 'string'},
 
-    txs : {type: 'array'},
+    txs : {type: 'integer'},
 
     done : { type: 'boolean'}
   }

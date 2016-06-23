@@ -106,7 +106,7 @@ sails.controllers.public_key.get_pks_blockchain_info(pk_arr,cb);
             },
             function(err){
               if (err) return callback(err);
-              return callback(null,{success:'small'});
+              return callback(null,'small');
                 });    
       }
 
@@ -127,7 +127,7 @@ sails.controllers.public_key.get_pks_blockchain_info(pk_arr,cb);
 
       },
 
-      ],function(err,success,the_pks){
+      ],function(err,the_success,the_pks){
         
 
         if (err) return cb(err);
@@ -145,7 +145,7 @@ sails.controllers.public_key.get_pks_blockchain_info(pk_arr,cb);
 
         request(options,function(err,httRes,body){
               if (err) return cb(err);
-              return cb(null,{success:true});
+              return cb(null,{success:the_success});
              });
     });
   },

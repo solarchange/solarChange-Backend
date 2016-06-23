@@ -11,7 +11,7 @@ module.exports = {
 	create_txs: function (block_res_txs,pk,cb) {
 		async.waterfall([
 		function(callback){
-				Block_txs.create({key:pk, txs:block_res_txs, done:false}).exec(function(err, created){
+				Block_txs.create({key:pk, txs:block_res_txs.length, done:false}).exec(function(err, created){
 					if (err) return callback(err);
 					return callback(null,created);
 				});
@@ -23,7 +23,7 @@ module.exports = {
 
 		],function(err, big_key){
 			if (err) return cb(err);
-			return cb(null,{success:'big'});
+			return cb(null,'big');
 		});
 	},
 
