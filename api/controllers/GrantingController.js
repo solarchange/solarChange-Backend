@@ -16,6 +16,10 @@ module.exports = {
 	register_new_solar_device: function(req, res){
 		var new_device_data = req.body;
 
+		console.log("the new Solar blablablablablabla ---- 000=-----------")
+
+		console.log(req.body)
+
 		if (!req.headers.sender) return res.send(500,{error:'User not logged in'});
 
 		new_device_data.user = req.headers.sender;
