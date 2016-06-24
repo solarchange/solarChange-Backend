@@ -69,6 +69,7 @@ async.waterfall([
 
 	get_balance_history:function(req, res){
 		console.log('yo yo yo ')
+		console.log(req.body)
 		async.waterfall([
 			function(cb){
 				User.findOne({id:req.headers.sender}).populate('publicKeys').exec(function (err, found) {
@@ -79,6 +80,7 @@ async.waterfall([
 			},
 
 			function (found_user, cb) {
+				console.log('Balance 1 1 1 1 ')
 				var pks=[];
 				async.each(found_user.publicKeys, function(key,callback){
 					var cally = function(err, found){
@@ -96,6 +98,7 @@ async.waterfall([
 			},
 
 			function(pks, cb){
+				console.log('Balance 2 2 2 2 2 ')
 				var debs=[];
 				var creds=[];
 				for (var i=0 ; i<pks.length ; i++)
@@ -111,6 +114,7 @@ async.waterfall([
 					}
 				}
 				async.parallel({
+
 					credits:function(callback){
 						var credit_arr = [];
 						async.each(creds, function(trans,cally){
@@ -145,13 +149,11 @@ async.waterfall([
 
 				},
 					function(err,results){
+						console.log('balance 3 3 3 3 3 3 3')
 					if (err) return cb(err);
 
 					for (var i=0; i<pks.length ; i++){
 						var huh = sails.controllers.user.get_current_balanace(results.debits, results.credits, pks[i].key);
-						console.log('fuckin fuck fukci 000000000000000000000000000000')
-						console.log(huh)
-						console.log('=========================================')
 					}
 					return cb(null,pks,results);	
 				});
@@ -164,6 +166,7 @@ async.waterfall([
 				console.log(pks.length)
 				console.log(pks[0].key)
 				*/
+				console.log('Balance 4 4 4 4 4 4')
 					async.parallel({
 
 						credits:function(callback){
@@ -213,6 +216,7 @@ async.waterfall([
 			],
 
 			function(err, trans_arr){
+				console.log('Balance 5 5 5 5 5 5 5 ')
 				if (err) return res.json(err);
 
 				trans_arr = _.sortBy(trans_arr, 'date');
