@@ -20,6 +20,8 @@ module.exports = {
 
 get_blockchain_data:function(req,res){
 
+  console.log('get blockchain data thing thing thing 009990')
+
   req.setTimeout(1000000,function () {
     req.abort();
     console.log("timeout");
