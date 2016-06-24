@@ -69,7 +69,7 @@ async.waterfall([
 
 	get_balance_history:function(req, res){
 		console.log('yo yo yo ')
-		console.log(req.body)
+		console.log(req.headers)
 		async.waterfall([
 			function(cb){
 				User.findOne({id:req.headers.sender}).populate('publicKeys').exec(function (err, found) {
