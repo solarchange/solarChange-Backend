@@ -12,6 +12,7 @@ authenticate: function(email, password, done) {
       }
 
       bcrypt.compare(password, user.password, function (err, res) {
+        if (err) console.log('hahhahahahahhahah')
           if (!res){
             console.log('the thing is not working rightly --- ')
             return done(null, false);
