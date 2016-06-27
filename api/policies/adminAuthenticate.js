@@ -4,8 +4,8 @@ module.exports = function(req, res, next) {
 	console.log(req.body);
 
   var the_cb = function(err,result){
-    if (err) return res.redirect('/');
-    if (!result) return res.redirect('/');
+    if (err) return res.json('no');
+    if (!result) return res.json('no');
     return next();
   };
 
