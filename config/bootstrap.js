@@ -22,7 +22,6 @@ module.exports.bootstrap = function(cb) {
 
     sails.removeAllListeners('router:request');
     sails.on('router:request', function(req, res) {
-      console.log('hahahahhahahahahaha')
     initialize(req, res, function () {
       session(req, res, function (err) {
         if (err) {
@@ -37,5 +36,6 @@ module.exports.bootstrap = function(cb) {
     });
   });
 
+    console.log('lshlasjdhalksfhqslkfhasldfkjvhsldfkuvhsdfglkjhsdfgliuh')
   cb();
 };
