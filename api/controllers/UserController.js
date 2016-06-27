@@ -425,6 +425,8 @@ initiate_pass_reset: function(req, res){
 			},
 
 			function(user, cb){
+				console.log('the middlw')
+				console.log(user)
 				User.update({email:req.body.email}, {recovery_token:req.body.token, recovery_mail_send_date:Date.now()}).exec(function(err,updated){
 					if (err) return cb(err);
 					return cb(null,updated);
@@ -433,6 +435,8 @@ initiate_pass_reset: function(req, res){
 
 			],
 			function(err,user){
+				console.log('The end ')
+				console.log(user)
 				if (err) return res.json(err);
 				mailer_service.send_recovery_mail(user.email, user.firstName, req.body.token);
 				return res.send(200, 'Recovery email sent');
