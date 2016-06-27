@@ -161,6 +161,10 @@ mailer.sendMail(email, function(err, res) {
 
 send_recovery_mail: function(to,name, token){
 
+    console.log(to)
+    console.log(name)
+    console.log(token)
+
  var email_body = mailer_service.get_mail_form('assets/emails/Recovery.html');
  var the_url = email_details.base_url+'reset_password?token='+token+'&email='+to;
 
