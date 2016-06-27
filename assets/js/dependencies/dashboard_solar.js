@@ -106,6 +106,7 @@ function arrange_by_user(){
 };
 
 function get_status(device){
+	if (!device.approval_history) return '';
 	return device.approval_history[device.approval_history.length-1].event;
 };
 
