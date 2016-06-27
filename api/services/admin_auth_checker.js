@@ -11,6 +11,9 @@ authenticate: function(email, password, done) {
         return done(null, false);
       }
 
+      console.log(password)
+      console.log(user.password)
+
       bcrypt.compare(password, user.password, function (err, res) {
         if (err) {console.log('hahhahahahahhahah')
           console.log(err)
