@@ -26,7 +26,7 @@ module.exports = {
 
         // Should check that it exists here, but for demo purposes, assume it does
         // and just pipe a read stream to the response.
-        fs.exists(file,function(exists){
+        fs.exists(filePath,function(exists){
             console.log('THIS IS THE FILELLLLLLLL')
             if (exists) return fs.createReadStream(filePath).pipe(res);
             console.log('no no no no no')
