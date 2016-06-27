@@ -7,14 +7,12 @@ authenticate: function(email, password, done) {
     Admin.findOne({ email: email }, function (err, user) {
       if (err) { return done(err); }
       if (!user) {
-        return done(null, false, { message: 'Incorrect email.' });
+        return done(null, false);
       }
 
       bcrypt.compare(password, user.password, function (err, res) {
           if (!res)
-            return done(null, false, {
-              message: 'Invalid Password'
-            });
+            return done(null, false);
           var returnUser = {
             email: user.email,
             name: user.name,
@@ -22,9 +20,7 @@ authenticate: function(email, password, done) {
             createdAt: user.createdAt,
             id: user.id
           };
-          return done(null, returnUser, {
-            message: 'Logged In Successfully'
-          });
+          return done(null, true);
         });
     });
   }
