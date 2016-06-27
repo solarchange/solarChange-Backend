@@ -262,7 +262,6 @@ reject_button_disable+'>Reject</button></td>'+
 };
 
 $(document).ready(function(){
-	console.log('whats gfoin on');
 
 	if ($('#the-body').attr('data-page')!='solar') return;
 
@@ -303,7 +302,7 @@ $(document).ready(function(){
 		});
 
 
-		$('#granting-rejected-filter').click(function(){
+		$('#granting-,rejected-filter').click(function(){
 			filter_list(lists.granting_rejected, 'granting_rejected');
 		});
 
