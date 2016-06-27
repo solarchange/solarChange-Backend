@@ -20,8 +20,10 @@ module.exports.bootstrap = function(cb) {
     http = require('http'),
     methods = ['login', 'logIn', 'logout', 'logOut', 'isAuthenticated', 'isUnauthenticated'];
 
-  sails.removeAllListeners('router:request');
-  sails.on('router:request', function(req, res) {
+    console.log('ojbasdfojbdfhbds')
+
+    sails.removeAllListeners('router:request');
+    sails.on('router:request', function(req, res) {
     initialize(req, res, function () {
       session(req, res, function (err) {
         if (err) {
