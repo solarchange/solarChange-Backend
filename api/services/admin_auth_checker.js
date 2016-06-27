@@ -12,9 +12,10 @@ authenticate: function(email, password, done) {
       }
 
       bcrypt.compare(password, user.password, function (err, res) {
-          if (!res)
+          if (!res){
             console.log('the thing is not working rightly --- ')
             return done(null, false);
+          }
           var returnUser = {
             email: user.email,
             name: user.name,
