@@ -36,6 +36,5 @@ module.exports.bootstrap = function(cb) {
     });
   });
 
-    console.log('lshlasjdhalksfhqslkfhasldfkjvhsldfkuvhsdfglkjhsdfgliuh')
   cb();
 };

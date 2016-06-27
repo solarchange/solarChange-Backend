@@ -263,6 +263,8 @@ reject_button_disable+'>Reject</button></td>'+
 
 $(document).ready(function(){
 
+	console.log(document.cookie);
+
 	if ($('#the-body').attr('data-page')!='solar') return;
 
 	//console.log(document.Session)
