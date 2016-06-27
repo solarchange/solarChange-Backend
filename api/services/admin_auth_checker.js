@@ -1,3 +1,4 @@
+bcrypt = require('bcrypt');
 
 module.exports = {
 
