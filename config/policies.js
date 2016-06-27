@@ -37,6 +37,8 @@ module.exports.policies = {
     'add_new_user':[],
     'tryNewUser':[],
     'activate_user':[],
+    'initiate_pass_reset':[],
+    'password_reset':[],
     user_login:'authenticate', 
   },
 
