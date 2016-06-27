@@ -429,7 +429,7 @@ initiate_pass_reset: function(req, res){
 				console.log(user)
 				User.update({email:req.body.email}, {recovery_token:req.body.token, recovery_mail_send_date:Date.now()}).exec(function(err,updated){
 					if (err) return cb(err);
-					return cb(null,updated);
+					return cb(null,updated[0]);
 				});
 			}
 
