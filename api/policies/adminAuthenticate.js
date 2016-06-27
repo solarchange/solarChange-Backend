@@ -9,7 +9,7 @@ module.exports = function(req, res, next) {
     return next();
   };
 
-  admin_auth_checker.authenticate(req.body.email, req.body.pass, the_cb);
+  admin_auth_checker.authenticate(req.body.email, req.body.password, the_cb);
 
 	/*
    if (req.isAuthenticated()) {
