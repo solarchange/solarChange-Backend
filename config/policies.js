@@ -47,7 +47,8 @@ module.exports.policies = {
   },
 
   'Solar_device':{
-    '*':'authenticate'
+    '*':'authenticate',
+    'admin_subscribe':'isAuthenticated'
   },
 
   'Public_key':{
