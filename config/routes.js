@@ -63,7 +63,7 @@ module.exports.routes = {
 
   'get /solar_device/solar_status/:solar_id':{controller:'solar_device', action:'get_solar_device_status'},
 
-  'get /solar_device/admin_subscribe':{controller:'solar_device', action:'subscribe_and_get'},
+  'post /solar_device/admin_subscribe':{controller:'solar_device', action:'subscribe_and_get'},
 
 
 
