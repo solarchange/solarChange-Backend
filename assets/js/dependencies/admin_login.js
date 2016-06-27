@@ -8,8 +8,8 @@ $(document).ready(function(){
 
 		//document.cookie = da_cookie;
 
-		localStorage.setItem('email', $('email-login').val());
-		localStorage.setItem('pass', $('pass-login').val());
+		localStorage.setItem('email', $('#email-login').val());
+		localStorage.setItem('pass', $('#pass-login').val());
 
 	});
 });
