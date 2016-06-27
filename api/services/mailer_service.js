@@ -170,6 +170,8 @@ send_recovery_mail: function(to,name, token){
 
 email_body = email_body.replace('_USER_PRIVATE_NAME_',name);
 email_body = email_body.replace('_URL_',the_url);
+email_body = email_body.replace('_URL_REAL_',the_url);
+
 
 var email = {
     to: to,
