@@ -17,8 +17,12 @@ module.exports = {
         // Get the URL of the file to download
         var file = req.param('file');
 
+        console.log(file)
+
         // Get the file path of the file on disk
         var filePath = path.resolve(sails.config.appPath, "docs/proofFiles/"+req.param('user'), file);
+
+        console.log(filePath)
 
         // Should check that it exists here, but for demo purposes, assume it does
         // and just pipe a read stream to the response.
