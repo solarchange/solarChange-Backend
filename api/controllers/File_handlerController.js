@@ -29,6 +29,8 @@ module.exports = {
         fs.exists(file,function(exists){
             console.log('THIS IS THE FILELLLLLLLL')
             if (exists) return fs.createReadStream(filePath).pipe(res);
+            console.log('no no no no no')
+            console.log(exists)
             return res.json('File does not exist');
         }); 
     }
