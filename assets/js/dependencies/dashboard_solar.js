@@ -11,7 +11,7 @@ lists.non_filtered = [];
 var current_list = 'non_filtered';
 
 function set_socket_solars(){
-	io.socket.get('/solar_device/admin_subscribe', function (resData) {
+	io.socket.get('/solar_device/admin_subscribe',{fuck:'fuckkitttyyy'}, function (resData) {
 	  for (var i = 0 ; i<resData.length ; i++)
 	  {
 	  	 console.log(resData[i]);
