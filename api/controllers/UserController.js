@@ -56,8 +56,7 @@ async.waterfall([
 	user_login: function(req, res){
 		var authi = req.headers['authorization'].split(' ')[1];
 		var userEmail = new Buffer(authi, 'base64').toString().split(':')[0];
-		console.log('the email is')
-		console.log(userEmail)
+		console.log('Logging in user with the email '+userEmail);
 		User.findOne({email:userEmail}).populate('solar_devices').populate('publicKeys').exec(function(err,found){
 			if (err) return res.json(err);
 			if (!found) return res.json({error:'email and password do not match'});

@@ -140,15 +140,15 @@ module.exports.routes = {
 
 
 
-  'GET /solar_device/form':{view:'solar_device_form'},
+//  'GET /solar_device/form':{view:'solar_device_form'},
 
-  'GET /exp':{controller:'trequest',action:'exp_start_req' },
+//  'GET /exp':{controller:'trequest',action:'exp_start_req' },
 
-  'GET /user_try1':{controller:'user', action:'tryNewUser'},
+ // 'GET /user_try1':{controller:'user', action:'tryNewUser'},
 
-  'GEt /req_try': {controller: 'trequest', action:'start_req_try'},
+ // 'GEt /req_try': {controller: 'trequest', action:'start_req_try'},
 
-  'GET /logintry': { controller: 'auth', action:'trylogin'},
+//  'GET /logintry': { controller: 'auth', action:'trylogin'},
 
 
   /***************************************************************************
