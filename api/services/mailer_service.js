@@ -29,6 +29,7 @@ var act_link = email_details.base_url+'activate/'+token;
 
 var email_body = mailer_service.get_mail_form('assets/emails/activation.html');
 
+email_body = email_body.replace('_BASE_IMAGE_URL_',email_detail.base_image_url);
 email_body = email_body.replace('_USER_PRIVATE_NAME_', firstName);
 email_body = email_body.replace('_ACTIVASION_LINK_', act_link);
 
@@ -40,7 +41,7 @@ var email = {
     html: email_body,
 };
 
-console.log('i am sending an email yo yo yo yoyyo '+to)
+console.log('Sending Activation Email to '+to)
 
 mailer.sendMail(email, function(err, res) {
     if (err) { 
@@ -60,6 +61,7 @@ solar_device_registration:function(to, device, wallet, user){
 
 var email_body = mailer_service.get_mail_form('assets/emails/Solar_System_Submission.html');
 
+email_body = email_body.replace('_BASE_IMAGE_URL_',email_detail.base_image_url);
 email_body = email_body.replace('_USER_PRIVATE_NAME_',user.firstName);
 email_body = email_body.replace('_SOLAR_OWNER_PRIVATE_NAME_',device.firstName);
 email_body = email_body.replace('_SOLAR_OWNER_LAST_NAME_', device.lastName);
@@ -76,6 +78,9 @@ var email = {
     html: email_body,
 };
 
+
+console.log('Sending Device Registration Email to '+to)
+
 mailer.sendMail(email, function(err, res) {
     if (err) { 
         console.log(err) 
@@ -90,6 +95,7 @@ rejection: function(to,userFirstName,reason){
 
     var email_body = mailer_service.get_mail_form('assets/emails/Solar_System_Declined.html');
 
+    email_body = email_body.replace('_BASE_IMAGE_URL_',email_detail.base_image_url);
     email_body = email_body.replace('_USER_PRIVATE_NAME_',userFirstName);
     email_body = email_body.replace('_REJECTION_REASON_',reason);
 
@@ -101,6 +107,8 @@ rejection: function(to,userFirstName,reason){
         text: 'News from SolarChange',
         html: email_body,
     };
+
+    console.log('Sending Rejection Email to '+to)
 
     mailer.sendMail(email, function(err, res) {
         if (err) { 
@@ -118,6 +126,7 @@ system_approved: function(to, userFirstName, device){
 
     var email_body = mailer_service.get_mail_form('assets/emails/Solar_System_Approved.html');
 
+email_body = email_body.replace('_BASE_IMAGE_URL_',email_detail.base_image_url);
 email_body = email_body.replace('_USER_PRIVATE_NAME_',userFirstName);
 email_body = email_body.replace('_YEARLY_SOLARCOINS_',device.nameplate*1.314);
 
@@ -130,6 +139,7 @@ var email = {
 };
 
     console.log('Sending Approval mail to '+to)
+
     mailer.sendMail(email, function(err, res) {
     if (err) { 
         console.log(err) 
@@ -168,6 +178,7 @@ send_recovery_mail: function(to,name, token){
  var email_body = mailer_service.get_mail_form('assets/emails/Recovery.html');
  var the_url = email_details.base_url+'reset_password?token='+token+'&email='+to;
 
+email_body = email_body.replace('_BASE_IMAGE_URL_',email_detail.base_image_url);
 email_body = email_body.replace('_USER_PRIVATE_NAME_',name);
 email_body = email_body.replace('_URL_',the_url);
 email_body = email_body.replace('_URL_REAL_',the_url);
@@ -181,7 +192,8 @@ var email = {
     html: email_body,
 };
 
-console.log(to)
+console.log('Sending Recovery Email to '+to)
+
 mailer.sendMail(email, function(err, res) {
     if (err) { 
         console.log(err) 

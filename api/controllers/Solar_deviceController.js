@@ -8,7 +8,7 @@
 module.exports = {
 	
 	new_device: function(new_device_data,cb){
-		console.log('adding a new device huhhhh ------------ kaskhfghksbkjfdfgkbfkbh');
+		console.log('Adding a new Solar Device');
 		new_device_data.approval_history = [{event:'pending',date:Date.now()}];
 		Solar_device.create(new_device_data).exec(function(err,created){
 			if (err) return cb(err);
@@ -96,22 +96,6 @@ module.exports = {
 				return cb(null, added);
 			}
 		);
-
-
-		/*
-		Solar_device.findOne({granting_id:granting_id}).exec(function(err,found){
-			if (err) return cb(err);
-			var approval_history_arr = found.approval_history;
-			approval_history_arr.push({event:event_to_add,date:time});
-
-			Solar_device.update({id:granting_id},{approval_history:approval_history_arr}).exec(function(err,updated){
-				if (err) return cb(err);
-				if (!updated.length) return cb({error:'No such solar device'});
-				Solar_device.publishUpdate(updated[0].id,{approval_history:approval_history_arr});
-				cb(null, updated);
-			});
-		});
-		*/
 	},
 
 	update_device_with_granting:function(device,granting){

@@ -16,7 +16,7 @@ module.exports = {
 	register_new_solar_device: function(req, res){
 		var new_device_data = req.body;
 
-		console.log("the new Solar blablablablablabla ---- 000=-----------")
+		console.log("Registering a new Solar")
 
 		console.log(req.body)
 
@@ -102,6 +102,8 @@ module.exports = {
 
 
 	approve_and_submit:function(req, res){
+
+		console.log('Submitting a Solar Device to the Granting Machine')
 
 		async.waterfall([
 

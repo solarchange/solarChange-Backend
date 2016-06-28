@@ -13,6 +13,8 @@ module.exports = {
 
 add_new_user:function(req, res){
 
+console.log('Adding a new user with the email: '+req.body.email);
+
 async.waterfall([
 	function(cb){
 		sails.controllers.user.newUser(req.body, req.sessionData, cb);
@@ -68,8 +70,9 @@ async.waterfall([
 
 
 	get_balance_history:function(req, res){
-		console.log('yo yo yo ')
-		console.log(req.headers)
+
+		console.log('Getting user balance for user id '+req.headers.sender);
+		
 		async.waterfall([
 			function(cb){
 				User.findOne({id:req.headers.sender}).populate('publicKeys').exec(function (err, found) {
@@ -80,7 +83,6 @@ async.waterfall([
 			},
 
 			function (found_user, cb) {
-				console.log('Balance 1 1 1 1 ')
 				var pks=[];
 				async.each(found_user.publicKeys, function(key,callback){
 					var cally = function(err, found){
@@ -98,7 +100,6 @@ async.waterfall([
 			},
 
 			function(pks, cb){
-				console.log('Balance 2 2 2 2 2 ')
 				var debs=[];
 				var creds=[];
 				for (var i=0 ; i<pks.length ; i++)
@@ -149,7 +150,6 @@ async.waterfall([
 
 				},
 					function(err,results){
-						console.log('balance 3 3 3 3 3 3 3')
 					if (err) return cb(err);
 
 					for (var i=0; i<pks.length ; i++){
@@ -166,7 +166,6 @@ async.waterfall([
 				console.log(pks.length)
 				console.log(pks[0].key)
 				*/
-				console.log('Balance 4 4 4 4 4 4')
 					async.parallel({
 
 						credits:function(callback){
@@ -216,7 +215,7 @@ async.waterfall([
 			],
 
 			function(err, trans_arr){
-				console.log('Balance 5 5 5 5 5 5 5 ')
+
 				if (err) return res.json(err);
 
 				trans_arr = _.sortBy(trans_arr, 'date');
@@ -414,6 +413,8 @@ async.waterfall([
 
 initiate_pass_reset: function(req, res){
 	
+	console.log('Initiating password change for '+req.body.email);
+
 		async.waterfall([
 
 			function(cb){
@@ -425,8 +426,7 @@ initiate_pass_reset: function(req, res){
 			},
 
 			function(user, cb){
-				console.log('the middlw')
-				console.log(user)
+			
 				User.update({email:req.body.email}, {recovery_token:req.body.token, recovery_mail_send_date:Date.now()}).exec(function(err,updated){
 					if (err) return cb(err);
 					return cb(null,updated[0]);
@@ -435,8 +435,7 @@ initiate_pass_reset: function(req, res){
 
 			],
 			function(err,user){
-				console.log('The end ')
-				console.log(user)
+		
 				if (err) return res.json(err);
 				mailer_service.send_recovery_mail(user.email, user.firstName, req.body.token);
 				return res.send(200, 'Recovery email sent');
@@ -446,6 +445,8 @@ initiate_pass_reset: function(req, res){
 
  password_reset: function(req, res){
  	if (!req.body.token) return res.send(500, {error:'Illegal Token'});
+
+ 	console.log('Changing password for '+req.body.email);
 
  	async.waterfall([
  		
@@ -625,7 +626,7 @@ subscribe_and_get:function(req, res){
 
 /// ------ TESTING FUNCTIONS (to be deleted late)
 
-
+/*
 email_try: function(req, res){
 	mailer.email_this();
 },
@@ -670,7 +671,7 @@ destroy_users: function(req, res){
   console.log('The record has been deleted');
 	});
 },
-
+*/
 
 
 

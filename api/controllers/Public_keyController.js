@@ -20,7 +20,7 @@ module.exports = {
 
 get_blockchain_data:function(req,res){
 
-  console.log('get blockchain data thing thing thing 009990')
+  console.log('Getting Blockchain Information');
 
   req.setTimeout(1000000,function () {
     req.abort();
@@ -41,9 +41,6 @@ sails.controllers.public_key.get_pks_blockchain_info(pk_arr,cb);
   get_blockchain_history:function(pks, cb){
 
     var authHeader = new Buffer(sails.config.blockChainUnit.username+':'+sails.config.blockChainUnit.password).toString('base64');
-    
-    console.log('hahahah---- and the walltes are ----')
-    console.log(pks)
 
     async.waterfall([
 
@@ -65,12 +62,7 @@ sails.controllers.public_key.get_pks_blockchain_info(pk_arr,cb);
                   json:true,
                 };
 
-        console.log('gonna send the request to bcapi')
-
         request(options,function(err,httRes,body){
-
-        console.log('got the answer from bcapi <---------------')
-        // console.log(body);
 
               if (err) return callback(err);
               return callback(null,body);
@@ -85,7 +77,6 @@ sails.controllers.public_key.get_pks_blockchain_info(pk_arr,cb);
           return callback(null,block_res);
         };
 
-        console.log('gonna make sure the keys exist --------')
         sails.controllers.transaction.make_sure_pks_are_there(block_res.txs,cally);
 
       },
@@ -99,14 +90,12 @@ sails.controllers.public_key.get_pks_blockchain_info(pk_arr,cb);
 
       if (block_res.txs.length>2000){
 
-        console.log('Big Address registered');
-
         if (pks.length>1) return callback({error:'Trying to input more than a single "big" address'});
 
         sails.controllers.block_txs.create_txs(block_res.txs,pks[0],callback);
       }
       else{
-        console.log('OK what is going on on on ------------- ')
+
         async.each(block_res.txs, function(a_transaction,callcall){
 
             sails.controllers.transaction.add_from_blockChain(a_transaction,callcall);
@@ -114,7 +103,7 @@ sails.controllers.public_key.get_pks_blockchain_info(pk_arr,cb);
             },
             function(err){
               if (err) return callback(err);
-              console.log('SMA<LLLLLL<<<---------------------- ')
+
               return callback(null,'small');
                 });    
       }
@@ -141,7 +130,6 @@ sails.controllers.public_key.get_pks_blockchain_info(pk_arr,cb);
 
       ],function(err,the_success){
         
-        console.log('0000--------------- Shor shor shor shor ')
         if (err) return cb(err);
         return cb(null,{success:the_success});
         /*
@@ -212,14 +200,11 @@ sails.controllers.public_key.get_pks_blockchain_info(pk_arr,cb);
       function(cb){
         Public_key.findOne({key:req.body.key}).populate('user').exec(function(err,found){
           if (err) return cb(err);
-          console.log('done the 1 1 1 '+req.body.key)
           return cb(null,found);
         });
       },
 
       function(found,cb){
-
-        console.log('done the 2 2 2 '+ req.body.key);
 
         if (found){
           if (found.user){
@@ -245,8 +230,6 @@ sails.controllers.public_key.get_pks_blockchain_info(pk_arr,cb);
 
       function(created, cb){
 
-        console.log('done the 3 3 3 '+req.body.key);
-
           var callback = function(err, success){
             if (err) return cb(err);
             return cb(null,created,success);
@@ -257,17 +240,14 @@ sails.controllers.public_key.get_pks_blockchain_info(pk_arr,cb);
 
       function(created, success, cb){
 
-        console.log('done the 4 4 4 '+req.body.key)
-
-        console.log(success);
-
         if (success.success=='big') {
           created.big=true;
+          console.log('A Big Address registered with the key '+req.body.key);
           return cb(null,created);
         }
 
         if (success.success=='small'){
-          console.log('NOT NOT BIG BIG')
+
           Public_key.update({key:created.key},{blockchain_status:'confirmed'}).exec(function(err,updated){
             if (err) return cb(err);
             return cb(null,updated);
@@ -279,7 +259,7 @@ sails.controllers.public_key.get_pks_blockchain_info(pk_arr,cb);
       ],
 
       function(err,created){
-        console.log('got to the last thing and gonna end it -- '+req.body.key)
+        console.log('Created a new address with the key'+req.body.key);
 
         if (err) {
           console.log(err);
@@ -309,7 +289,6 @@ sails.controllers.public_key.get_pks_blockchain_info(pk_arr,cb);
 
     async.waterfall([
       function(callback){
-        console.log('doing the 1 1 1 1 1 1 1 1 1 1 '+key)
         Public_key.findOrCreate({key:key},{key:key, user:user_id},function(err,pk){
           if (err) return callback(err);
 
@@ -321,11 +300,8 @@ sails.controllers.public_key.get_pks_blockchain_info(pk_arr,cb);
       },
 
       function(key_object,callback){
-        console.log('doing the 2 2 2 2 2 2 2 2 2 2 2  '+key)
-        console.log(key_object)
+ 
             if (key_object.blockchain_status!='confirmed'){
-
-              console.log('The added key is unconfirmed so gonna do that now')
 
             async.waterfall([
 
@@ -358,7 +334,6 @@ sails.controllers.public_key.get_pks_blockchain_info(pk_arr,cb);
 
       ],
       function(err,key_object){
-        console.log('done 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 '+key)
         if (err) return cb(err);
         return cb(null,key_object);
       });
@@ -376,8 +351,6 @@ sails.controllers.public_key.get_pks_blockchain_info(pk_arr,cb);
 
     async.each(pk_ar,function(pk,callback){
       Public_key.findOrCreate({key:pk},{key:pk, user:null, currentValue:null, blockchain_status:'external'}).exec(function(err, created){
-
-       // console.log('looking at a key now >>>>>>>>>>-----------+++++++++')
 
         if (err) return callback(err);
         return callback(null,created);
