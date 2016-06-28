@@ -8,7 +8,7 @@
 var passport = require('passport');
 
 module.exports = {
-	
+	/*
 	 _config: {
         actions: false,
         shortcuts: false,
@@ -28,16 +28,18 @@ login: function(req, res) {
                 if (err) res.send(err);
 
                 return res.view('admin/solars',{user:user});
-                /*
+                
                 return res.send({
                     message: info.message,
                     user: user
                 });
-                */
+                
             });
 
         })(req, res);
     },
+    */
+/*
 
 logout: function(req, res) {
         req.logout();
@@ -55,7 +57,7 @@ trylogin: function(req, res){
 
 },
 
-
+*/
 
 
 

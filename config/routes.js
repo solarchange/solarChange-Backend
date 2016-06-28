@@ -124,7 +124,7 @@ module.exports.routes = {
 
 
 
-  'post /login': { controller: 'auth', action:'login'},
+ // 'post /login': { controller: 'auth', action:'login'},
 
 
   /// ------- TRYING THINGS
