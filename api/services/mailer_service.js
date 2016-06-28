@@ -29,7 +29,7 @@ var act_link = email_details.base_url+'activate/'+token;
 
 var email_body = mailer_service.get_mail_form('assets/emails/activation.html');
 
-email_body = email_body.replace('_BASE_IMAGE_URL_',email_detail.base_image_url);
+email_body = email_body.replace('_BASE_IMAGE_URL_',email_details.base_image_url);
 email_body = email_body.replace('_USER_PRIVATE_NAME_', firstName);
 email_body = email_body.replace('_ACTIVASION_LINK_', act_link);
 
@@ -61,7 +61,7 @@ solar_device_registration:function(to, device, wallet, user){
 
 var email_body = mailer_service.get_mail_form('assets/emails/Solar_System_Submission.html');
 
-email_body = email_body.replace('_BASE_IMAGE_URL_',email_detail.base_image_url);
+email_body = email_body.replace('_BASE_IMAGE_URL_', email_details.base_image_url);
 email_body = email_body.replace('_USER_PRIVATE_NAME_',user.firstName);
 email_body = email_body.replace('_SOLAR_OWNER_PRIVATE_NAME_',device.firstName);
 email_body = email_body.replace('_SOLAR_OWNER_LAST_NAME_', device.lastName);
@@ -95,7 +95,7 @@ rejection: function(to,userFirstName,reason){
 
     var email_body = mailer_service.get_mail_form('assets/emails/Solar_System_Declined.html');
 
-    email_body = email_body.replace('_BASE_IMAGE_URL_',email_detail.base_image_url);
+    email_body = email_body.replace('_BASE_IMAGE_URL_',email_details.base_image_url);
     email_body = email_body.replace('_USER_PRIVATE_NAME_',userFirstName);
     email_body = email_body.replace('_REJECTION_REASON_',reason);
 
@@ -126,7 +126,7 @@ system_approved: function(to, userFirstName, device){
 
     var email_body = mailer_service.get_mail_form('assets/emails/Solar_System_Approved.html');
 
-email_body = email_body.replace('_BASE_IMAGE_URL_',email_detail.base_image_url);
+email_body = email_body.replace('_BASE_IMAGE_URL_',email_details.base_image_url);
 email_body = email_body.replace('_USER_PRIVATE_NAME_',userFirstName);
 email_body = email_body.replace('_YEARLY_SOLARCOINS_',device.nameplate*1.314);
 
@@ -178,7 +178,7 @@ send_recovery_mail: function(to,name, token){
  var email_body = mailer_service.get_mail_form('assets/emails/Recovery.html');
  var the_url = email_details.base_url+'reset_password/'+token+'/'+to;
 
-email_body = email_body.replace('_BASE_IMAGE_URL_',email_detail.base_image_url);
+email_body = email_body.replace('_BASE_IMAGE_URL_',email_details.base_image_url);
 email_body = email_body.replace('_USER_PRIVATE_NAME_',name);
 email_body = email_body.replace('_URL_',the_url);
 email_body = email_body.replace('_URL_REAL_',the_url);
