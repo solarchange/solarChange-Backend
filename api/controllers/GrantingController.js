@@ -169,7 +169,9 @@ module.exports = {
 				},
 
 			function(httRes,body, solar_device, cb){
+				console.log('-----------------------')
 				console.log(body)
+				console.log('-----------------------')
 				sails.controllers.granting.after_submission(solar_device, body, cb);
 			},
 		],
