@@ -152,6 +152,8 @@ function granting_reaction(resData,jwers,solar_id){
 		change_entry_in_list(lists[key],resData[0],solar_id);
 	}
 	update_solar_device(resData[0]);
+	console.log('Sent to the granting machine and got this:');
+	console.log(resData);
 };
 
 function change_entry_in_list(list,entry,id){

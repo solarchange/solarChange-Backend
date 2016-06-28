@@ -16,9 +16,9 @@ module.exports = {
 	register_new_solar_device: function(req, res){
 		var new_device_data = req.body;
 
-		console.log("Registering a new Solar")
+		console.log("Registering a new Solar");
 
-		console.log(req.body)
+		console.log(req.body);
 
 		if (!req.headers.sender) return res.send(500,{error:'User not logged in'});
 
@@ -103,7 +103,7 @@ module.exports = {
 
 	approve_and_submit:function(req, res){
 
-		console.log('Submitting a Solar Device to the Granting Machine')
+		console.log('Submitting a Solar Device to the Granting Machine');
 
 		async.waterfall([
 
@@ -198,6 +198,9 @@ module.exports = {
 
 
 	granting_judgement: function(req, res){
+		
+		console.log('Adding a granting reaction which is: '+req.body.event);
+
 		var cb = function(err,updated){
 			if (err){ 
 				console.log(err);
