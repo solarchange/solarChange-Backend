@@ -198,7 +198,7 @@ module.exports = {
 					return res.json(err);
 				}
 				console.log('Have submitted a Solar Device to the granting Machine');
-				return res.json(final_device);
+				return res.json([final_device]);
 			});
 	},
 
