@@ -185,7 +185,7 @@ module.exports = {
 			function(the_device,cb){
 				var callback = function(err,found_device){
 					if (err) return cb(err);
-					mailer_service.solar_device_submitted(found_device.user.email, found_device);
+					// mailer_service.solar_device_submitted(found_device.user.email, found_device);
 					return cb(null,found_device);
 				};
 				sails.controllers.solar_device.get_populated_device(the_device.id,callback);
