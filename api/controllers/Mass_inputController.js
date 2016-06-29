@@ -15,6 +15,12 @@ var json2csv = require('json2csv');
 
 module.exports = {
 
+	_config: {
+	   actions: false,
+	   shortcuts: false,
+	   rest: false
+	 }
+
 	read_bulk_from_file: function(req, res){
 
 		var the_file =  fs.readFileSync('docs/massEntries/'+req.body.file,'utf8');

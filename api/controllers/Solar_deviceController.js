@@ -6,7 +6,14 @@
  */
 
 module.exports = {
-	
+		
+	_config: {
+	   actions: false,
+	   shortcuts: false,
+	   rest: false
+	 }
+
+
 	new_device: function(new_device_data,cb){
 		console.log('Adding a new Solar Device');
 		new_device_data.approval_history = [{event:'pending',date:Date.now()}];

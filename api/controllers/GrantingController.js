@@ -13,6 +13,13 @@ var path = require('path');
 
 module.exports = {
 
+	_config: {
+	   actions: false,
+	   shortcuts: false,
+	   rest: false
+	 }
+
+
 	register_new_solar_device: function(req, res){
 		var new_device_data = req.body;
 
@@ -174,6 +181,15 @@ module.exports = {
 				console.log('-----------------------')
 				sails.controllers.granting.after_submission(solar_device, body, cb);
 			},
+
+			function(the_device,cb){
+				var callback = function(err,found_device){
+					if (err) return cb(err);
+					mailer_service.solar_device_submitted(found_device.user.email, found_device);
+					return cb(null,found_device);
+				};
+				sails.controllers.solar_device.get_populated_device({id:the_device.id},)
+			}
 		],
 
 			function(err, final_device){
@@ -182,7 +198,6 @@ module.exports = {
 					return res.json(err);
 				}
 				console.log('Have submitted a Solar Device to the granting Machine');
-				console.log(final_device);
 				return res.json(final_device);
 			});
 	},
@@ -192,9 +207,9 @@ module.exports = {
 
 		Solar_device.update({id:device.id},{granting_id:granting_response.id, affiliate:granting_response.affiliate, approval_history:device.approval_history})
 		.exec(function(err,updated){
-			mailer_service.solar_device_submitted(updated[0].user.email, updated[0]);
+			//mailer_service.solar_device_submitted(updated[0].user.email, updated[0]);
 			if (err) return cb(err);
-			return cb(null, updated);
+			return cb(null, updated[0]);
 		});
 	},
 
