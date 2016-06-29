@@ -15,7 +15,7 @@ module.exports = {
      actions: false,
      shortcuts: false,
      rest: false
-   }
+   },
 
   send_pk:function(req,res){
     this.get_pks_transactions(['huhuhuhuhuhuhuh'], res.json);

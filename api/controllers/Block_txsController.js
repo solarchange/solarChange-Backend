@@ -11,7 +11,7 @@ module.exports = {
 	    actions: false,
 	    shortcuts: false,
 	    rest: false
-	  }
+	  },
 
 	create_txs: function (block_res_txs,pk,cb) {
 		async.waterfall([

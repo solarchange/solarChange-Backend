@@ -11,7 +11,7 @@ module.exports = {
 	   actions: false,
 	   shortcuts: false,
 	   rest: false
-	 }
+	 },
 
 
 	new_device: function(new_device_data,cb){

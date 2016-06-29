@@ -17,7 +17,7 @@ module.exports = {
 	   actions: false,
 	   shortcuts: false,
 	   rest: false
-	 }
+	 },
 
 
 	register_new_solar_device: function(req, res){
