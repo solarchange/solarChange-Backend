@@ -188,7 +188,7 @@ module.exports = {
 					mailer_service.solar_device_submitted(found_device.user.email, found_device);
 					return cb(null,found_device);
 				};
-				sails.controllers.solar_device.get_populated_device({id:the_device.id},)
+				sails.controllers.solar_device.get_populated_device({id:the_device.id},callback);
 			}
 		],
 
