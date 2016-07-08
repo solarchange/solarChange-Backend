@@ -170,7 +170,8 @@ var email = {
 
     console.log('Sending Approval mail to '+to)
 
-    // THIS IS FOR THE WEEKEND REMOVE THIS AFTER mailer.sendMail(email, function(err, res) {
+    // CHANGE
+    //  THIS IS FOR THE WEEKEND REMOVE THIS AFTER mailer.sendMail(email, function(err, res) {
     if (err) { 
         console.log(err) 
     }
