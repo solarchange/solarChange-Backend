@@ -55,6 +55,8 @@ module.exports = {
 
 		async.each(bulk, function(entry,cally){
 
+			if (entry[2].indexOf('@')<0) return cally();
+
 			var nu_pass = base64url(crypto.randomBytes(10));
 
 			var nu_token = base64url(crypto.randomBytes(15));

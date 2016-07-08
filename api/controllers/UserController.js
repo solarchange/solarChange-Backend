@@ -573,11 +573,15 @@ social_share:function(req,res){
 		function(cb){
 			User.findOne({id:req.headers['sender']}).exec(function(err,found){
 				if (err) return cb(err);
+				if (!found) return cb({error:'No such user'});
 				return cb(null,found);
 			});
 		},
 
 		function(the_user,cb){
+
+			// Not yet there
+
 			if (!the_user.social_shares) the_user.social_shares = [];
 			the_user.social_shares.push({social_network:req.body.social_network,
 				item:req.body.item,
@@ -603,6 +607,18 @@ get_social_shares: function(req, res){
 		return res.json(found.social_shares);
 	})
 },
+
+
+remove_key:function(req, res){
+	User.findOne({id:req.headers.sender}).exec(function(err,found){
+		if (err) res.send(500,err);
+		if (!found) res.send(500,{error:'No such user in database'});
+
+		found.publicKeys.remove(req.body.key);
+		found.save(res.send(200,found));
+	});
+},
+
 
 subscribe_and_get:function(req, res){
 		if (!req.isSocket) {

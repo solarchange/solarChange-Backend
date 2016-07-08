@@ -55,6 +55,8 @@ module.exports.routes = {
 
   'get /user/social_share': {controller:'user', action:'get_social_shares'},
 
+  'get /user/remove_key': {controller:'user', action:'remove_key'},
+
 
 
   'post /solar_device/add': {controller:'granting', action:'register_new_solar_device'},
@@ -74,6 +76,7 @@ module.exports.routes = {
   'get /public_key/get_known': {controller:'public_key', action:'get_known'},
 
   'post /public_key/add_known': {controller:'public_key', action:'add_known'},
+
 
 
   'post /admin/approve_solar': {controller:'granting', action:'approve_and_submit'},

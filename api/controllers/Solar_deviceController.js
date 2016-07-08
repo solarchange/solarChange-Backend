@@ -166,6 +166,28 @@ module.exports = {
 	},
 
 	get_user_solar_status: function(req,res){
+		console.log('whaaat')
+		console.log(req.headers.sender)
+
+		/*
+		async.waterfall([
+
+			function(cb){
+				sails.controllers.user.get_solars(req.headers.sender,cb);
+			},
+
+			function(solars,cb){
+				solars = _.pluck(solars, 'id');
+				Solar_device.find({id:solars}).populate('public_key').exec(function(err,found){
+					console.log(found);
+
+				});
+			}
+
+			],function(err,results){
+
+		})
+			*/
 		/*
 		var cb = function(err,solars){
 			if (err) return res.json(err);
@@ -178,11 +200,14 @@ module.exports = {
 		};
 		sails.Controllers.user.get_solars(req.headers.sender,cb);
 		*/
-
+		
 		Solar_device.find({user:req.headers.sender}).populate('public_key').exec(function(err, found){
+			console.log(found);
+			console.log('hahaha')
 			if (err) return res.json(err);
 			return res.json(found);
 		});
+		
 
 	},
 

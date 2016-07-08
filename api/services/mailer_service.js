@@ -54,6 +54,36 @@ mailer.sendMail(email, function(err, res) {
 
 send_bulk_confirmation_mail: function(to, token, firstName){
 
+var act_link = email_details.base_url+'activate/'+token;
+
+/*
+    in the activatsion mail: $_USER_PRIVATE_NAME_$ , $_ACTIVASION_LINK_$
+*/
+
+var email_body = mailer_service.get_mail_form('assets/emails/activation.html');
+
+email_body = email_body.replace('_BASE_IMAGE_URL_',email_details.base_image_url);
+email_body = email_body.replace('_USER_PRIVATE_NAME_', firstName);
+email_body = email_body.replace('_ACTIVASION_LINK_', act_link);
+
+var email = {
+    to: to,
+    from: 'do-not-reply@solarchange.co',
+    subject: 'Activate your SolarChange account!',
+    text: 'Activate your SolarChange account!',
+    html: email_body,
+};
+
+console.log('Sending Activation Email to '+to)
+
+mailer.sendMail(email, function(err, res) {
+    if (err) { 
+        console.log(err) 
+    }
+    console.log(res);
+});
+
+
 },
 
 
