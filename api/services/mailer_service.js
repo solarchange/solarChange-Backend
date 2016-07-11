@@ -176,7 +176,6 @@ var email = {
         console.log(err) 
     }
     console.log(res);
-});
 },
 
 
