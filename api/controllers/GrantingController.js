@@ -233,6 +233,11 @@ module.exports = {
 		sails.controllers.solar_device.add_granting(req.body.id,req.body,req.body.timestamp,cb);
 	},
 
+	send_mail_manually:function(req, res){
+		var dummy_device = {req.body.device_id};
+		sails.controllers.granting.send_granting_mail(dummy_device,req.body.event,req.body.detail);
+	},
+
 	send_granting_mail: function(device, event, detail){
 		async.waterfall([
 			function(cb){

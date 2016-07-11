@@ -98,6 +98,8 @@ module.exports.routes = {
 
   'get /granting/installation_file/:user/:file': {controller: 'file_handler', action:'download_proof_file'},
 
+  'post /granting/send_mail_manually':{controller: 'granting', action:'send_mail_manually'},
+
 
   'post /transaction/block_info' : {controller: 'transaction', action:'block_info'},
 
