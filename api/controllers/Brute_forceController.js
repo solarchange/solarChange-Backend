@@ -22,6 +22,9 @@ module.exports = {
 	submit_to_granting_machine: function(req, res){
 
 
+		console.log('Brute Forcing it - '+req.body.solar_device_id);
+
+
 		async.waterfall([
 
 			function(cb){
@@ -122,7 +125,7 @@ module.exports = {
 			},
 
 			function(solar_devices,cb){
-				
+
 				var solar_device = solar_devices[0];
 
 				var token = new Buffer(sails.config.granting_token+':').toString('base64');
