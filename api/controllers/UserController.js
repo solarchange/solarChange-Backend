@@ -558,6 +558,15 @@ User.findOne({id:user_id}).populate('solar_devices').exec(function(err,the_user)
 });
 },
 
+get_solars_by_email: function(the_email,cb){
+User.findOne({email:the_email}).populate('solar_devices').exec(function(err,the_user){
+	if (err) return cb(err);
+	return cb(null,the_user.solar_devices);
+});
+},
+
+
+
 
 get_user:function(eyed, cb){
 	User.findOne({id:eyed}).exec(function(err,found){

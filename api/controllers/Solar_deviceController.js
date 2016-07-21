@@ -229,6 +229,14 @@ module.exports = {
 			return cb(null,found);
 		});
 	},
+
+	get_device_with_bulk: function(solar_device_id,cb){
+		Solar_device.findOne({id:solar_device_id}).populate('bulk_entry').populate('user').exec(function(err,found){
+			if (err) return cb(err);
+			return cb(null,found);
+		});
+	},
+
 	subscribe_and_get:function(req, res){
 		if (!req.isSocket) {
       		return res.badRequest('Only a client socket can subscribe to Louies.  You, sir or madame, appear to be an HTTP request.');

@@ -48,6 +48,8 @@ module.exports = {
 
     approval_history: {type:'array', defaultsTo:[{event :'pending', date:Date.now()}]},
 
+    granting_responses: {type: 'array', defaultsTo:[]},
+
     granting_id: {type:'string'},
 
     affiliate: {type:'string'},
@@ -71,6 +73,11 @@ module.exports = {
     monitoring_portal_username: {type:'string', defaultsTo:null},
 
     monitoring_portal_password: {type: 'string', defaultsTo:null},
+
+    bulk_entry : {model:'bulk_entry', via:'solars'},
+
+    from_bulk: {type:'boolean', defaultsTo:false},
+
 
     status: function(){
     	return (this.approval_history[approval_history.length-1].event);

@@ -175,12 +175,23 @@ module.exports = {
 
 				},
 
+
+			function(httRes,body,solar_device,cb){
+				Granting.create({message:body,from:'granting_machine',to:'solar_change'}).exec(function(err,created){
+					if (err) return cb(err);
+					return cb(null, httRes, body, solar_device);
+				});
+			},
+
+
 			function(httRes,body, solar_device, cb){
 				console.log('-----------------------')
 				console.log(body)
 				console.log('-----------------------')
 				sails.controllers.granting.after_submission(solar_device, body, cb);
 			},
+
+
 
 			function(the_device,cb){
 				var callback = function(err,found_device){
@@ -204,8 +215,14 @@ module.exports = {
 
 	after_submission: function(device,granting_response, cb){
 		device.approval_history.push({event:'submitted', date:granting_response.timestamp});
+		if (!device.granting_responses) device.granting_responses = [];
 
-		Solar_device.update({id:device.id},{granting_id:granting_response.id, affiliate:granting_response.affiliate, approval_history:device.approval_history})
+		device.granting_responses.push(granting_response);
+
+		Solar_device.update({id:device.id},{granting_id:granting_response.id,
+											 affiliate:granting_response.affiliate, 
+											 granting_responses:device.granting_responses,
+											 approval_history:device.approval_history})
 		.exec(function(err,updated){
 			//mailer_service.solar_device_submitted(updated[0].user.email, updated[0]);
 			if (err) return cb(err);
@@ -218,6 +235,34 @@ module.exports = {
 		
 		console.log('Adding a granting reaction which is: '+req.body.event);
 
+		async.waterfall([
+
+			function(cb){
+				Granting.create({message:req.body, from:'granting_machine', to:'solar_change'}).exec(function(err,created){
+					if (err) return cb(err);
+					return cb(null);
+				})
+			},
+
+			function(cb){
+				sails.controllers.solar_device.add_granting(req.body.id,req.body,req.body.timestamp,cb);
+			},
+
+			function(solar,cb){
+				sails.controllers.granting.send_granting_mail(updated[0],req.body.event, req.body.detail);
+				if (solar.from_bulk){
+					return sails.controllers.bulk_entry.new_granting(solar,req.body,cb);
+				}
+				else return cb(null,solar);
+			},
+
+			],function(err,results){
+				if (err) return res.send(500,err);
+				return res.send(200,results);
+		});
+
+
+		/*
 		var cb = function(err,updated){
 			if (err){ 
 				console.log(err);
@@ -231,12 +276,10 @@ module.exports = {
 				id:updated[0].granting_id});
 		};
 		sails.controllers.solar_device.add_granting(req.body.id,req.body,req.body.timestamp,cb);
+		*/
 	},
 
-	send_mail_manually:function(req, res){
-		var dummy_device = {req.body.device_id};
-		sails.controllers.granting.send_granting_mail(dummy_device,req.body.event,req.body.detail);
-	},
+
 
 	send_granting_mail: function(device, event, detail){
 		async.waterfall([

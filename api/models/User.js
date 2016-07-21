@@ -60,6 +60,7 @@ module.exports = {
       ]
     */
 
+    bulk_entry: {model:'bulk_entry', via:'users'},
 
     social_shares: {type: 'array', defaultsTo:[]},
 
@@ -69,6 +70,7 @@ module.exports = {
 
     recovery_mail_send_date: {type: 'integer', defaultsTo:null},
 
+    from_bulk: {type:'boolean', defaultsTo:false},
 
      toJSON: function() {
             var obj = this.toObject();

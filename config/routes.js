@@ -98,7 +98,7 @@ module.exports.routes = {
 
   'get /granting/installation_file/:user/:file': {controller: 'file_handler', action:'download_proof_file'},
 
-  'post /granting/send_mail_manually':{controller: 'granting', action:'send_mail_manually'},
+  'post /granting/send_mail_manually':{controller: 'brute_force', action:'send_mail_manually'},
 
 
   'post /transaction/block_info' : {controller: 'transaction', action:'block_info'},
@@ -112,7 +112,7 @@ module.exports.routes = {
   'post /mass_input/read_file' : {controller:'mass_input' , action:'read_bulk_from_file'},
 
 
-
+  'post /brute_force/brute_submit_solar' : {controller:'brute_force', action: 'submit_to_granting_machine'},
 
 
 

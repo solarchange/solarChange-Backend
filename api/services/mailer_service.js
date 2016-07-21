@@ -19,6 +19,11 @@ return fs.readFileSync(fileName,'utf8');
 },
 
 
+send_report:function(entry){
+
+},
+
+
 send_confirmation_mail:function(to,token,firstName){
 
 var act_link = email_details.base_url+'activate/'+token;
