@@ -11,7 +11,7 @@ module.exports = {
 		async.waterfall([
 
 			function(cb){
-				sails.controllers.user.get_filtered_users({status:req.body.status,cb});
+				sails.controllers.user.get_filtered_users({status:req.body.status},cb);
 			},
 
 			function(users,cb){
