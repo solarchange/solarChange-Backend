@@ -72,6 +72,8 @@ module.exports = {
 
     from_bulk: {type:'boolean', defaultsTo:false},
 
+    action_list:{model:'user_list'},
+
      toJSON: function() {
             var obj = this.toObject();
             delete obj.password;

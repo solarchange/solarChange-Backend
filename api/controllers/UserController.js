@@ -628,6 +628,15 @@ remove_key:function(req, res){
 	});
 },
 
+get_filtered_users: function(filter,cb){
+	User.find(filter).exec(function(err, found){
+		if (err) return cb(err);
+		return cb(null, found)
+	});
+},
+
+
+
 
 subscribe_and_get:function(req, res){
 		if (!req.isSocket) {
