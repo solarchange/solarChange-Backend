@@ -115,6 +115,8 @@ module.exports.routes = {
   'post /brute_force/brute_submit_solar' : {controller:'brute_force', action: 'submit_to_granting_machine'},
 
 
+  'post /user_list/send_activation_regular' : {controller:'user_list', action:'send_activation_mail_by_status'},
+
 
 
   // ------------------------------------ 
