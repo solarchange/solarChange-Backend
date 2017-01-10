@@ -78,6 +78,8 @@ module.exports = {
 
     from_bulk: {type:'boolean', defaultsTo:false},
 
+    exported: {type: 'boolean', defaultsTo:false},
+
 
     status: function(){
     	return (this.approval_history[approval_history.length-1].event);

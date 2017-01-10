@@ -30,6 +30,8 @@ module.exports = {
 
     password : { type: 'string' , required: true},
 
+    auth_type : {type: 'string'},
+
     /*
     'active':
     'incomplete':

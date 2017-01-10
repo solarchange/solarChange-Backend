@@ -51,23 +51,28 @@ module.exports = {
 				for the file transfer to work the form has to include: enctype="multipart/form-data"
 			*/
 
-			function(cb){
-				if (!req.body.proof) return cb({error:'No proof of installation file'});
-				// var dir = path.join(__dirname, '../../assets/proofFiles/'+req.headers.sender);
-				var dir = path.join(__dirname, '../../docs/proofFiles/'+req.headers.sender);
-				
-				if (!fs.existsSync(dir)){
-    				fs.mkdirSync(dir);
-					}
-				// var pathName =path.join(__dirname, '../../assets/proofFiles/'+req.headers.sender+'/proof'+Date.now()+'.'+req.body.file_type);
-				var pathName =path.join(__dirname, '../../docs/proofFiles/'+req.headers.sender+'/proof'+Date.now()+'.'+req.body.file_type);
-				var bitmap = new Buffer(req.body.proof, 'base64');
-				fs.writeFile(pathName, bitmap, function(err){
-					if (err) return cb(err);
-					var file_info = {location:pathName,type:req.body.file_type, external:false};
-					return cb (null,file_info);
-				});	
-			},
+//			function(cb){
+//				if (!req.body.proof) return cb({error:'No proof of installation file'});
+//				// var dir = path.join(__dirname, '../../assets/proofFiles/'+req.headers.sender);
+//				var dir = path.join(__dirname, '../../docs/proofFiles/'+req.headers.sender);
+//
+//				if (!fs.existsSync(dir)){
+//    				fs.mkdirSync(dir);
+//					}
+//				// var pathName =path.join(__dirname, '../../assets/proofFiles/'+req.headers.sender+'/proof'+Date.now()+'.'+req.body.file_type);
+//				var pathName =path.join(__dirname, '../../docs/proofFiles/'+req.headers.sender+'/proof'+Date.now()+'.'+req.body.file_type);
+//				var bitmap = new Buffer(req.body.proof, 'base64');
+//				fs.writeFile(pathName, bitmap, function(err){
+//					if (err) return cb(err);
+//					var file_info = {location:pathName,type:req.body.file_type, external:false};
+//					return cb (null,file_info);
+//				});
+//			},
+
+            function(cb){
+                var file_info = {location:req.headers.sender+'/'+req.body.proof,type:'', external:false};
+                return cb(null,file_info)
+            },
 
 			// create the solar device entry
 

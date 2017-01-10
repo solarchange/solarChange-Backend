@@ -76,6 +76,13 @@ module.exports.http = {
   *                                                                          *
   ***************************************************************************/
 
+
+  bodyParser: function(){
+      var opts = {
+          limit:'5mb'
+      }
+      return require('skipper')(opts);
+  }
     // bodyParser: require('skipper')
 
   // },

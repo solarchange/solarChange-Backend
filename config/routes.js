@@ -57,6 +57,10 @@ module.exports.routes = {
 
   'get /user/remove_key': {controller:'user', action:'remove_key'},
 
+  'post /user/list': {controller:'user', action:'user_list'},
+
+  'post /user/soc_auth':{controller:'user', action:'social_auth'},
+
 
 
   'post /solar_device/add': {controller:'granting', action:'register_new_solar_device'},
@@ -80,6 +84,8 @@ module.exports.routes = {
 
 
   'post /admin/approve_solar': {controller:'granting', action:'approve_and_submit'},
+
+  'post /admin/export_solar': {controller:'googleapi', action:'export_devices'},
 
   'post /admin/reject': {controller:'solar_device', action:'reject_locally'},
 
@@ -113,7 +119,6 @@ module.exports.routes = {
 
 
   'post /brute_force/brute_submit_solar' : {controller:'brute_force', action: 'submit_to_granting_machine'},
-
 
   'post /user_list/send_activation_regular' : {controller:'user_list', action:'send_activation_mail_by_status'},
 

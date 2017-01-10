@@ -34,12 +34,14 @@ module.exports.policies = {
 
     // in production ALL besides user addition will be protected by 'authenticate' !!!
     '*': 'authenticate',
+    user_list:'adminAuthenticate',
     'add_new_user':[],
     'tryNewUser':[],
     'activate_user':[],
     'initiate_pass_reset':[],
-    'password_reset':[],  
-    user_login:'authenticate', 
+    'password_reset':[],
+    'social_auth':[],
+    user_login:'authenticate',
   },
 
   'Granting':{
@@ -63,11 +65,12 @@ module.exports.policies = {
   },
 
   'admin':{
-    '*': 'isAuthenticated'
+    '*': 'isAuthenticated',
   },
 
   'Organization':{
-    '*':'isAuthenticated'
+    '*':'isAuthenticated',
+      get_and_subscribe:'adminAuthenticate'
   }
 
   /*

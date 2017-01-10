@@ -53,14 +53,91 @@ async.waterfall([
 
 },
 
+    social_auth: function(req,res){
+        console.log('SOCIAL AUTH');
+        console.log(req.body);
+        if(req.body.email == '') return res.json('Info wrong!');
+        User.findOne({email:req.body.email}).populate('solar_devices').populate('publicKeys').exec(function(err,found){
+            if (err) return res.json(err);
+            if (!found) {
+                console.log('Adding a new user with the email: '+req.body.email);
+
+                async.waterfall([
+                    function(cb){
+
+                        req.body.password = Math.floor(100000000 + Math.random() * 900000000);
+                        sails.controllers.user.newUser(req.body, req.sessionData, cb);
+                    },
+
+                    function (createdUser, cb){
+
+                        var callback = function(err,key){
+                            if (err) return cb(err);
+                            cb(null, key, createdUser);
+                        };
+
+                        (req.body.pk) ? sails.controllers.public_key.newPK(req.pk,createdUser.id,callback) : callback(null, null);
+
+                    },
+
+                    function(createdPK, createdUser, cb){
+                        (createdPK) ? sails.controllers.user.updatePrime(createdUser.id,createdPK.id,cb) : cb(null, createdUser);
+                    }
+
+                ],
+
+                    function(err,results){
+                        if (err)
+                        {
+                            console.log(err);
+                            return res.json(err);
+                        }
+
+                        mailer_service.send_confirmation_mail(results.email, results.token, results.firstName);
+                        results.success=true;
+                        return res.json(results);
+                    });
+            } else {
+                if(req.body.soctype == found.auth_type){
+                    found.success=true;
+                    res.json(found);
+                } else {
+                    res.json('Log in or Register with a different email');
+                }
+            }
+        });
+    },
+
+    user_list: function(req,res){
+        console.log(req);
+        if (!req.isSocket) {
+            return res.badRequest('Only a client socket can subscribe to Louies.  You, sir or madame, appear to be an HTTP request.');
+        }
+        var result = {};
+        var j = 0;
+        User.find().exec(function(err,found){
+            if(err) return res.json(err);
+            if(!found) return res.json('Users not found');
+            for(var i = 0; i < found.length; i++){
+                if(found[i].status == 'active'){
+                    j++;
+                }
+            }
+            result.users = found;
+            result.active = j;
+            return res.json(result);
+        });
+    },
+
 	user_login: function(req, res){
+        console.log(req);
 		var authi = req.headers['authorization'].split(' ')[1];
 		var userEmail = new Buffer(authi, 'base64').toString().split(':')[0];
 		console.log('Logging in user with the email '+userEmail);
 		User.findOne({email:userEmail}).populate('solar_devices').populate('publicKeys').exec(function(err,found){
 			if (err) return res.json(err);
 			if (!found) return res.json({error:'email and password do not match'});
-			if (found.status!='active') return res.json({error:'User is not active'});
+//			if (found.status!='active') return res.json({error:'User is not active'});
 			found.success=true;
 			return res.json(found);
 		});
@@ -489,6 +566,8 @@ newUser: function(nu_user, initialSessionData, cb){
 
 	var sesh = [initialSessionData];
 
+    var auth_type = nu_user.soctype ? nu_user.soctype : 'email';
+
 	var the_new_user = {
 		// username:nu_user.username,
 		firstName: nu_user.firstName,
@@ -497,7 +576,8 @@ newUser: function(nu_user, initialSessionData, cb){
 		password: nu_user.password,
 		status: new_status,
 		sessionData: sesh,
-		token:nu_user.token
+		token:nu_user.token,
+        auth_type:auth_type
 	};
 
 	User.create(the_new_user).exec(function userCreated(err,created){

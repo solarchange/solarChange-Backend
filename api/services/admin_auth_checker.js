@@ -10,9 +10,9 @@ authenticate: function(email, password, done) {
         console.log('no user like that at all yo yo yo')
         return done(null, false);
       }
-
-      console.log(password)
-      console.log(user.password)
+//
+//      console.log(password)
+//      console.log(user.password)
 
       bcrypt.compare(password, user.password, function (err, res) {
         if (err) {console.log('hahhahahahahhahah')

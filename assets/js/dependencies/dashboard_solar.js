@@ -8,6 +8,7 @@ lists.submitted = [];
 lists.granting_approved = [];
 lists.granting_rejected = [];
 lists.non_filtered = [];
+lists.export = [];
 var current_list = 'non_filtered';
 
 function set_socket_solars(){
@@ -146,6 +147,47 @@ function approveAll(){
 	}
 };
 
+function exportDevices(){
+    if(lists.export.length > 0){
+        alert('Export started!');
+        io.socket.post('/admin/export_solar',{devices:lists.export},function(req,res){
+            if(res.body.status){
+                if(res.body.status == 'ok'){
+                    var elements = $('input:checkbox:enabled');
+                    for(var i = 0; i < elements.length;i++){
+                        if(elements[i].checked == true){
+                            elements[i].checked = false;
+                            elements[i].disabled = true;
+                        }
+                    }
+                    alert('Device(s) exported!');
+                    lists.export = [];
+                } else {
+                    alert(res.body.value);
+                }
+            }
+        });
+    } else {
+        alert("Not one device not selected");
+    }
+}
+
+function selectAllForExport(this_element) {
+    var elements = $('input:checkbox:enabled');
+    for(var i = 0; i < elements.length;i++){
+        if(elements[i].checked == true){
+            elements[i].checked = false;
+            this_element.checked = false;
+            lists.export = [];
+        } else {
+            elements[i].checked = true;
+            this_element.checked = true;
+            lists.export.push(elements[i].dataset.id);
+        }
+    }
+    console.log(lists.export);
+}
+
 function granting_reaction(resData,jwers,solar_id){
 	for (var key in lists){
 		if (!lists.hasOwnProperty(key)) continue;
@@ -213,11 +255,17 @@ if (!device.user){
 	return ; 
 }
 
-var location = '../granting/installation_file'+device.file_info.location.split('/proofFiles')[1];
-	
+//var location = '../granting/installation_file'+device.file_info.location.split('/proofFiles')[1];
+    var location = '/granting/installation_file/'+device.file_info.location;
 	var the_key = '';
 	if (device.public_key) the_key = device.public_key.key;
-		
+    var export_checkbox;
+    if(device.exported){
+        export_checkbox = '<td>Exported</td>';
+    } else {
+        export_checkbox = '<td><input data-id="'+device.id+'" id="export-'+device.id+'" class="solar-button" type="checkbox"></td>';
+    }
+		console.log('LENGTH '+device.length);
 var solar_device = '<tr class="solar_list_item" id="solar-'+device.id+'">'+
 '<td class="entry-info user-name">'+device.user.firstName+' '+device.user.lastName+'</td> '+
 '<td class="entry-info owner-name">'+device.firstName+' '+device.lastName+'</td>'+
@@ -233,16 +281,17 @@ var solar_device = '<tr class="solar_list_item" id="solar-'+device.id+'">'+
 '<td class="entry-info file_location"><strong> <a href="'+location+'">Installation File</a> </strong></td>'+
 //'<td><button class="solar_device_info file_button data-id="'+device.file_info.location+'" id="file-"'+device.id+'>Installation File"</button>'+
 '<td class="entry-info device-status"><strong>'+device.status+'</strong></td>'+
-'<td class="entry-info device-status"><strong>'+Date(device.approval_history[0].date)+'</strong></td>'+
-'<td class="entry-info device-status"><strong>'+Date(device.approval_history[device.approval_history.length-1].date)+'</strong></td>'+
+'<td class="entry-info device-status"><strong>'+new Date(device.approval_history[0].date)+'</strong></td>'+
+'<td class="entry-info device-status"><strong>'+new Date(device.approval_history[device.approval_history.length-1].date)+'</strong></td>'+
 '<td><button data-id="'+device.id+'" id="approve'+device.id+'" class="approve solar-button" value="Approve And Submit" type="button" '+
 approve_button_disable+'>Approve</button></td>'+
 '<td><button data-id="'+device.id+'" id="reject'+device.id+'" class="reject solar-button" value="Reject" type="button" '+
 reject_button_disable+'>Reject</button></td>'+
 '<td><input data-id="'+device.id+'" id="detail-'+device.id+'" class="detail solar-button" value="" type="text" /></td>'+
+export_checkbox+
 	'</tr>';
 	$(container).append(solar_device);
-
+    
 	$('#approve'+device.id).click(function(){
 		approveNsubmit(this);
 	});
@@ -259,6 +308,18 @@ reject_button_disable+'>Reject</button></td>'+
 	$('#file-'+device.id).click(function(){
 		get_file(this);
 	});
+
+    $('#export-'+device.id).change(function(){
+        if(this.checked){
+            lists.export.push(this.dataset.id);
+        } else {
+            for(var i = 0;i < lists.export.length; i++){
+                if(lists.export[i] == this.dataset.id){
+                    lists.export.splice(i,1);
+                }
+            }
+        }
+    });
 
 };
 
@@ -320,6 +381,13 @@ $(document).ready(function(){
 		$('#approveprove_all').click(function(){
 			approveAll();
 		});
+
+        $('#export-solar-devices').click(function(){
+            exportDevices();
+        });
+        $('#select_all_for_export').click(function(){
+           selectAllForExport(this);
+        });
 	}
 });
 
@@ -334,6 +402,8 @@ $(document).ready(function(){
 
 function insert_solar_device(container,device){
 return;
+
+    var location = '/granting/installation_file/'+device.file_info.location;
 var solar_device = '<li class="solar_list_item" id="solar-'+device.id+'"><div>'+
 '<span class="solar_device_info"> <strong>User: </strong>'+device.user.firstName+' '+device.user.lastName+'</span> '+
 '<span class="solar_device_info"><strong> Owner: </strong>'+device.firstName+' '+device.lastName+'</span> <br />'+
@@ -346,7 +416,8 @@ var solar_device = '<li class="solar_list_item" id="solar-'+device.id+'"><div>'+
 '<span class="solar_device_info"><strong> Country: </strong>'+device.country+'</span><br />'+
 '<span class="solar_device_info"><strong> Nameplate: </strong>'+device.nameplate+'</span>'+
 '<span class="solar_device_info"><strong> Wallet Address: </strong>'+device.public_key+'</span> <br />'+
-'<span class="solar_device_info"><strong> <a href="'+device.file_info.fd+'">Installation File</a> </strong></span>'+
+'<span class="solar_device_info"><strong> <a href="'+location+'">Installation File</a> </strong></span>'+
+//'<span class="solar_device_info"><strong> <a href="'+device.file_info.fd+'">Installation File</a> </strong></span>'+
 '<span class="solar_device_info"><strong> Status: </strong>'+device.status+'</span>'+
 '</div><input data-id="'+device.id+'" id="approve'+device.id+'" class="approve solar-button" value="Approve And Submit" type="button" />'+
 '</div><input data-id="'+device.id+'" id="reject'+device.id+'" class="reject solar-button" value="Reject" type="button" />'+

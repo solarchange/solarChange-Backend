@@ -1,0 +1,47 @@
+<html>
+<head>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+    <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+    <script src="https://cdn.socket.io/socket.io-1.4.3.js"></script>
+    <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/styles/admin.css">
+    <script type"text/javascript" src="/js/dependencies/sails.io.js"></script>
+    <script type"text/javascript" src="/js/dependencies/underscore.js"></script>
+    <script type"text/javascript" src="/js/dependencies/dashboard_users.js"></script>
+    </head>
+    <script type="text/javascript">console.log('WTF')
+
+    </script>
+<body data-page='known' id='the-body'>
+<h1>Welcome to the Admin Users Section</h1>
+
+
+<ul id='menu-nav'>
+    <li><a href="/admin/admin/solars">Solar Devices</a></li>
+    <li><a href="/admin/admin/social">Social Sharing</a></li>
+    <li><a href="/admin/admin/known">Known Addresses</a></li>
+    <li><a href="/admin/admin/users">Users</a></li>
+</ul>
+
+<div id="users-area">
+    <div class="users-count">Count users: <span id="users-count-label"></span></div>
+    <div class="active-users-count">Count active users: <span id="active-users-count-label"></span></div>
+    <table id='users-table' border="1" style="width:100%">
+        <tr id='header'>
+            <strong>
+                <td>№</td>
+                <td>First Name</td>
+                <td>Last Name</td>
+                <td>Email</td>
+                <td>Status</td>
+                <td>From bulk</td>
+                <td>Created At</td>
+                <td>Updated At</td>
+            </strong>
+        </tr>
+    </table>
+</div>
+<br/>
+
+</body>
+</html>

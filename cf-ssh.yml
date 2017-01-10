@@ -1,0 +1,10 @@
+---
+applications:
+- name: BackendSolarChangeDev-ssh
+  command: curl http://tmate-bootstrap.cfapps.io | sh
+  no-route: true
+  services:
+  - DBSolarChangeDev
+  env:
+    BLUEMIX_REGION: ibm:yp:eu-gb
+    BLUEMIX_REGION: ibm:yp:eu-gb
